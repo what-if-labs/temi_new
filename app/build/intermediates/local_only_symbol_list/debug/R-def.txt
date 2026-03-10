@@ -1,0 +1,11 @@
+R_DEF: Internal format may change without notice
+local
+id editText
+id main_content
+id moveBackButton
+id moveForwardButton
+id speakButton
+id stopButton
+id turnLeftButton
+id turnRightButton
+layout activity_main

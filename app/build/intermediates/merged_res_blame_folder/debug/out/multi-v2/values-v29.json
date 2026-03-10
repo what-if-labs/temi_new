@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.minimalapp-mergeDebugResources-30:/values-v29/values-v29.xml",
+            "map": [
+                {
+                    "source": "/home/warren/.gradle/caches/transforms-3/b297cff4c292f2d1aeffa7325c37dd16/transformed/jetified-sdk-1.137.1/res/values-v29/values-v29.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "4",
+                        "endColumns": "12",
+                        "endOffsets": "199"
+                    }
+                }
+            ]
+        }
+    ]
+}
