@@ -1,75 +1,328 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_content"
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="#1A1A2E">
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
+    <!-- Logo / Header -->
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_temi_logo"
+        android:background="@drawable/circle_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter text to speak"
-        android:minHeight="48dp" />
+        android:layout_marginTop="16dp"
+        android:text="TEMI"
+        android:textColor="#FFFFFF"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.2"
+        app:layout_constraintTop_toBottomOf="@id/ivLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/speakButton"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Speak"
-        android:layout_marginTop="8dp" />
+        android:text="CONTROLLER"
+        android:textColor="#00D4AA"
+        android:textSize="14sp"
+        android:letterSpacing="0.3"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Main Controls Container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainControlsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar">
+
+        <!-- Movement Pad -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/movementPad"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="140dp"
+            app:cardBackgroundColor="#16213E"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!-- Forward Button -->
+                <ImageButton
+                    android:id="@+id/btnForward"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_arrow_up"
+                    android:background="@drawable/button_circular"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Backward Button -->
+                <ImageButton
+                    android:id="@+id/btnBackward"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="16dp"
+                    android:src="@drawable/ic_arrow_down"
+                    android:background="@drawable/button_circular"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Left Button -->
+                <ImageButton
+                    android:id="@+id/btnLeft"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_arrow_left"
+                    android:background="@drawable/button_circular"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <!-- Right Button -->
+                <ImageButton
+                    android:id="@+id/btnRight"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_arrow_right"
+                    android:background="@drawable/button_circular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <!-- Stop Button (Center) -->
+                <ImageButton
+                    android:id="@+id/btnStop"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_stop"
+                    android:background="@drawable/button_stop"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Action Buttons Row -->
+        <LinearLayout
+            android:id="@+id/actionButtonsRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="32dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/movementPad">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnHome"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="HOME"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#0F3460"
+                app:cornerRadius="12dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFollow"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="FOLLOW"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#00D4AA"
+                app:cornerRadius="12dp" />
+        </LinearLayout>
+
+        <!-- Speak Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/speakCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="32dp"
+            app:cardBackgroundColor="#16213E"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintTop_toBottomOf="@id/actionButtonsRow">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSpeak"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Say something..."
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#888888"
+                    android:background="@null" />
+
+                <ImageButton
+                    android:id="@+id/btnSpeak"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_mic"
+                    android:background="@drawable/button_circular_green"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Head Tilt Controls -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/speakCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageButton
+                android:id="@+id/btnTiltUp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/ic_tilt_up"
+                android:background="@drawable/button_circular"
+                android:layout_marginEnd="32dp" />
+
+            <ImageButton
+                android:id="@+id/btnTiltDown"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/ic_tilt_down"
+                android:background="@drawable/button_circular" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Secret Menu Container (Hidden by default) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/secretMenuContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:background="#1A1A2E"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar">
+
+        <TextView
+            android:id="@+id/tvSecretTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="SETTINGS"
+            android:textColor="#00D4AA"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMqttSettings"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginHorizontal="48dp"
+            android:text="MQTT CONFIGURATION"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#16213E"
+            app:cornerRadius="16dp"
+            app:layout_constraintTop_toBottomOf="@id/tvSecretTitle" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMapSettings"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="48dp"
+            android:text="MAP & LOCATIONS"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#16213E"
+            app:cornerRadius="16dp"
+            app:layout_constraintTop_toBottomOf="@id/btnMqttSettings" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSystemSettings"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="48dp"
+            android:text="SYSTEM"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#16213E"
+            app:cornerRadius="16dp"
+            app:layout_constraintTop_toBottomOf="@id/btnMapSettings" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHideMenu"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginHorizontal="48dp"
+            android:text="BACK TO CONTROLS"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#E94560"
+            app:cornerRadius="16dp"
+            app:layout_constraintTop_toBottomOf="@id/btnSystemSettings" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Bottom Bar -->
     <LinearLayout
+        android:id="@+id/bottomBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        android:layout_height="48dp"
+        android:background="#16213E"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <Button
-            android:id="@+id/turnLeftButton"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tvMqttStatus"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="← Left" />
-
-        <Button
-            android:id="@+id/moveForwardButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="↑ Forward" />
-
-        <Button
-            android:id="@+id/turnRightButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Right →" />
+            android:text="MQTT: Disconnected"
+            android:textColor="#00D4AA"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp">
-
-        <Button
-            android:id="@+id/moveBackButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="↓ Backward" />
-
-        <Button
-            android:id="@+id/stopButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="■ Stop"
-            android:backgroundTint="#FF0000" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
