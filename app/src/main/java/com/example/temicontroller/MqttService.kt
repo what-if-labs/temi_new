@@ -25,8 +25,8 @@ class MqttService : Service() {
     companion object {
         const val CHANNEL_ID = "TemiMqttChannel"
         const val NOTIFICATION_ID = 1
-        const val BROKER_URL = "tcp://broker.hivemq.com:1883" // Default public broker
-        const val CLIENT_ID = "temi-controller-" + System.currentTimeMillis()
+        const val BROKER_URL = "tcp://192.168.7.31:1883" // Local MQTT broker
+        val CLIENT_ID = "temi-controller-" + System.currentTimeMillis()
         const val COMMAND_TOPIC = "temi/commands"
         const val STATUS_TOPIC = "temi/status"
     }
