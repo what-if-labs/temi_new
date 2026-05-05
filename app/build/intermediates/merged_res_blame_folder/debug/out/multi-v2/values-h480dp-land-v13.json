@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.minimalapp-mergeDebugResources-30:/values-h480dp-land-v13/values-h480dp-land-v13.xml",
+            "outputFile": "com.example.temicontroller.app-mergeDebugResources-37:/values-h480dp-land-v13/values-h480dp-land-v13.xml",
             "map": [
                 {
-                    "source": "/home/warren/.gradle/caches/transforms-3/bcec6be1f6ea09f258666a5d41703636/transformed/material-1.10.0/res/values-h480dp-land-v13/values-h480dp-land-v13.xml",
+                    "source": "/home/warren/.gradle/caches/transforms-3/f1a3de70c80b7748466fda278b8d82e9/transformed/material-1.11.0/res/values-h480dp-land-v13/values-h480dp-land-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",

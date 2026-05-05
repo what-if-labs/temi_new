@@ -36,6 +36,11 @@ class MainActivity : AppCompatActivity() {
     private var cameraHandler: Handler? = null
     private var previewSession: android.hardware.camera2.CameraCaptureSession? = null
     
+    // Periodic data publisher
+    private var publishHandler: Handler? = null
+    private var publishRunnable: Runnable? = null
+    private val PUBLISH_INTERVAL_MS = 3000L // Publish every 3 seconds
+    
     companion object {
         const val CAMERA_PERMISSION_REQUEST = 1001
         const val TAG = "TemiFace"
@@ -47,6 +52,7 @@ class MainActivity : AppCompatActivity() {
             mqttService?.setCommandListener { command, params ->
                 handleCommand(command, params)
             }
+            startPeriodicPublishing()
         }
         override fun onServiceDisconnected(name: ComponentName?) {
             mqttService = null
@@ -280,8 +286,62 @@ class MainActivity : AppCompatActivity() {
         bindService(intent, surveillanceConnection, Context.BIND_AUTO_CREATE)
     }
     
+    private fun startPeriodicPublishing() {
+        publishHandler = Handler(mainLooper)
+        publishRunnable = object : Runnable {
+            override fun run() {
+                publishRobotData()
+                publishHandler?.postDelayed(this, PUBLISH_INTERVAL_MS)
+            }
+        }
+        publishHandler?.post(publishRunnable!!)
+        Log.d(TAG, "Started periodic publishing every ${PUBLISH_INTERVAL_MS}ms")
+    }
+    
+    private fun stopPeriodicPublishing() {
+        publishRunnable?.let { publishHandler?.removeCallbacks(it) }
+        publishRunnable = null
+        publishHandler = null
+        Log.d(TAG, "Stopped periodic publishing")
+    }
+    
+    private fun publishRobotData() {
+        robot?.let { r ->
+            try {
+                // Publish position
+                val position = r.position
+                mqttService?.publishPosition(position.x, position.y, position.yaw)
+                
+                // Publish locations
+                val locations = r.locations.map { loc ->
+                    mapOf(
+                        "id" to loc,
+                        "name" to loc,
+                        "x" to 0,
+                        "y" to 0
+                    )
+                }
+                mqttService?.publishLocations(locations)
+                
+                // Publish battery
+                val batteryIntent = registerReceiver(null, android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_CHANGED))
+                val level = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_LEVEL, -1) ?: -1
+                val scale = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_SCALE, -1) ?: -1
+                val batteryPct = if (level >= 0 && scale > 0) (level * 100 / scale) else -1
+                val status = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_STATUS, -1) ?: -1
+                val isCharging = status == android.os.BatteryManager.BATTERY_STATUS_CHARGING || 
+                                 status == android.os.BatteryManager.BATTERY_STATUS_FULL
+                mqttService?.publishBattery(batteryPct, isCharging)
+                
+            } catch (e: Exception) {
+                Log.e(TAG, "Error publishing robot data", e)
+            }
+        }
+    }
+    
     override fun onDestroy() {
         super.onDestroy()
+        stopPeriodicPublishing()
         unbindService(serviceConnection)
         unbindService(surveillanceConnection)
         stopCamera()
