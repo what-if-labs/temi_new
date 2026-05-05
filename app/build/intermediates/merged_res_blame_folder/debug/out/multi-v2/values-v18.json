@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.minimalapp-mergeDebugResources-30:/values-v18/values-v18.xml",
+            "outputFile": "com.example.temicontroller.app-mergeDebugResources-37:/values-v18/values-v18.xml",
             "map": [
                 {
-                    "source": "/home/warren/.gradle/caches/transforms-3/298154303232ba75055ed75fda59e0fc/transformed/appcompat-1.6.1/res/values-v18/values-v18.xml",
+                    "source": "/home/warren/.gradle/caches/transforms-3/2000e0884c8dade8abd93b7fa5b1aea0/transformed/appcompat-1.6.1/res/values-v18/values-v18.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

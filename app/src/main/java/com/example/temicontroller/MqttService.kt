@@ -29,6 +29,10 @@ class MqttService : Service() {
         val CLIENT_ID = "temi-controller-" + System.currentTimeMillis()
         const val COMMAND_TOPIC = "temi/commands"
         const val STATUS_TOPIC = "temi/status"
+        const val LOCATIONS_TOPIC = "temi/locations"
+        const val POSITION_TOPIC = "temi/position"
+        const val MAP_TOPIC = "temi/map"
+        const val BATTERY_TOPIC = "temi/battery"
     }
     
     inner class LocalBinder : Binder() {
@@ -144,6 +148,60 @@ class MqttService : Service() {
             mqttClient?.publish(STATUS_TOPIC, message)
         } catch (e: Exception) {
             Log.e("MQTT", "Failed to publish status", e)
+        }
+    }
+    
+    fun publishLocations(locations: List<Map<String, Any>>) {
+        try {
+            val json = JSONObject()
+            json.put("locations", org.json.JSONArray(locations))
+            val message = MqttMessage(json.toString().toByteArray())
+            mqttClient?.publish(LOCATIONS_TOPIC, message)
+            Log.d("MQTT", "Published locations: ${locations.size} locations")
+        } catch (e: Exception) {
+            Log.e("MQTT", "Failed to publish locations", e)
+        }
+    }
+    
+    fun publishPosition(x: Float, y: Float, yaw: Float) {
+        try {
+            val json = JSONObject()
+            json.put("x", x)
+            json.put("y", y)
+            json.put("yaw", yaw)
+            json.put("timestamp", System.currentTimeMillis())
+            val message = MqttMessage(json.toString().toByteArray())
+            mqttClient?.publish(POSITION_TOPIC, message)
+            Log.d("MQTT", "Published position: x=$x, y=$y, yaw=$yaw")
+        } catch (e: Exception) {
+            Log.e("MQTT", "Failed to publish position", e)
+        }
+    }
+    
+    fun publishMap(imageBase64: String, width: Int, height: Int) {
+        try {
+            val json = JSONObject()
+            json.put("image", imageBase64)
+            json.put("width", width)
+            json.put("height", height)
+            val message = MqttMessage(json.toString().toByteArray())
+            mqttClient?.publish(MAP_TOPIC, message)
+            Log.d("MQTT", "Published map: ${width}x${height}")
+        } catch (e: Exception) {
+            Log.e("MQTT", "Failed to publish map", e)
+        }
+    }
+    
+    fun publishBattery(level: Int, isCharging: Boolean) {
+        try {
+            val json = JSONObject()
+            json.put("level", level)
+            json.put("charging", isCharging)
+            val message = MqttMessage(json.toString().toByteArray())
+            mqttClient?.publish(BATTERY_TOPIC, message)
+            Log.d("MQTT", "Published battery: $level%, charging=$isCharging")
+        } catch (e: Exception) {
+            Log.e("MQTT", "Failed to publish battery", e)
         }
     }
     
