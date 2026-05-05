@@ -25,7 +25,6 @@ class MqttService : Service() {
     companion object {
         const val CHANNEL_ID = "TemiMqttChannel"
         const val NOTIFICATION_ID = 1
-        const val BROKER_URL = "tcp://192.168.7.31:1883" // Local MQTT broker
         val CLIENT_ID = "temi-controller-" + System.currentTimeMillis()
         const val COMMAND_TOPIC = "temi/commands"
         const val STATUS_TOPIC = "temi/status"
@@ -35,6 +34,8 @@ class MqttService : Service() {
         const val BATTERY_TOPIC = "temi/battery"
     }
     
+    private var brokerUrl = "tcp://192.168.7.31:1883"
+    
     inner class LocalBinder : Binder() {
         fun getService(): MqttService = this@MqttService
     }
@@ -43,7 +44,15 @@ class MqttService : Service() {
         super.onCreate()
         createNotificationChannel()
         startForeground(NOTIFICATION_ID, createNotification())
+    }
+    
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val brokerIp = intent?.getStringExtra("broker_ip") ?: "192.168.7.31"
+        val brokerPort = intent?.getIntExtra("broker_port", 1883) ?: 1883
+        brokerUrl = "tcp://$brokerIp:$brokerPort"
+        Log.d("MQTT", "Using broker: $brokerUrl")
         connectToMqtt()
+        return START_STICKY
     }
     
     override fun onBind(intent: Intent?): IBinder = binder
@@ -78,7 +87,7 @@ class MqttService : Service() {
     private fun connectToMqtt() {
         Thread {
             try {
-                mqttClient = MqttClient(BROKER_URL, CLIENT_ID, MemoryPersistence())
+                mqttClient = MqttClient(brokerUrl, CLIENT_ID, MemoryPersistence())
                 
                 val options = MqttConnectOptions().apply {
                     isAutomaticReconnect = true
