@@ -56,6 +56,13 @@ class MainActivity : AppCompatActivity() {
         
         robot = try { Robot.getInstance() } catch (e: Exception) { null }
         
+        // Add SDK listeners for position and locations
+        robot?.let { r ->
+            r.addOnCurrentPositionChangedListener(positionListener)
+            r.addOnLocationsUpdatedListener(locationsListener)
+            Log.d(TAG, "Added position and locations listeners")
+        }
+        
         // Start MQTT service
         startMqttService()
         
@@ -90,18 +97,23 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun handleCommand(command: String, params: Map<String, String>) {
+        Log.d(TAG, "handleCommand called: $command with params: $params")
+        Log.d(TAG, "Robot instance: ${robot != null}")
         runOnUiThread {
             when (command) {
                 "move_forward", "move_back", "turn_left", "turn_right" -> {
+                    Log.d(TAG, "Movement command: $command")
                     binding.faceView.setState(FaceView.FaceState.MOVING)
                     robot?.let { r ->
+                        Log.d(TAG, "Calling skidJoy for: $command")
                         when (command) {
                             "move_forward" -> r.skidJoy(1.0f, 0f)
                             "move_back" -> r.skidJoy(-1.0f, 0f)
                             "turn_left" -> r.skidJoy(0f, 1.0f)
                             "turn_right" -> r.skidJoy(0f, -1.0f)
                         }
-                    }
+                        Log.d(TAG, "skidJoy called successfully")
+                    } ?: Log.e(TAG, "Robot instance is null!")
                     speak("Moving")
                     resetFaceAfterDelay()
                 }
@@ -235,6 +247,37 @@ class MainActivity : AppCompatActivity() {
                 
             } catch (e: Exception) {
                 Log.e(TAG, "Error publishing robot data", e)
+            }
+        }
+    }
+    
+    // Position listener for MQTT publishing
+    private val positionListener = object : com.robotemi.sdk.navigation.listener.OnCurrentPositionChangedListener {
+        override fun onCurrentPositionChanged(position: com.robotemi.sdk.navigation.model.Position) {
+            try {
+                mqttService?.publishPosition(position.x, position.y, position.yaw)
+                Log.d(TAG, "Position published: x=${position.x}, y=${position.y}, yaw=${position.yaw}")
+            } catch (e: Exception) {
+                Log.e(TAG, "Error publishing position", e)
+            }
+        }
+    }
+    
+    // Locations listener for MQTT publishing
+    private val locationsListener = object : com.robotemi.sdk.listeners.OnLocationsUpdatedListener {
+        override fun onLocationsUpdated(locations: List<String>) {
+            try {
+                mqttService?.publishLocations(locations.map { loc ->
+                    mapOf(
+                        "id" to loc,
+                        "name" to loc,
+                        "x" to 0,
+                        "y" to 0
+                    )
+                })
+                Log.d(TAG, "Locations published: ${locations.size} locations")
+            } catch (e: Exception) {
+                Log.e(TAG, "Error publishing locations", e)
             }
         }
     }
