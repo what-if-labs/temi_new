@@ -4,9 +4,11 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
@@ -18,6 +20,7 @@ import androidx.core.content.ContextCompat
 import com.example.temicontroller.databinding.ActivityMainBinding
 import com.robotemi.sdk.Robot
 import com.robotemi.sdk.TtsRequest
+import java.io.ByteArrayOutputStream
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -28,6 +31,11 @@ class MainActivity : AppCompatActivity() {
     private var publishHandler: Handler? = null
     private var publishRunnable: Runnable? = null
     private val PUBLISH_INTERVAL_MS = 3000L
+    
+    // Map publisher (less frequent)
+    private var mapHandler: Handler? = null
+    private var mapRunnable: Runnable? = null
+    private val MAP_PUBLISH_INTERVAL_MS = 30000L  // Every 30 seconds
     
     companion object {
         const val TAG = "TemiFace"
@@ -43,6 +51,7 @@ class MainActivity : AppCompatActivity() {
                 handleCommand(command, params)
             }
             startPeriodicPublishing()
+            startMapPublishing()
         }
         override fun onServiceDisconnected(name: ComponentName?) {
             mqttService = null
@@ -230,6 +239,58 @@ class MainActivity : AppCompatActivity() {
         publishRunnable?.let { publishHandler?.removeCallbacks(it) }
         publishRunnable = null
         publishHandler = null
+        
+        mapRunnable?.let { mapHandler?.removeCallbacks(it) }
+        mapRunnable = null
+        mapHandler = null
+    }
+    
+    private fun startMapPublishing() {
+        mapHandler = Handler(mainLooper)
+        mapRunnable = object : Runnable {
+            override fun run() {
+                publishMapData()
+                mapHandler?.postDelayed(this, MAP_PUBLISH_INTERVAL_MS)
+            }
+        }
+        mapHandler?.post(mapRunnable!!)
+        Log.d(TAG, "Started map publishing every ${MAP_PUBLISH_INTERVAL_MS}ms")
+    }
+    
+    private fun publishMapData() {
+        robot?.let { r ->
+            try {
+                // Get map data from TEMI SDK
+                val mapDataModel = r.getMapData()
+                if (mapDataModel != null) {
+                    val mapImage = mapDataModel.mapImage
+                    
+                    // Convert map data to bitmap
+                    val bitmap = Bitmap.createBitmap(
+                        mapImage.data.map { android.graphics.Color.argb((it * 2.55).toInt(), 0, 0, 0) }.toIntArray(),
+                        mapImage.cols,
+                        mapImage.rows,
+                        Bitmap.Config.ARGB_8888
+                    )
+                    
+                    // Convert bitmap to base64 PNG
+                    val stream = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                    val byteArray = stream.toByteArray()
+                    val base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT)
+                    
+                    mqttService?.publishMap(base64Image, bitmap.width, bitmap.height)
+                    Log.d(TAG, "Map published: ${bitmap.width}x${bitmap.height}")
+                    
+                    // Recycle bitmap to free memory
+                    bitmap.recycle()
+                } else {
+                    Log.d(TAG, "No map data available from TEMI")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error publishing map data: ${e.message}")
+            }
+        }
     }
     
     private fun publishRobotData() {
