@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
         
         // Load saved settings
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        etBrokerIp.setText(prefs.getString(KEY_BROKER_IP, "192.168.7.31"))
+        etBrokerIp.setText(prefs.getString(KEY_BROKER_IP, "192.168.4.34"))
         etBrokerPort.setText(prefs.getInt(KEY_BROKER_PORT, 1883).toString())
         
         val dialog = AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_NoActionBar)
@@ -191,7 +191,7 @@ class MainActivity : AppCompatActivity() {
     
     private fun startMqttService() {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val brokerIp = prefs.getString(KEY_BROKER_IP, "192.168.7.31") ?: "192.168.7.31"
+        val brokerIp = prefs.getString(KEY_BROKER_IP, "192.168.4.34") ?: "192.168.4.34"
         val brokerPort = prefs.getInt(KEY_BROKER_PORT, 1883)
         
         val intent = Intent(this, MqttService::class.java).apply {
@@ -223,21 +223,6 @@ class MainActivity : AppCompatActivity() {
     private fun publishRobotData() {
         robot?.let { r ->
             try {
-                // Publish position
-                val position = r.position
-                mqttService?.publishPosition(position.x, position.y, position.yaw)
-                
-                // Publish locations
-                val locations = r.locations.map { loc ->
-                    mapOf(
-                        "id" to loc,
-                        "name" to loc,
-                        "x" to 0,
-                        "y" to 0
-                    )
-                }
-                mqttService?.publishLocations(locations)
-                
                 // Publish battery
                 val batteryIntent = registerReceiver(null, android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_CHANGED))
                 val level = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_LEVEL, -1) ?: -1

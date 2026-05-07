@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "com.example.temicontroller.app-mergeDebugResources-38:/layout/dialog_settings.xml",
+        "source": "com.example.temicontroller.app-main-41:/layout/dialog_settings.xml"
+    },
+    {
+        "merged": "com.example.temicontroller.app-mergeDebugResources-38:/layout/activity_main.xml",
+        "source": "com.example.temicontroller.app-main-41:/layout/activity_main.xml"
+    }
+]

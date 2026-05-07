@@ -34,7 +34,7 @@ class MqttService : Service() {
         const val BATTERY_TOPIC = "temi/battery"
     }
     
-    private var brokerUrl = "tcp://192.168.7.31:1883"
+    private var brokerUrl = "tcp://192.168.4.34:1883"
     
     inner class LocalBinder : Binder() {
         fun getService(): MqttService = this@MqttService
@@ -47,7 +47,7 @@ class MqttService : Service() {
     }
     
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val brokerIp = intent?.getStringExtra("broker_ip") ?: "192.168.7.31"
+        val brokerIp = intent?.getStringExtra("broker_ip") ?: "192.168.4.34"
         val brokerPort = intent?.getIntExtra("broker_port", 1883) ?: 1883
         brokerUrl = "tcp://$brokerIp:$brokerPort"
         Log.d("MQTT", "Using broker: $brokerUrl")

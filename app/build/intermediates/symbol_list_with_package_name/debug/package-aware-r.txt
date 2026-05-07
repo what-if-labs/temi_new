@@ -3243,11 +3243,11 @@ id bounce
 id bounceBoth
 id bounceEnd
 id bounceStart
+id btnCancel
+id btnSave
 id buttonPanel
 id cache_measures
 id callMeasure
-id cameraPreview
-id cameraPreviewCard
 id cancel_button
 id carryVelocity
 id center
@@ -3328,10 +3328,11 @@ id end
 id endToStart
 id enterAlways
 id enterAlwaysCollapsed
+id etBrokerIp
+id etBrokerPort
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
-id faceContainer
 id faceView
 id fade
 id fill
@@ -3630,8 +3631,7 @@ id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
 id triangle
-id tvCameraStatus
-id tvStatus
+id tvHint
 id unchecked
 id uniform
 id unlabeled
@@ -3795,6 +3795,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout dialog_settings
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
 layout m3_alert_dialog
