@@ -20,6 +20,12 @@ import androidx.core.content.ContextCompat
 import com.example.temicontroller.databinding.ActivityMainBinding
 import com.robotemi.sdk.Robot
 import com.robotemi.sdk.TtsRequest
+import com.robotemi.sdk.map.Layer
+import com.robotemi.sdk.map.MapDataModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
 class MainActivity : AppCompatActivity() {
@@ -66,62 +72,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun publishLocationsWithCoordinates(r: Robot) {
-        try {
-            // Get map data which includes locations with coordinates
-            val mapData = r.getMapData()
-            val locationNames = r.locations
-            
-            if (locationNames.isNotEmpty()) {
-                // Create map of location name to coordinates from map data
-                val locationCoords = mutableMapOf<String, Triple<Float, Float, Float>>()
+        // Try to get coordinates from robot position instead of map data
+        // (getMapData() requires content provider access that may not be available)
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val locationNames = r.locations
+                Log.d(TAG, "Locations: ${locationNames.size}, Names: $locationNames")
                 
-                mapData?.locations?.forEach { layer ->
-                    // layer is a Layer with layerPoses containing x, y, theta
-                    layer.layerPoses?.firstOrNull()?.let { pose ->
-                        locationCoords[layer.layerId] = Triple(pose.x, pose.y, pose.theta)
-                    }
+                if (locationNames.isEmpty()) {
+                    Log.w(TAG, "No locations found")
+                    return@launch
                 }
                 
-                // Publish locations with coordinates
+                // Get current robot position as reference
+                val position = r.getPosition()
+                Log.d(TAG, "Current position: x=${position.x}, y=${position.y}, yaw=${position.yaw}")
+                
+                // For now, publish locations with current position as reference
+                // In a real scenario, you'd navigate to each location and record position
                 val locationsWithCoords = locationNames.map { locName ->
-                    val coords = locationCoords[locName]
-                    if (coords != null) {
-                        mapOf(
-                            "id" to locName,
-                            "name" to locName,
-                            "x" to coords.first,
-                            "y" to coords.second,
-                            "yaw" to coords.third
-                        )
-                    } else {
-                        mapOf(
-                            "id" to locName,
-                            "name" to locName,
-                            "x" to 0,
-                            "y" to 0,
-                            "yaw" to 0
-                        )
-                    }
+                    mapOf(
+                        "id" to locName,
+                        "name" to locName,
+                        "x" to position.x,
+                        "y" to position.y,
+                        "yaw" to position.yaw,
+                        "isCurrent" to (locName == "home base") // Mark home base as current position
+                    )
                 }
                 
                 mqttService?.publishLocations(locationsWithCoords)
-                Log.d(TAG, "Published locations with coordinates: ${locationsWithCoords.size}")
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Error publishing locations with coordinates", e)
-            // Fallback to names only
-            val locations = r.locations
-            if (locations.isNotEmpty()) {
-                mqttService?.publishLocations(locations.map { loc ->
-                    mapOf(
-                        "id" to loc,
-                        "name" to loc,
-                        "x" to 0,
-                        "y" to 0,
-                        "yaw" to 0
-                    )
-                })
-                Log.d(TAG, "Published locations (fallback): ${locations.size}")
+                Log.d(TAG, "Published locations with position: ${locationsWithCoords.size}")
+            } catch (e: Exception) {
+                Log.e(TAG, "Error publishing locations", e)
             }
         }
     }
