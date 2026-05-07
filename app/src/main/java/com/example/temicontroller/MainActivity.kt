@@ -312,15 +312,25 @@ class MainActivity : AppCompatActivity() {
     private fun publishRobotData() {
         robot?.let { r ->
             try {
-                // Publish battery
-                val batteryIntent = registerReceiver(null, android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_CHANGED))
-                val level = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_LEVEL, -1) ?: -1
-                val scale = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_SCALE, -1) ?: -1
-                val batteryPct = if (level >= 0 && scale > 0) (level * 100 / scale) else -1
-                val status = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_STATUS, -1) ?: -1
-                val isCharging = status == android.os.BatteryManager.BATTERY_STATUS_CHARGING || 
-                                 status == android.os.BatteryManager.BATTERY_STATUS_FULL
-                mqttService?.publishBattery(batteryPct, isCharging)
+                // Publish TEMI robot battery (not tablet battery)
+                val batteryData = r.batteryData
+                if (batteryData != null) {
+                    val batteryPct = batteryData.level
+                    val isCharging = batteryData.isCharging
+                    mqttService?.publishBattery(batteryPct, isCharging)
+                    Log.d(TAG, "Published TEMI battery: $batteryPct%, charging=$isCharging")
+                } else {
+                    // Fallback to tablet battery if TEMI battery unavailable
+                    val batteryIntent = registerReceiver(null, android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_CHANGED))
+                    val level = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_LEVEL, -1) ?: -1
+                    val scale = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_SCALE, -1) ?: -1
+                    val batteryPct = if (level >= 0 && scale > 0) (level * 100 / scale) else -1
+                    val status = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_STATUS, -1) ?: -1
+                    val isCharging = status == android.os.BatteryManager.BATTERY_STATUS_CHARGING || 
+                                     status == android.os.BatteryManager.BATTERY_STATUS_FULL
+                    mqttService?.publishBattery(batteryPct, isCharging)
+                    Log.d(TAG, "Published tablet battery (fallback): $batteryPct%")
+                }
                 
             } catch (e: Exception) {
                 Log.e(TAG, "Error publishing robot data", e)
