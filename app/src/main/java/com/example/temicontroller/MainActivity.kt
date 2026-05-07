@@ -52,6 +52,22 @@ class MainActivity : AppCompatActivity() {
             }
             startPeriodicPublishing()
             startMapPublishing()
+            
+            // Publish initial locations if available
+            robot?.let { r ->
+                val locations = r.locations
+                if (locations.isNotEmpty()) {
+                    mqttService?.publishLocations(locations.map { loc ->
+                        mapOf(
+                            "id" to loc,
+                            "name" to loc,
+                            "x" to 0,
+                            "y" to 0
+                        )
+                    })
+                    Log.d(TAG, "Published initial locations: ${locations.size}")
+                }
+            }
         }
         override fun onServiceDisconnected(name: ComponentName?) {
             mqttService = null
