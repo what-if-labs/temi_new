@@ -53,9 +53,11 @@ class MainActivity : AppCompatActivity() {
             startPeriodicPublishing()
             startMapPublishing()
             
-            // Publish initial locations if available
-            robot?.let { r ->
-                publishLocationsWithCoordinates(r)
+            // Publish locations after MQTT connects
+            mqttService?.onMqttConnected = {
+                robot?.let { r ->
+                    publishLocationsWithCoordinates(r)
+                }
             }
         }
         override fun onServiceDisconnected(name: ComponentName?) {

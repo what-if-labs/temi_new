@@ -21,6 +21,7 @@ class MqttService : Service() {
     private var mqttClient: MqttClient? = null
     private var commandListener: ((String, Map<String, String>) -> Unit)? = null
     private var connectionStatus = "Disconnected"
+    var onMqttConnected: (() -> Unit)? = null
     
     companion object {
         const val CHANNEL_ID = "TemiMqttChannel"
@@ -117,6 +118,9 @@ class MqttService : Service() {
                 updateNotification()
                 publishStatus("Temi controller online")
                 
+                // Notify that MQTT is connected so we can publish pending data
+                onMqttConnected?.invoke()
+                
                 Log.d("MQTT", "Connected to broker")
                 
             } catch (e: Exception) {
@@ -162,6 +166,7 @@ class MqttService : Service() {
     
     fun publishLocations(locations: List<Map<String, Any>>) {
         try {
+            Log.d("MQTT", "Publishing locations: ${locations.size}, mqttClient=${mqttClient != null}")
             val json = JSONObject()
             json.put("locations", org.json.JSONArray(locations))
             val message = MqttMessage(json.toString().toByteArray())
