@@ -55,22 +55,72 @@ class MainActivity : AppCompatActivity() {
             
             // Publish initial locations if available
             robot?.let { r ->
-                val locations = r.locations
-                if (locations.isNotEmpty()) {
-                    mqttService?.publishLocations(locations.map { loc ->
-                        mapOf(
-                            "id" to loc,
-                            "name" to loc,
-                            "x" to 0,
-                            "y" to 0
-                        )
-                    })
-                    Log.d(TAG, "Published initial locations: ${locations.size}")
-                }
+                publishLocationsWithCoordinates(r)
             }
         }
         override fun onServiceDisconnected(name: ComponentName?) {
             mqttService = null
+        }
+    }
+
+    private fun publishLocationsWithCoordinates(r: Robot) {
+        try {
+            // Get map data which includes locations with coordinates
+            val mapData = r.getMapData()
+            val locationNames = r.locations
+            
+            if (locationNames.isNotEmpty()) {
+                // Create map of location name to coordinates from map data
+                val locationCoords = mutableMapOf<String, Triple<Float, Float, Float>>()
+                
+                mapData?.locations?.forEach { layer ->
+                    // layer is a Layer with layerPoses containing x, y, theta
+                    layer.layerPoses?.firstOrNull()?.let { pose ->
+                        locationCoords[layer.layerId] = Triple(pose.x, pose.y, pose.theta)
+                    }
+                }
+                
+                // Publish locations with coordinates
+                val locationsWithCoords = locationNames.map { locName ->
+                    val coords = locationCoords[locName]
+                    if (coords != null) {
+                        mapOf(
+                            "id" to locName,
+                            "name" to locName,
+                            "x" to coords.first,
+                            "y" to coords.second,
+                            "yaw" to coords.third
+                        )
+                    } else {
+                        mapOf(
+                            "id" to locName,
+                            "name" to locName,
+                            "x" to 0,
+                            "y" to 0,
+                            "yaw" to 0
+                        )
+                    }
+                }
+                
+                mqttService?.publishLocations(locationsWithCoords)
+                Log.d(TAG, "Published locations with coordinates: ${locationsWithCoords.size}")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error publishing locations with coordinates", e)
+            // Fallback to names only
+            val locations = r.locations
+            if (locations.isNotEmpty()) {
+                mqttService?.publishLocations(locations.map { loc ->
+                    mapOf(
+                        "id" to loc,
+                        "name" to loc,
+                        "x" to 0,
+                        "y" to 0,
+                        "yaw" to 0
+                    )
+                })
+                Log.d(TAG, "Published locations (fallback): ${locations.size}")
+            }
         }
     }
 
@@ -151,6 +201,15 @@ class MainActivity : AppCompatActivity() {
                     robot?.goTo("home")
                     speak("Going home")
                     resetFaceAfterDelay()
+                }
+                "go_to_location" -> {
+                    val location = params["location"]
+                    if (location != null) {
+                        binding.faceView.setState(FaceView.FaceState.HAPPY)
+                        robot?.goTo(location)
+                        speak("Going to $location")
+                        resetFaceAfterDelay()
+                    }
                 }
                 "follow_me" -> {
                     binding.faceView.setState(FaceView.FaceState.HAPPY)
@@ -353,18 +412,8 @@ class MainActivity : AppCompatActivity() {
     // Locations listener for MQTT publishing
     private val locationsListener = object : com.robotemi.sdk.listeners.OnLocationsUpdatedListener {
         override fun onLocationsUpdated(locations: List<String>) {
-            try {
-                mqttService?.publishLocations(locations.map { loc ->
-                    mapOf(
-                        "id" to loc,
-                        "name" to loc,
-                        "x" to 0,
-                        "y" to 0
-                    )
-                })
-                Log.d(TAG, "Locations published: ${locations.size} locations")
-            } catch (e: Exception) {
-                Log.e(TAG, "Error publishing locations", e)
+            robot?.let { r ->
+                publishLocationsWithCoordinates(r)
             }
         }
     }
