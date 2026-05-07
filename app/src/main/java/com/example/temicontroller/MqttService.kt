@@ -210,7 +210,7 @@ class MqttService : Service() {
         try {
             val json = JSONObject()
             json.put("level", level)
-            json.put("charging", isCharging)
+            json.put("isCharging", isCharging)
             val message = MqttMessage(json.toString().toByteArray())
             mqttClient?.publish(BATTERY_TOPIC, message)
             Log.d("MQTT", "Published battery: $level%, charging=$isCharging")
