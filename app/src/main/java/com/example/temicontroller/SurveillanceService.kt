@@ -93,6 +93,11 @@ class SurveillanceService : Service() {
         const val KEY_DETECT_FALLEN = "detect_fallen"
         const val KEY_LOITERING_THRESHOLD = "loitering_threshold"
         const val KEY_QUEUE_MAX_PEOPLE = "queue_max_people"
+        
+        // Face quality thresholds
+        private const val MIN_FACE_ASPECT_RATIO = 0.8f   // height/width — human faces are taller than wide
+        private const val MAX_FACE_ASPECT_RATIO = 2.5f   // reject overly tall detections
+        private const val MIN_EYE_OPEN_THRESHOLD = 0.1f  // at least one eye should be somewhat open
     }
     
     inner class LocalBinder : Binder() {
@@ -119,7 +124,7 @@ class SurveillanceService : Service() {
             .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_NONE)
             .setContourMode(FaceDetectorOptions.CONTOUR_MODE_NONE)
             .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
-            .setMinFaceSize(0.15f)  // 15% of image width — filters tiny false positives
+            .setMinFaceSize(0.1f)   // 10% of image width — balanced filter, relativeSize handles rest
             .enableTracking()       // Enables trackingId for person association
             .build()
         faceDetector = FaceDetection.getClient(options)
@@ -302,10 +307,11 @@ class SurveillanceService : Service() {
             // Decode bitmap for face detection
             val bitmap = BitmapFactory.decodeByteArray(jpegBytes, 0, jpegBytes.size)
             if (bitmap != null) {
-                detectFaces(bitmap)
-                
-                // Run person detection
+                // Run person detection FIRST (needed for face-person association)
                 val detectedPersons = personDetector.detectPersons(bitmap)
+                
+                // Run face detection (async — uses lastKnownPersons for person tagging)
+                detectFaces(bitmap, detectedPersons)
                 
                 // Map detections to zone-aware tracked persons
                 val trackedPersons = detectedPersons.map { p ->
@@ -377,7 +383,7 @@ class SurveillanceService : Service() {
     
 
     
-    private fun detectFaces(bitmap: Bitmap) {
+    private fun detectFaces(bitmap: Bitmap, detectedPersons: List<DetectedPerson>) {
         val image = InputImage.fromBitmap(bitmap, 0)
         faceDetector.process(image)
             .addOnSuccessListener { faces ->
@@ -392,15 +398,40 @@ class SurveillanceService : Service() {
                 
                 // Filter and tag faces with person IDs
                 val faceData = faces.mapNotNull { face ->
-                    // Confidence proxy: use bounding box size relative to image
-                    // ML Kit accurate mode + minFaceSize already filters most false positives
-                    val faceArea = face.boundingBox.width() * face.boundingBox.height()
+                    // Quality check 1: Bounding box aspect ratio (human faces are taller than wide)
+                    val faceW = face.boundingBox.width().toFloat()
+                    val faceH = face.boundingBox.height().toFloat()
+                    val aspectRatio = if (faceW > 0) faceH / faceW else 0f
+                    
+                    if (aspectRatio < MIN_FACE_ASPECT_RATIO || aspectRatio > MAX_FACE_ASPECT_RATIO) {
+                        Log.d(TAG, "Skipping face: aspectRatio=$aspectRatio (outside $MIN_FACE_ASPECT_RATIO-$MAX_FACE_ASPECT_RATIO)")
+                        return@mapNotNull null
+                    }
+                    
+                    // Quality check 2: Relative size filter (already exists, keep it)
+                    val faceArea = faceW * faceH
                     val imageArea = bitmap.width * bitmap.height
-                    val relativeSize = faceArea.toFloat() / imageArea
+                    val relativeSize = faceArea / imageArea
                     
                     // Skip faces that are too small (< 3% of image) or too large (> 60%)
                     if (relativeSize < 0.03f || relativeSize > 0.6f) {
                         Log.d(TAG, "Skipping face: relativeSize=$relativeSize (likely false positive)")
+                        return@mapNotNull null
+                    }
+                    
+                    // Quality check 3: Eye openness — at least one eye should be open
+                    // Closed/covered eyes often indicate false positives
+                    val leftEyeOpen = face.leftEyeOpenProbability  // Float?
+                    val rightEyeOpen = face.rightEyeOpenProbability  // Float?
+                    val anyEyeOpen = (leftEyeOpen ?: 0f) > MIN_EYE_OPEN_THRESHOLD || 
+                                     (rightEyeOpen ?: 0f) > MIN_EYE_OPEN_THRESHOLD
+                    
+                    // Only apply eye check if classification returned valid values (>= 0)
+                    // Negative values indicate the classification is unavailable
+                    val eyeCheckPassed = ((leftEyeOpen ?: -1f) < 0 && (rightEyeOpen ?: -1f) < 0) || anyEyeOpen
+                    
+                    if (!eyeCheckPassed) {
+                        Log.d(TAG, "Skipping face: both eyes closed/suppressed (L=$leftEyeOpen, R=$rightEyeOpen)")
                         return@mapNotNull null
                     }
                     
@@ -412,15 +443,28 @@ class SurveillanceService : Service() {
                         "unknown"
                     }
                     
+                    // Face-person association: find nearest detected person to this face
+                    val faceCx = face.boundingBox.centerX()
+                    val faceCy = face.boundingBox.centerY()
+                    val associatedPerson = detectedPersons.minByOrNull { p ->
+                        val dx = p.boundingBox.centerX().toFloat() - faceCx
+                        val dy = p.boundingBox.centerY().toFloat() - faceCy
+                        dx * dx + dy * dy  // squared distance
+                    }
+                    val associatedPersonId = associatedPerson?.let { 
+                        "Person_${String.format("%.0f", it.confidence * 100)}"
+                    } ?: personTag
+                    
                     JSONObject().apply {
                         put("x", face.boundingBox.centerX())
                         put("y", face.boundingBox.centerY())
                         put("width", face.boundingBox.width())
                         put("height", face.boundingBox.height())
-                        put("personId", personTag)
-                        put("trackingId", trackingId ?: -1)
+                        put("personId", associatedPersonId)
+                        put("faceTrackingId", trackingId ?: -1)
+                        put("personTrackingId", associatedPerson?.trackingId ?: -1)
                         put("relativeSize", String.format("%.3f", relativeSize))
-                        // Classification confidence proxies (available with CLASSIFICATION_MODE_ALL)
+                        put("aspectRatio", String.format("%.2f", aspectRatio))
                         put("smilingProbability", String.format("%.2f", face.smilingProbability))
                         put("leftEyeOpenProbability", String.format("%.2f", face.leftEyeOpenProbability))
                         put("rightEyeOpenProbability", String.format("%.2f", face.rightEyeOpenProbability))
@@ -450,7 +494,7 @@ class SurveillanceService : Service() {
     // Person tracking: maps ML Kit trackingId to stable person labels
     private val lastKnownPersons = mutableMapOf<Int, String>()
     private var personCounter = 0
-    
+
     /**
      * Get or assign a stable person ID for a tracking ID.
      * Returns "Person1", "Person2", etc. for consistent MQTT tagging.

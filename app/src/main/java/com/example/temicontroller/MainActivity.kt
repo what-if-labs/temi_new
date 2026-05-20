@@ -180,7 +180,8 @@ class MainActivity : AppCompatActivity() {
         robot?.let { r ->
             r.addOnCurrentPositionChangedListener(positionListener)
             r.addOnLocationsUpdatedListener(locationsListener)
-            Log.d(TAG, "Added position and locations listeners")
+            r.addOnGoToLocationStatusChangedListener(goToStatusListener)
+            Log.d(TAG, "Added position, locations, and goTo status listeners")
         }
         
         // Start MQTT service
@@ -250,10 +251,27 @@ class MainActivity : AppCompatActivity() {
                 "go_to_location" -> {
                     val location = params["location"]
                     if (location != null) {
-                        binding.faceView.setState(FaceView.FaceState.HAPPY)
-                        robot?.goTo(location)
-                        speak("Going to $location")
-                        resetFaceAfterDelay()
+                        // Validate location exists in robot's map
+                        val knownLocations = robot?.locations ?: emptyList()
+                        if (knownLocations.contains(location)) {
+                            binding.faceView.setState(FaceView.FaceState.MOVING)
+                            robot?.goTo(location)
+                            speak("Going to $location")
+                            Log.d(TAG, "Navigating to location: $location (known: $knownLocations)")
+                            resetFaceAfterDelay()
+                        } else {
+                            binding.faceView.setState(FaceView.FaceState.CONFUSED)
+                            speak("Location $location not found on map")
+                            mqttService?.publishCommand("navigation_error", mapOf(
+                                "error" to "unknown_location",
+                                "requested" to location,
+                                "available" to knownLocations.joinToString(", ")
+                            ))
+                            Log.w(TAG, "go_to_location failed: '$location' not in $knownLocations")
+                            Handler(mainLooper).postDelayed({
+                                binding.faceView.setState(FaceView.FaceState.IDLE)
+                            }, 3000)
+                        }
                     }
                 }
                 "follow_me" -> {
@@ -292,6 +310,14 @@ class MainActivity : AppCompatActivity() {
                     speak("Patrol stopped")
                     Log.d(TAG, "Patrol stopped")
                     mqttService?.publishCommand("patrol_stopped")
+                }
+                "list_locations" -> {
+                    val locations = robot?.locations ?: emptyList()
+                    mqttService?.publishCommand("available_locations", mapOf(
+                        "locations" to locations.joinToString(","),
+                        "count" to locations.size.toString()
+                    ))
+                    Log.d(TAG, "Published available locations: $locations")
                 }
             }
         }
@@ -682,9 +708,60 @@ class MainActivity : AppCompatActivity() {
         }
     }
     
+    // Navigation status listener for go_to_location feedback
+    private val goToStatusListener = object : com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener {
+        override fun onGoToLocationStatusChanged(location: String, status: String, descriptionId: Int, description: String) {
+            Log.d(TAG, "GoTo status: $status -> $location ($description)")
+            when (status) {
+                "complete" -> {
+                    runOnUiThread {
+                        binding.faceView.setState(FaceView.FaceState.HAPPY)
+                        speak("Arrived at $location")
+                        mqttService?.publishCommand("navigation_status", mapOf(
+                            "status" to "complete",
+                            "location" to location
+                        ))
+                        Handler(mainLooper).postDelayed({
+                            binding.faceView.setState(FaceView.FaceState.IDLE)
+                        }, 2000)
+                    }
+                }
+                "error" -> {
+                    runOnUiThread {
+                        binding.faceView.setState(FaceView.FaceState.CONFUSED)
+                        speak("Could not reach $location")
+                        mqttService?.publishCommand("navigation_status", mapOf(
+                            "status" to "error",
+                            "location" to location,
+                            "description" to description
+                        ))
+                        Handler(mainLooper).postDelayed({
+                            binding.faceView.setState(FaceView.FaceState.IDLE)
+                        }, 3000)
+                    }
+                }
+                "moving" -> {
+                    runOnUiThread {
+                        binding.faceView.setState(FaceView.FaceState.MOVING)
+                    }
+                }
+                "blocked" -> {
+                    runOnUiThread {
+                        mqttService?.publishCommand("navigation_status", mapOf(
+                            "status" to "blocked",
+                            "location" to location,
+                            "description" to description
+                        ))
+                    }
+                }
+            }
+        }
+    }
+    
     override fun onDestroy() {
         super.onDestroy()
         stopPeriodicPublishing()
+        robot?.removeOnGoToLocationStatusChangedListener(goToStatusListener)
         unbindService(serviceConnection)
     }
 }
