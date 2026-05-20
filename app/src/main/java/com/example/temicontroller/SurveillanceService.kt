@@ -299,11 +299,21 @@ class SurveillanceService : Service() {
                 
                 // Map detections to zone-aware tracked persons
                 val trackedPersons = detectedPersons.map { p ->
+                    // Assign person to zone based on polygon containment
+                    val assignedZoneId = zones.find { zone ->
+                        eventTracker.isInPolygon(
+                            p.boundingBox.centerX().toFloat(),
+                            p.boundingBox.centerY().toFloat(),
+                            zone.polygon
+                        )
+                    }?.id ?: ""
+                    
                     TrackedPersonInZone(
                         trackingId = p.trackingId,
                         x = p.boundingBox.centerX().toFloat(),
                         y = p.boundingBox.centerY().toFloat(),
-                        isUpright = p.isUpright
+                        isUpright = p.isUpright,
+                        zoneId = assignedZoneId
                     )
                 }
                 
