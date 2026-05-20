@@ -598,7 +598,7 @@ class SurveillanceService : Service() {
     private fun connectMqtt() {
         // Read broker config from same SharedPreferences as MqttService (Issue #2 fix)
         val prefs = getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE)
-        val brokerIp = prefs.getString(MainActivity.KEY_BROKER_IP, "192.168.4.34") ?: "192.168.4.34"
+        val brokerIp = prefs.getString(MainActivity.KEY_BROKER_IP, "192.168.4.154") ?: "192.168.4.154"
         val brokerPort = prefs.getInt(MainActivity.KEY_BROKER_PORT, 1883)
         val brokerUrl = "tcp://$brokerIp:$brokerPort"
         Log.d(TAG, "Connecting to MQTT broker: $brokerUrl")
