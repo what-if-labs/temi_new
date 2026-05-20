@@ -97,6 +97,7 @@ class SurveillanceService : Service() {
         createNotificationChannel()
         startForeground(NOTIFICATION_ID, createNotification())
         setupFaceDetector()
+        personDetector = PersonDetector(this)
         connectMqtt()
     }
     
