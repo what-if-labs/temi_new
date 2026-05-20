@@ -82,37 +82,33 @@ class MainActivity : AppCompatActivity() {
                     return@launch
                 }
                 
-                // Try to get actual coordinates from map MARKER layer
+                // Get actual coordinates from current floor's locations
                 val locationsWithCoords = try {
-                    val mapDataModel = r.getMapData()
-                    if (mapDataModel != null) {
-                        val markerLayer = mapDataModel.getLayerData(MapDataModel.MARKER)
-                        Log.d(TAG, "Marker layer: $markerLayer")
+                    val currentFloor = r.getCurrentFloor()
+                    if (currentFloor != null) {
+                        val floorLocations: List<com.robotemi.sdk.map.Location> = currentFloor.locations
+                        Log.d(TAG, "Floor locations count: ${floorLocations.size}")
                         
-                        // Build map of location name -> position from markers
-                        val locationMap = mutableMapOf<String, Map<String, Any>>()
-                        markerLayer.forEach { marker ->
-                            val name = marker.name
-                            val position = marker.position
-                            if (position != null && name != null) {
-                                locationMap[name] = mapOf(
-                                    "id" to name,
-                                    "name" to name,
-                                    "x" to position.x,
-                                    "y" to position.y,
-                                    "yaw" to position.yaw,
-                                    "source" to "map_marker"
-                                )
-                                Log.d(TAG, "Location marker: $name at (${position.x}, ${position.y})")
-                            }
+                        // Build name -> coordinate map from floor data
+                        val locationMap = floorLocations.associate { loc ->
+                            loc.name to mapOf(
+                                "id" to loc.name,
+                                "name" to loc.name,
+                                "x" to loc.x,
+                                "y" to loc.y,
+                                "yaw" to loc.yaw,
+                                "tiltAngle" to loc.tiltAngle,
+                                "source" to "floor"
+                            )
                         }
                         
-                        // Merge: use marker coords where available, fallback for missing
+                        Log.d(TAG, "Location map keys: ${locationMap.keys}")
+                        
+                        // Use floor coords where available, fallback for missing
                         locationNames.map { locName ->
                             locationMap[locName] ?: run {
-                                // Fallback: use current position if no marker found
+                                Log.w(TAG, "No floor coords for '$locName', using current position")
                                 val pos = r.getPosition()
-                                Log.w(TAG, "No marker for '$locName', using current position")
                                 mapOf(
                                     "id" to locName,
                                     "name" to locName,
@@ -124,8 +120,7 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                     } else {
-                        // No map data - fallback
-                        Log.w(TAG, "No map data available, using fallback positions")
+                        Log.w(TAG, "No current floor available, using fallback positions")
                         val pos = r.getPosition()
                         locationNames.map { locName ->
                             mapOf(
@@ -134,12 +129,12 @@ class MainActivity : AppCompatActivity() {
                                 "x" to pos.x,
                                 "y" to pos.y,
                                 "yaw" to pos.yaw,
-                                "source" to "fallback_no_map"
+                                "source" to "fallback_no_floor"
                             )
                         }
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, "Error reading map markers: ${e.message}, using fallback")
+                    Log.e(TAG, "Error reading floor data: ${e.message}, using fallback")
                     val pos = r.getPosition()
                     locationNames.map { locName ->
                         mapOf(
