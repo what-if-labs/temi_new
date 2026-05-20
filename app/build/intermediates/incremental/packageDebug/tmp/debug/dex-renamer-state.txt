@@ -1,8 +1,10 @@
-#Wed May 20 15:54:40 SGT 2026
+#Wed May 20 15:55:10 SGT 2026
 path.4=6/classes.dex
 path.3=14/classes.dex
 path.2=11/classes.dex
 path.1=0/classes.dex
+renamed.8=classes9.dex
+path.8=10/classes.dex
 path.7=7/classes.dex
 path.6=1/classes.dex
 path.5=classes2.dex
@@ -17,6 +19,7 @@ renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
 renamed.7=classes8.dex
+base.8=/home/warren/temi_new/app/build/intermediates/dex/debug/mergeProjectDexDebug/10/classes.dex
 renamed.6=classes7.dex
 base.7=/home/warren/temi_new/app/build/intermediates/dex/debug/mergeProjectDexDebug/7/classes.dex
 renamed.5=classes6.dex

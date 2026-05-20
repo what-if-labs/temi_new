@@ -135,9 +135,10 @@ class PatrolController(
     }
 
     override fun onGoToLocationStatusChanged(
-        location: String?,
-        status: String?,
-        description: String?
+        location: String,
+        status: String,
+        descriptionId: Int,
+        description: String
     ) {
         when (status) {
             "complete" -> {
