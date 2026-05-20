@@ -27,6 +27,12 @@ import android.os.IBinder
 import android.util.Base64
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.example.temicontroller.detection.DetectedPerson
+import com.example.temicontroller.detection.PersonDetector
+import com.example.temicontroller.models.SecurityAlert
+import com.example.temicontroller.models.ZoneDefaults
+import com.example.temicontroller.tracking.EventTracker
+import com.example.temicontroller.tracking.TrackedPersonInZone
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetector
@@ -52,6 +58,12 @@ class SurveillanceService : Service() {
     
     // Face Detection
     private lateinit var faceDetector: FaceDetector
+    
+    // Person detection & event tracking
+    private lateinit var personDetector: PersonDetector
+    private val eventTracker = EventTracker()
+    private val zones = ZoneDefaults.defaultZones()
+    private var alertHandler: Handler? = null
     
     // MQTT
     private var mqttClient: MqttClient? = null
