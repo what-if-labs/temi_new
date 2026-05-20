@@ -21,6 +21,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.temicontroller.databinding.ActivityMainBinding
+import com.example.temicontroller.models.ZoneDefaults
 import com.robotemi.sdk.Robot
 import com.robotemi.sdk.TtsRequest
 import com.robotemi.sdk.map.Layer
@@ -57,7 +58,9 @@ class MainActivity : AppCompatActivity() {
         const val KEY_DETECT_LOITERING = "detect_loitering"
         const val KEY_DETECT_SMOKING = "detect_smoking"
         const val KEY_DETECT_FALLEN = "detect_fallen"
+        const val KEY_DETECT_UNATTENDED_BAG = "detect_unattended_bag"
         const val KEY_DETECT_UNAUTHORIZED = "detect_unauthorized"
+        const val KEY_ZONES_JSON = "zones_json"
     }
     
     private val serviceConnection = object : ServiceConnection {
@@ -413,7 +416,137 @@ class MainActivity : AppCompatActivity() {
             dialog.dismiss()
         }
         
+        // ===== Zone Calibration Section (Issue #4 fix) =====
+        val spinnerZoneName = dialogView.findViewById<Spinner>(R.id.spinnerZoneName)
+        val spinnerVertex = dialogView.findViewById<Spinner>(R.id.spinnerVertex)
+        val btnCaptureVertex = dialogView.findViewById<Button>(R.id.btnCaptureVertex)
+        val btnResetZones = dialogView.findViewById<Button>(R.id.btnResetZones)
+        val tvCalibrationStatus = dialogView.findViewById<android.widget.TextView>(R.id.tvCalibrationStatus)
+        
+        // Setup zone name spinner
+        val zoneNames = arrayOf("Lobby Drop-off", "Turnstile Queue", "Main Corridor")
+        val zoneAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, zoneNames)
+        spinnerZoneName.adapter = zoneAdapter
+        
+        // Setup vertex spinner (1-4)
+        val vertexNames = arrayOf("Vertex 1", "Vertex 2", "Vertex 3", "Vertex 4")
+        val vertexAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, vertexNames)
+        spinnerVertex.adapter = vertexAdapter
+        
+        // Load custom zones from prefs or use defaults
+        val customZones = loadZonesFromPrefs(prefs)
+        tvCalibrationStatus.text = "Loaded ${customZones.size} zone(s) from storage"
+        
+        // Capture current robot position as zone vertex
+        btnCaptureVertex.setOnClickListener {
+            val pos = robot?.getPosition()
+            if (pos == null) {
+                Toast.makeText(this, "Robot not available", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            
+            val zoneIndex = spinnerZoneName.selectedItemPosition
+            val vertexIndex = spinnerVertex.selectedItemPosition
+            val zones = loadZonesFromPrefs(prefs)
+            val zone = zones[zoneIndex]
+            
+            // Update the vertex
+            val newPolygon = zone.polygon.toMutableList()
+            newPolygon[vertexIndex] = com.example.temicontroller.models.SecurityPoint(pos.x, pos.y)
+            
+            val updatedZone = zone.copy(polygon = newPolygon)
+            zones[zoneIndex] = updatedZone
+            
+            // Save to prefs
+            saveZonesToPrefs(prefs, zones)
+            
+            val pointStr = "(${String.format("%.2f", pos.x)}, ${String.format("%.2f", pos.y)})"
+            tvCalibrationStatus.text = "Captured ${zone.name} Vertex ${vertexIndex + 1}: $pointStr"
+            Toast.makeText(this, "Vertex saved!", Toast.LENGTH_SHORT).show()
+            Log.d(TAG, "Calibration: ${zone.name} Vertex ${vertexIndex + 1} = $pointStr")
+        }
+        
+        // Reset zones to defaults
+        btnResetZones.setOnClickListener {
+            saveZonesToPrefs(prefs, ZoneDefaults.defaultZones())
+            tvCalibrationStatus.text = "Zones reset to defaults"
+            Toast.makeText(this, "Zones reset to defaults", Toast.LENGTH_SHORT).show()
+        }
+        
         dialog.show()
+    }
+    
+    /**
+     * Load security zones from SharedPreferences.
+     * Falls back to ZoneDefaults if no custom zones saved.
+     */
+    private fun loadZonesFromPrefs(prefs: android.content.SharedPreferences): MutableList<com.example.temicontroller.models.SecurityZone> {
+        val zonesJson = prefs.getString(KEY_ZONES_JSON, null)
+        return if (zonesJson != null) {
+            try {
+                val json = org.json.JSONArray(zonesJson)
+                val zones = mutableListOf<com.example.temicontroller.models.SecurityZone>()
+                for (i in 0 until json.length()) {
+                    val z = json.getJSONObject(i)
+                    val polygon = mutableListOf<com.example.temicontroller.models.SecurityPoint>()
+                    val pointsArray = z.getJSONArray("polygon")
+                    for (j in 0 until pointsArray.length()) {
+                        val pt = pointsArray.getJSONObject(j)
+                        polygon.add(com.example.temicontroller.models.SecurityPoint(
+                            pt.getDouble("x").toFloat(),
+                            pt.getDouble("y").toFloat()
+                        ))
+                    }
+                    zones.add(com.example.temicontroller.models.SecurityZone(
+                        id = z.getString("id"),
+                        name = z.getString("name"),
+                        polygon = polygon,
+                        alertType = com.example.temicontroller.models.AlertType.valueOf(z.getString("alertType")),
+                        threshold = z.getInt("threshold"),
+                        cooldownMs = z.getLong("cooldownMs")
+                    ))
+                }
+                zones
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to parse zones from prefs, using defaults", e)
+                ZoneDefaults.defaultZones().toMutableList()
+            }
+        } else {
+            ZoneDefaults.defaultZones().toMutableList()
+        }
+    }
+    
+    /**
+     * Save security zones to SharedPreferences as JSON.
+     */
+    private fun saveZonesToPrefs(
+        prefs: android.content.SharedPreferences,
+        zones: List<com.example.temicontroller.models.SecurityZone>
+    ) {
+        try {
+            val json = org.json.JSONArray()
+            for (zone in zones) {
+                val z = org.json.JSONObject().apply {
+                    put("id", zone.id)
+                    put("name", zone.name)
+                    put("alertType", zone.alertType.name)
+                    put("threshold", zone.threshold)
+                    put("cooldownMs", zone.cooldownMs)
+                    val pointsArray = org.json.JSONArray()
+                    for (pt in zone.polygon) {
+                        pointsArray.put(org.json.JSONObject().apply {
+                            put("x", pt.x)
+                            put("y", pt.y)
+                        })
+                    }
+                    put("polygon", pointsArray)
+                }
+                json.put(z)
+            }
+            prefs.edit().putString(KEY_ZONES_JSON, json.toString()).apply()
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to save zones to prefs", e)
+        }
     }
     
     private fun startMqttService() {

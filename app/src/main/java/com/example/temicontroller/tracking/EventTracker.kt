@@ -5,6 +5,24 @@ import com.example.temicontroller.models.SecurityAlert
 import com.example.temicontroller.models.SecurityZone
 
 /**
+ * Runtime configuration for enabled/disabled detection types and thresholds.
+ * Read from SharedPreferences and applied to EventTracker each frame.
+ */
+data class DetectionConfig(
+    val loiteringEnabled: Boolean = true,
+    val smokingEnabled: Boolean = true,
+    val fallenPersonEnabled: Boolean = true,
+    val unattendedBagEnabled: Boolean = true,
+    val loiteringThresholdSec: Int = 180,
+    val queueMaxPeople: Int = 5,
+    val unattendedBagThresholdSec: Int = 120
+) {
+    companion object {
+        fun default() = DetectionConfig()
+    }
+}
+
+/**
  * Person detection with zone context, used as input to [EventTracker].
  *
  * @param trackingId Unique identifier assigned by the person detector/tracker
@@ -85,7 +103,8 @@ class EventTracker {
         timestamp: Long,
         persons: List<TrackedPersonInZone>,
         objects: List<TrackedObjectInZone>,
-        zones: List<SecurityZone>
+        zones: List<SecurityZone>,
+        config: DetectionConfig = DetectionConfig.default()
     ): List<SecurityAlert> {
         val alerts = mutableListOf<SecurityAlert>()
 
@@ -97,24 +116,30 @@ class EventTracker {
             val zonePersons = personsByZone[zone.id].orEmpty()
             val zoneObjects = objectsByZone[zone.id].orEmpty()
 
-            // Check fallen person — immediate alert (always check regardless of zone's alertType)
-            checkFallenPerson(timestamp, zone, zonePersons, alerts)
+            // Check fallen person — only if enabled
+            if (config.fallenPersonEnabled) {
+                checkFallenPerson(timestamp, zone, zonePersons, alerts)
+            }
 
             // Check zone-specific rules based on configured alert type
             when (zone.alertType) {
                 AlertType.LOITERING -> {
-                    checkLoitering(timestamp, zone, zonePersons, alerts)
+                    if (config.loiteringEnabled) {
+                        checkLoitering(timestamp, zone, zonePersons, alerts, config.loiteringThresholdSec)
+                    }
                 }
                 AlertType.QUEUE_CONGESTION -> {
-                    checkQueueCongestion(timestamp, zone, zonePersons, alerts)
+                    checkQueueCongestion(timestamp, zone, zonePersons, alerts, config.queueMaxPeople)
                 }
                 else -> {
                     // Other alert types may be handled by different modules
                 }
             }
 
-            // Unattended bag check — always check regardless of zone's alertType
-            checkUnattendedBag(timestamp, zone, zonePersons, zoneObjects, alerts)
+            // Unattended bag check — only if enabled
+            if (config.unattendedBagEnabled) {
+                checkUnattendedBag(timestamp, zone, zonePersons, zoneObjects, alerts, config.unattendedBagThresholdSec)
+            }
         }
 
         // Clean up stale events not seen in 5 minutes
@@ -135,9 +160,14 @@ class EventTracker {
         timestamp: Long,
         zone: SecurityZone,
         persons: List<TrackedPersonInZone>,
-        alerts: MutableList<SecurityAlert>
+        alerts: MutableList<SecurityAlert>,
+        overrideThresholdSec: Int = -1  // -1 means use zone.threshold
     ) {
-        val thresholdMs = zone.threshold * 1_000L
+        val thresholdMs = if (overrideThresholdSec > 0) {
+            overrideThresholdSec * 1_000L
+        } else {
+            zone.threshold * 1_000L
+        }
 
         for (person in persons) {
             val eventId = "loitering_${zone.id}_${person.trackingId}"
@@ -162,9 +192,11 @@ class EventTracker {
         timestamp: Long,
         zone: SecurityZone,
         persons: List<TrackedPersonInZone>,
-        alerts: MutableList<SecurityAlert>
+        alerts: MutableList<SecurityAlert>,
+        overrideThreshold: Int = -1  // -1 means use zone.threshold
     ) {
-        if (persons.size >= zone.threshold) {
+        val threshold = if (overrideThreshold > 0) overrideThreshold else zone.threshold
+        if (persons.size >= threshold) {
             val eventId = "queue_${zone.id}"
             val event = activeEvents.getOrPut(eventId) {
                 TrackedEvent(
@@ -258,7 +290,8 @@ class EventTracker {
         zone: SecurityZone,
         persons: List<TrackedPersonInZone>,
         objects: List<TrackedObjectInZone>,
-        alerts: MutableList<SecurityAlert>
+        alerts: MutableList<SecurityAlert>,
+        overrideThresholdSec: Int = -1  // -1 means use zone.threshold
     ) {
         val bags = objects.filter { it.type.equals("bag", ignoreCase = true) }
 
@@ -280,7 +313,11 @@ class EventTracker {
                 }
                 event.lastSeenMs = timestamp
 
-                val thresholdMs = zone.threshold * 1_000L
+                val thresholdMs = if (overrideThresholdSec > 0) {
+                    overrideThresholdSec * 1_000L
+                } else {
+                    zone.threshold * 1_000L
+                }
                 val elapsed = timestamp - event.firstSeenMs
 
                 if (elapsed >= thresholdMs && !isOnCooldown(eventId, timestamp, zone.cooldownMs)) {

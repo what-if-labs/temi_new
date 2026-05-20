@@ -3245,6 +3245,8 @@ id bounceBoth
 id bounceEnd
 id bounceStart
 id btnCancel
+id btnCaptureVertex
+id btnResetZones
 id btnSave
 id btnStartPatrol
 id btnStopPatrol
@@ -3570,6 +3572,8 @@ id south
 id spacer
 id special_effects_controller_view_tag
 id spinnerPatrolRoute
+id spinnerVertex
+id spinnerZoneName
 id spline
 id split_action_bar
 id spread
@@ -3641,6 +3645,7 @@ id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
 id triangle
+id tvCalibrationStatus
 id tvHint
 id unchecked
 id uniform

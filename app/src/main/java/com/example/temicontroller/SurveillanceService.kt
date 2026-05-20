@@ -31,6 +31,7 @@ import com.example.temicontroller.detection.DetectedPerson
 import com.example.temicontroller.detection.PersonDetector
 import com.example.temicontroller.models.SecurityAlert
 import com.example.temicontroller.models.ZoneDefaults
+import com.example.temicontroller.tracking.DetectionConfig
 import com.example.temicontroller.tracking.EventTracker
 import com.example.temicontroller.tracking.TrackedPersonInZone
 import com.google.mlkit.vision.common.InputImage
@@ -62,7 +63,8 @@ class SurveillanceService : Service() {
     // Person detection & event tracking
     private lateinit var personDetector: PersonDetector
     private val eventTracker = EventTracker()
-    private val zones = ZoneDefaults.defaultZones()
+    private lateinit var zones: List<com.example.temicontroller.models.SecurityZone>
+    private var detectionConfig = DetectionConfig.default()
     private var alertHandler: Handler? = null
     
     // MQTT
@@ -80,11 +82,17 @@ class SurveillanceService : Service() {
     companion object {
         const val CHANNEL_ID = "TemiSurveillanceChannel"
         const val NOTIFICATION_ID = 2
-        const val BROKER_URL = "tcp://192.168.7.31:1883"
         const val TOPIC_ANALYTICS = "temi/surveillance/analytics"
         const val TOPIC_SNAPSHOT = "temi/surveillance/snapshot"
         const val TOPIC_MOTION = "temi/surveillance/motion"
         const val TAG = "Surveillance"
+        
+        // SharedPreferences keys (mirror MainActivity keys for consistency)
+        const val KEY_DETECT_LOITERING = "detect_loitering"
+        const val KEY_DETECT_SMOKING = "detect_smoking"
+        const val KEY_DETECT_FALLEN = "detect_fallen"
+        const val KEY_LOITERING_THRESHOLD = "loitering_threshold"
+        const val KEY_QUEUE_MAX_PEOPLE = "queue_max_people"
     }
     
     inner class LocalBinder : Binder() {
@@ -98,6 +106,8 @@ class SurveillanceService : Service() {
         startForeground(NOTIFICATION_ID, createNotification())
         setupFaceDetector()
         personDetector = PersonDetector(this)
+        zones = loadZonesFromPrefs()  // Load custom zones from prefs (Issue #4 fix)
+        Log.d(TAG, "Loaded ${zones.size} security zones from prefs")
         connectMqtt()
     }
     
@@ -317,12 +327,16 @@ class SurveillanceService : Service() {
                     )
                 }
                 
+                // Load detection config from prefs (Issue #3 fix)
+                detectionConfig = loadDetectionConfig()
+                
                 // Run event tracker
                 val newAlerts = eventTracker.updateFrame(
                     timestamp = currentTime,
                     persons = trackedPersons,
                     objects = emptyList(),  // Objects from separate detector later
-                    zones = zones
+                    zones = zones,
+                    config = detectionConfig
                 )
                 
                 // Publish alerts via MQTT
@@ -523,11 +537,76 @@ class SurveillanceService : Service() {
         }
     }
     
+    /**
+     * Load detection configuration from SharedPreferences.
+     * Called every frame so settings changes take effect immediately.
+     */
+    private fun loadDetectionConfig(): DetectionConfig {
+        val prefs = getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE)
+        return DetectionConfig(
+            loiteringEnabled = prefs.getBoolean(KEY_DETECT_LOITERING, true),
+            smokingEnabled = prefs.getBoolean(KEY_DETECT_SMOKING, true),
+            fallenPersonEnabled = prefs.getBoolean(KEY_DETECT_FALLEN, true),
+            unattendedBagEnabled = prefs.getBoolean(MainActivity.KEY_DETECT_UNATTENDED_BAG, true),
+            loiteringThresholdSec = prefs.getInt(KEY_LOITERING_THRESHOLD, 180),
+            queueMaxPeople = prefs.getInt(KEY_QUEUE_MAX_PEOPLE, 5),
+            unattendedBagThresholdSec = prefs.getInt("unattended_bag_threshold", 120)
+        )
+    }
+    
+    /**
+     * Load security zones from SharedPreferences.
+     * Falls back to ZoneDefaults if no custom zones saved.
+     */
+    private fun loadZonesFromPrefs(): List<com.example.temicontroller.models.SecurityZone> {
+        val prefs = getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE)
+        val zonesJson = prefs.getString(MainActivity.KEY_ZONES_JSON, null)
+        return if (zonesJson != null) {
+            try {
+                val json = org.json.JSONArray(zonesJson)
+                val zones = mutableListOf<com.example.temicontroller.models.SecurityZone>()
+                for (i in 0 until json.length()) {
+                    val z = json.getJSONObject(i)
+                    val polygon = mutableListOf<com.example.temicontroller.models.SecurityPoint>()
+                    val pointsArray = z.getJSONArray("polygon")
+                    for (j in 0 until pointsArray.length()) {
+                        val pt = pointsArray.getJSONObject(j)
+                        polygon.add(com.example.temicontroller.models.SecurityPoint(
+                            pt.getDouble("x").toFloat(),
+                            pt.getDouble("y").toFloat()
+                        ))
+                    }
+                    zones.add(com.example.temicontroller.models.SecurityZone(
+                        id = z.getString("id"),
+                        name = z.getString("name"),
+                        polygon = polygon,
+                        alertType = com.example.temicontroller.models.AlertType.valueOf(z.getString("alertType")),
+                        threshold = z.getInt("threshold"),
+                        cooldownMs = z.getLong("cooldownMs")
+                    ))
+                }
+                zones
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to parse zones from prefs, using defaults", e)
+                ZoneDefaults.defaultZones()
+            }
+        } else {
+            ZoneDefaults.defaultZones()
+        }
+    }
+    
     private fun connectMqtt() {
+        // Read broker config from same SharedPreferences as MqttService (Issue #2 fix)
+        val prefs = getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE)
+        val brokerIp = prefs.getString(MainActivity.KEY_BROKER_IP, "192.168.4.34") ?: "192.168.4.34"
+        val brokerPort = prefs.getInt(MainActivity.KEY_BROKER_PORT, 1883)
+        val brokerUrl = "tcp://$brokerIp:$brokerPort"
+        Log.d(TAG, "Connecting to MQTT broker: $brokerUrl")
+        
         Thread {
             try {
                 mqttClient = MqttClient(
-                    BROKER_URL,
+                    brokerUrl,
                     "temi-surveillance-${System.currentTimeMillis()}",
                     MemoryPersistence()
                 )

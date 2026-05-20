@@ -25,6 +25,8 @@ drawable ic_temi_logo
 drawable ic_tilt_down
 drawable ic_tilt_up
 id btnCancel
+id btnCaptureVertex
+id btnResetZones
 id btnSave
 id btnStartPatrol
 id btnStopPatrol
@@ -34,10 +36,13 @@ id etLoiteringThreshold
 id etQueueMaxPeople
 id faceView
 id spinnerPatrolRoute
+id spinnerVertex
+id spinnerZoneName
 id switchFallenPerson
 id switchLoitering
 id switchSmoking
 id switchUnauthorizedAccess
+id tvCalibrationStatus
 id tvHint
 layout activity_main
 layout dialog_settings

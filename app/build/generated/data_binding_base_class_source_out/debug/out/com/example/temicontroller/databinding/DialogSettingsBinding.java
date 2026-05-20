@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
@@ -24,6 +25,12 @@ public final class DialogSettingsBinding implements ViewBinding {
 
   @NonNull
   public final Button btnCancel;
+
+  @NonNull
+  public final Button btnCaptureVertex;
+
+  @NonNull
+  public final Button btnResetZones;
 
   @NonNull
   public final Button btnSave;
@@ -50,6 +57,12 @@ public final class DialogSettingsBinding implements ViewBinding {
   public final Spinner spinnerPatrolRoute;
 
   @NonNull
+  public final Spinner spinnerVertex;
+
+  @NonNull
+  public final Spinner spinnerZoneName;
+
+  @NonNull
   public final Switch switchFallenPerson;
 
   @NonNull
@@ -61,15 +74,22 @@ public final class DialogSettingsBinding implements ViewBinding {
   @NonNull
   public final Switch switchUnauthorizedAccess;
 
+  @NonNull
+  public final TextView tvCalibrationStatus;
+
   private DialogSettingsBinding(@NonNull ScrollView rootView, @NonNull Button btnCancel,
-      @NonNull Button btnSave, @NonNull Button btnStartPatrol, @NonNull Button btnStopPatrol,
-      @NonNull EditText etBrokerIp, @NonNull EditText etBrokerPort,
-      @NonNull EditText etLoiteringThreshold, @NonNull EditText etQueueMaxPeople,
-      @NonNull Spinner spinnerPatrolRoute, @NonNull Switch switchFallenPerson,
-      @NonNull Switch switchLoitering, @NonNull Switch switchSmoking,
-      @NonNull Switch switchUnauthorizedAccess) {
+      @NonNull Button btnCaptureVertex, @NonNull Button btnResetZones, @NonNull Button btnSave,
+      @NonNull Button btnStartPatrol, @NonNull Button btnStopPatrol, @NonNull EditText etBrokerIp,
+      @NonNull EditText etBrokerPort, @NonNull EditText etLoiteringThreshold,
+      @NonNull EditText etQueueMaxPeople, @NonNull Spinner spinnerPatrolRoute,
+      @NonNull Spinner spinnerVertex, @NonNull Spinner spinnerZoneName,
+      @NonNull Switch switchFallenPerson, @NonNull Switch switchLoitering,
+      @NonNull Switch switchSmoking, @NonNull Switch switchUnauthorizedAccess,
+      @NonNull TextView tvCalibrationStatus) {
     this.rootView = rootView;
     this.btnCancel = btnCancel;
+    this.btnCaptureVertex = btnCaptureVertex;
+    this.btnResetZones = btnResetZones;
     this.btnSave = btnSave;
     this.btnStartPatrol = btnStartPatrol;
     this.btnStopPatrol = btnStopPatrol;
@@ -78,10 +98,13 @@ public final class DialogSettingsBinding implements ViewBinding {
     this.etLoiteringThreshold = etLoiteringThreshold;
     this.etQueueMaxPeople = etQueueMaxPeople;
     this.spinnerPatrolRoute = spinnerPatrolRoute;
+    this.spinnerVertex = spinnerVertex;
+    this.spinnerZoneName = spinnerZoneName;
     this.switchFallenPerson = switchFallenPerson;
     this.switchLoitering = switchLoitering;
     this.switchSmoking = switchSmoking;
     this.switchUnauthorizedAccess = switchUnauthorizedAccess;
+    this.tvCalibrationStatus = tvCalibrationStatus;
   }
 
   @Override
@@ -114,6 +137,18 @@ public final class DialogSettingsBinding implements ViewBinding {
       id = R.id.btnCancel;
       Button btnCancel = ViewBindings.findChildViewById(rootView, id);
       if (btnCancel == null) {
+        break missingId;
+      }
+
+      id = R.id.btnCaptureVertex;
+      Button btnCaptureVertex = ViewBindings.findChildViewById(rootView, id);
+      if (btnCaptureVertex == null) {
+        break missingId;
+      }
+
+      id = R.id.btnResetZones;
+      Button btnResetZones = ViewBindings.findChildViewById(rootView, id);
+      if (btnResetZones == null) {
         break missingId;
       }
 
@@ -165,6 +200,18 @@ public final class DialogSettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.spinnerVertex;
+      Spinner spinnerVertex = ViewBindings.findChildViewById(rootView, id);
+      if (spinnerVertex == null) {
+        break missingId;
+      }
+
+      id = R.id.spinnerZoneName;
+      Spinner spinnerZoneName = ViewBindings.findChildViewById(rootView, id);
+      if (spinnerZoneName == null) {
+        break missingId;
+      }
+
       id = R.id.switchFallenPerson;
       Switch switchFallenPerson = ViewBindings.findChildViewById(rootView, id);
       if (switchFallenPerson == null) {
@@ -189,10 +236,17 @@ public final class DialogSettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      return new DialogSettingsBinding((ScrollView) rootView, btnCancel, btnSave, btnStartPatrol,
-          btnStopPatrol, etBrokerIp, etBrokerPort, etLoiteringThreshold, etQueueMaxPeople,
-          spinnerPatrolRoute, switchFallenPerson, switchLoitering, switchSmoking,
-          switchUnauthorizedAccess);
+      id = R.id.tvCalibrationStatus;
+      TextView tvCalibrationStatus = ViewBindings.findChildViewById(rootView, id);
+      if (tvCalibrationStatus == null) {
+        break missingId;
+      }
+
+      return new DialogSettingsBinding((ScrollView) rootView, btnCancel, btnCaptureVertex,
+          btnResetZones, btnSave, btnStartPatrol, btnStopPatrol, etBrokerIp, etBrokerPort,
+          etLoiteringThreshold, etQueueMaxPeople, spinnerPatrolRoute, spinnerVertex,
+          spinnerZoneName, switchFallenPerson, switchLoitering, switchSmoking,
+          switchUnauthorizedAccess, tvCalibrationStatus);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

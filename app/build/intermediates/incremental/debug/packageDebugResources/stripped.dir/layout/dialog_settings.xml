@@ -243,6 +243,108 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp" />
 
+        <!-- Zone Calibration Section (Issue #4 fix) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zone Calibration"
+            android:textColor="#FF9800"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Drive robot to position, select zone &amp; vertex, then tap Capture"
+            android:textColor="#8080A0"
+            android:textSize="12sp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Zone Name Selection -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zone"
+            android:textColor="#8080A0"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/spinnerZoneName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#252540"
+            android:padding="12dp"
+            android:spinnerMode="dropdown"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Vertex Selection -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vertex"
+            android:textColor="#8080A0"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/spinnerVertex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#252540"
+            android:padding="12dp"
+            android:spinnerMode="dropdown"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Capture & Reset Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="12dp">
+
+            <Button
+                android:id="@+id/btnCaptureVertex"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Capture Position"
+                android:textColor="#FF9800"
+                android:background="#252540" />
+
+            <Button
+                android:id="@+id/btnResetZones"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Reset Defaults"
+                android:textColor="#8080A0"
+                android:background="#252540" />
+        </LinearLayout>
+
+        <!-- Calibration Status -->
+        <TextView
+            android:id="@+id/tvCalibrationStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No zones loaded"
+            android:textColor="#606080"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#303050"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp" />
+
         <!-- Patrol Action Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
