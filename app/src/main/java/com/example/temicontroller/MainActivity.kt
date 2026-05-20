@@ -275,6 +275,21 @@ class MainActivity : AppCompatActivity() {
                     robot?.tiltAngle(-25, 1f)
                     resetFaceAfterDelay()
                 }
+                "start_patrol" -> {
+                    val route = params["route"] ?: "default"
+                    binding.faceView.setState(FaceView.FaceState.PATROL_ACTIVE)
+                    speak("Starting patrol on route $route")
+                    Log.d(TAG, "Patrol started with route: $route")
+                    // Publish patrol start confirmation
+                    mqttService?.publishCommand("patrol_started", mapOf("route" to route))
+                }
+                "stop_patrol" -> {
+                    binding.faceView.setState(FaceView.FaceState.IDLE)
+                    robot?.skidJoy(0f, 0f)
+                    speak("Patrol stopped")
+                    Log.d(TAG, "Patrol stopped")
+                    mqttService?.publishCommand("patrol_stopped")
+                }
             }
         }
     }
@@ -293,11 +308,38 @@ class MainActivity : AppCompatActivity() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_settings, null)
         val etBrokerIp = dialogView.findViewById<EditText>(R.id.etBrokerIp)
         val etBrokerPort = dialogView.findViewById<EditText>(R.id.etBrokerPort)
+        val spinnerPatrolRoute = dialogView.findViewById<Spinner>(R.id.spinnerPatrolRoute)
+        val etLoiteringThreshold = dialogView.findViewById<EditText>(R.id.etLoiteringThreshold)
+        val etQueueMaxPeople = dialogView.findViewById<EditText>(R.id.etQueueMaxPeople)
+        val switchLoitering = dialogView.findViewById<Switch>(R.id.switchLoitering)
+        val switchSmoking = dialogView.findViewById<Switch>(R.id.switchSmoking)
+        val switchFallenPerson = dialogView.findViewById<Switch>(R.id.switchFallenPerson)
+        val switchUnauthorizedAccess = dialogView.findViewById<Switch>(R.id.switchUnauthorizedAccess)
+        val btnStartPatrol = dialogView.findViewById<Button>(R.id.btnStartPatrol)
+        val btnStopPatrol = dialogView.findViewById<Button>(R.id.btnStopPatrol)
         
         // Load saved settings
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         etBrokerIp.setText(prefs.getString(KEY_BROKER_IP, "192.168.4.34"))
         etBrokerPort.setText(prefs.getInt(KEY_BROKER_PORT, 1883).toString())
+        
+        // Setup patrol route spinner
+        val routes = resources.getStringArray(R.array.patrol_routes)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, routes)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerPatrolRoute.adapter = adapter
+        val savedRouteIndex = prefs.getInt(KEY_PATROL_ROUTE, 0)
+        spinnerPatrolRoute.setSelection(savedRouteIndex.coerceIn(0, routes.size - 1))
+        
+        // Load thresholds
+        etLoiteringThreshold.setText(prefs.getInt(KEY_LOITERING_THRESHOLD, 180).toString())
+        etQueueMaxPeople.setText(prefs.getInt(KEY_QUEUE_MAX_PEOPLE, 5).toString())
+        
+        // Load detection toggles
+        switchLoitering.isChecked = prefs.getBoolean(KEY_DETECT_LOITERING, true)
+        switchSmoking.isChecked = prefs.getBoolean(KEY_DETECT_SMOKING, true)
+        switchFallenPerson.isChecked = prefs.getBoolean(KEY_DETECT_FALLEN, true)
+        switchUnauthorizedAccess.isChecked = prefs.getBoolean(KEY_DETECT_UNAUTHORIZED, true)
         
         val dialog = AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_NoActionBar)
             .setView(dialogView)
@@ -310,18 +352,65 @@ class MainActivity : AppCompatActivity() {
         dialogView.findViewById<Button>(R.id.btnSave).setOnClickListener {
             val ip = etBrokerIp.text.toString().trim()
             val port = etBrokerPort.text.toString().toIntOrNull() ?: 1883
+            val loiteringThreshold = etLoiteringThreshold.text.toString().toIntOrNull() ?: 180
+            val queueMaxPeople = etQueueMaxPeople.text.toString().toIntOrNull() ?: 5
             
             if (ip.isNotEmpty()) {
                 prefs.edit()
                     .putString(KEY_BROKER_IP, ip)
                     .putInt(KEY_BROKER_PORT, port)
+                    .putInt(KEY_PATROL_ROUTE, spinnerPatrolRoute.selectedItemPosition)
+                    .putInt(KEY_LOITERING_THRESHOLD, loiteringThreshold)
+                    .putInt(KEY_QUEUE_MAX_PEOPLE, queueMaxPeople)
+                    .putBoolean(KEY_DETECT_LOITERING, switchLoitering.isChecked)
+                    .putBoolean(KEY_DETECT_SMOKING, switchSmoking.isChecked)
+                    .putBoolean(KEY_DETECT_FALLEN, switchFallenPerson.isChecked)
+                    .putBoolean(KEY_DETECT_UNAUTHORIZED, switchUnauthorizedAccess.isChecked)
                     .apply()
                 
-                Toast.makeText(this, "Settings saved! Restart app to apply.", Toast.LENGTH_LONG).show()
+                // Publish detection settings via MQTT
+                mqttService?.publishCommand("detection_settings", mapOf(
+                    "loitering_enabled" to switchLoitering.isChecked,
+                    "smoking_enabled" to switchSmoking.isChecked,
+                    "fallen_person_enabled" to switchFallenPerson.isChecked,
+                    "unauthorized_access_enabled" to switchUnauthorizedAccess.isChecked,
+                    "loitering_threshold_seconds" to loiteringThreshold,
+                    "queue_max_people" to queueMaxPeople
+                ))
+                
+                Toast.makeText(this, "Settings saved!", Toast.LENGTH_LONG).show()
                 dialog.dismiss()
             } else {
                 etBrokerIp.error = "IP required"
             }
+        }
+        
+        // Start Patrol button
+        btnStartPatrol.setOnClickListener {
+            val selectedRoute = spinnerPatrolRoute.selectedItem.toString()
+            val loiteringThreshold = etLoiteringThreshold.text.toString().toIntOrNull() ?: 180
+            val queueMaxPeople = etQueueMaxPeople.text.toString().toIntOrNull() ?: 5
+            
+            mqttService?.publishCommand("start_patrol", mapOf(
+                "route" to selectedRoute,
+                "loitering_threshold" to loiteringThreshold,
+                "queue_max_people" to queueMaxPeople
+            ))
+            
+            binding.faceView.setState(FaceView.FaceState.PATROL_ACTIVE)
+            speak("Starting patrol: $selectedRoute")
+            Toast.makeText(this, "Patrol started", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        
+        // Stop Patrol button
+        btnStopPatrol.setOnClickListener {
+            mqttService?.publishCommand("stop_patrol")
+            binding.faceView.setState(FaceView.FaceState.IDLE)
+            robot?.skidJoy(0f, 0f)
+            speak("Patrol stopped")
+            Toast.makeText(this, "Patrol stopped", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
         }
         
         dialog.show()
