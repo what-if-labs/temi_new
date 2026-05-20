@@ -5,3 +5,4 @@ app/build/
 *.log
 .gradle/
 local.properties
+app/build/
