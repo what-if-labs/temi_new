@@ -219,6 +219,23 @@ class MqttService : Service() {
         }
     }
     
+    fun publishCommand(command: String, params: Map<String, Any> = emptyMap()) {
+        try {
+            val json = JSONObject()
+            json.put("command", command)
+            if (params.isNotEmpty()) {
+                val paramsJson = JSONObject()
+                params.forEach { (key, value) -> paramsJson.put(key, value) }
+                json.put("params", paramsJson)
+            }
+            val message = MqttMessage(json.toString().toByteArray())
+            mqttClient?.publish(COMMAND_TOPIC, message)
+            Log.d("MQTT", "Published command: $command with params: $params")
+        } catch (e: Exception) {
+            Log.e("MQTT", "Failed to publish command", e)
+        }
+    }
+    
     private fun updateNotification() {
         val notification = createNotification()
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

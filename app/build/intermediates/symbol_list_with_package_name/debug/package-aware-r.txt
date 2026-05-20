@@ -83,6 +83,7 @@ animator mtrl_fab_hide_motion_spec
 animator mtrl_fab_show_motion_spec
 animator mtrl_fab_transformation_sheet_collapse_spec
 animator mtrl_fab_transformation_sheet_expand_spec
+array patrol_routes
 attr SharedValue
 attr SharedValueId
 attr actionBarDivider
@@ -3245,6 +3246,8 @@ id bounceEnd
 id bounceStart
 id btnCancel
 id btnSave
+id btnStartPatrol
+id btnStopPatrol
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -3330,6 +3333,8 @@ id enterAlways
 id enterAlwaysCollapsed
 id etBrokerIp
 id etBrokerPort
+id etLoiteringThreshold
+id etQueueMaxPeople
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
@@ -3564,6 +3569,7 @@ id snapMargins
 id south
 id spacer
 id special_effects_controller_view_tag
+id spinnerPatrolRoute
 id spline
 id split_action_bar
 id spread
@@ -3585,6 +3591,10 @@ id stretch
 id submenuarrow
 id submit_area
 id supportScrollUp
+id switchFallenPerson
+id switchLoitering
+id switchSmoking
+id switchUnauthorizedAccess
 id tabMode
 id tag_accessibility_actions
 id tag_accessibility_clickable_spans

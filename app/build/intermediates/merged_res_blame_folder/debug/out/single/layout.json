@@ -1,10 +1,14 @@
 [
     {
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-mergeDebugResources-39:/layout/dialog_settings.xml",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/layout/dialog_settings.xml"
+    },
+    {
         "merged": "com.example.temicontroller.app-mergeDebugResources-39:/layout/dialog_settings.xml",
         "source": "com.example.temicontroller.app-main-42:/layout/dialog_settings.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-mergeDebugResources-39:/layout/activity_main.xml",
-        "source": "com.example.temicontroller.app-main-42:/layout/activity_main.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-mergeDebugResources-39:/layout/activity_main.xml",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/layout/activity_main.xml"
     }
 ]

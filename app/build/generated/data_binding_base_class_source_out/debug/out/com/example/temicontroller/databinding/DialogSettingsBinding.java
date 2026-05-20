@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Spinner;
+import android.widget.Switch;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
@@ -18,7 +20,7 @@ import java.lang.String;
 
 public final class DialogSettingsBinding implements ViewBinding {
   @NonNull
-  private final LinearLayout rootView;
+  private final ScrollView rootView;
 
   @NonNull
   public final Button btnCancel;
@@ -27,23 +29,64 @@ public final class DialogSettingsBinding implements ViewBinding {
   public final Button btnSave;
 
   @NonNull
+  public final Button btnStartPatrol;
+
+  @NonNull
+  public final Button btnStopPatrol;
+
+  @NonNull
   public final EditText etBrokerIp;
 
   @NonNull
   public final EditText etBrokerPort;
 
-  private DialogSettingsBinding(@NonNull LinearLayout rootView, @NonNull Button btnCancel,
-      @NonNull Button btnSave, @NonNull EditText etBrokerIp, @NonNull EditText etBrokerPort) {
+  @NonNull
+  public final EditText etLoiteringThreshold;
+
+  @NonNull
+  public final EditText etQueueMaxPeople;
+
+  @NonNull
+  public final Spinner spinnerPatrolRoute;
+
+  @NonNull
+  public final Switch switchFallenPerson;
+
+  @NonNull
+  public final Switch switchLoitering;
+
+  @NonNull
+  public final Switch switchSmoking;
+
+  @NonNull
+  public final Switch switchUnauthorizedAccess;
+
+  private DialogSettingsBinding(@NonNull ScrollView rootView, @NonNull Button btnCancel,
+      @NonNull Button btnSave, @NonNull Button btnStartPatrol, @NonNull Button btnStopPatrol,
+      @NonNull EditText etBrokerIp, @NonNull EditText etBrokerPort,
+      @NonNull EditText etLoiteringThreshold, @NonNull EditText etQueueMaxPeople,
+      @NonNull Spinner spinnerPatrolRoute, @NonNull Switch switchFallenPerson,
+      @NonNull Switch switchLoitering, @NonNull Switch switchSmoking,
+      @NonNull Switch switchUnauthorizedAccess) {
     this.rootView = rootView;
     this.btnCancel = btnCancel;
     this.btnSave = btnSave;
+    this.btnStartPatrol = btnStartPatrol;
+    this.btnStopPatrol = btnStopPatrol;
     this.etBrokerIp = etBrokerIp;
     this.etBrokerPort = etBrokerPort;
+    this.etLoiteringThreshold = etLoiteringThreshold;
+    this.etQueueMaxPeople = etQueueMaxPeople;
+    this.spinnerPatrolRoute = spinnerPatrolRoute;
+    this.switchFallenPerson = switchFallenPerson;
+    this.switchLoitering = switchLoitering;
+    this.switchSmoking = switchSmoking;
+    this.switchUnauthorizedAccess = switchUnauthorizedAccess;
   }
 
   @Override
   @NonNull
-  public LinearLayout getRoot() {
+  public ScrollView getRoot() {
     return rootView;
   }
 
@@ -80,6 +123,18 @@ public final class DialogSettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btnStartPatrol;
+      Button btnStartPatrol = ViewBindings.findChildViewById(rootView, id);
+      if (btnStartPatrol == null) {
+        break missingId;
+      }
+
+      id = R.id.btnStopPatrol;
+      Button btnStopPatrol = ViewBindings.findChildViewById(rootView, id);
+      if (btnStopPatrol == null) {
+        break missingId;
+      }
+
       id = R.id.etBrokerIp;
       EditText etBrokerIp = ViewBindings.findChildViewById(rootView, id);
       if (etBrokerIp == null) {
@@ -92,8 +147,52 @@ public final class DialogSettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      return new DialogSettingsBinding((LinearLayout) rootView, btnCancel, btnSave, etBrokerIp,
-          etBrokerPort);
+      id = R.id.etLoiteringThreshold;
+      EditText etLoiteringThreshold = ViewBindings.findChildViewById(rootView, id);
+      if (etLoiteringThreshold == null) {
+        break missingId;
+      }
+
+      id = R.id.etQueueMaxPeople;
+      EditText etQueueMaxPeople = ViewBindings.findChildViewById(rootView, id);
+      if (etQueueMaxPeople == null) {
+        break missingId;
+      }
+
+      id = R.id.spinnerPatrolRoute;
+      Spinner spinnerPatrolRoute = ViewBindings.findChildViewById(rootView, id);
+      if (spinnerPatrolRoute == null) {
+        break missingId;
+      }
+
+      id = R.id.switchFallenPerson;
+      Switch switchFallenPerson = ViewBindings.findChildViewById(rootView, id);
+      if (switchFallenPerson == null) {
+        break missingId;
+      }
+
+      id = R.id.switchLoitering;
+      Switch switchLoitering = ViewBindings.findChildViewById(rootView, id);
+      if (switchLoitering == null) {
+        break missingId;
+      }
+
+      id = R.id.switchSmoking;
+      Switch switchSmoking = ViewBindings.findChildViewById(rootView, id);
+      if (switchSmoking == null) {
+        break missingId;
+      }
+
+      id = R.id.switchUnauthorizedAccess;
+      Switch switchUnauthorizedAccess = ViewBindings.findChildViewById(rootView, id);
+      if (switchUnauthorizedAccess == null) {
+        break missingId;
+      }
+
+      return new DialogSettingsBinding((ScrollView) rootView, btnCancel, btnSave, btnStartPatrol,
+          btnStopPatrol, etBrokerIp, etBrokerPort, etLoiteringThreshold, etQueueMaxPeople,
+          spinnerPatrolRoute, switchFallenPerson, switchLoitering, switchSmoking,
+          switchUnauthorizedAccess);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

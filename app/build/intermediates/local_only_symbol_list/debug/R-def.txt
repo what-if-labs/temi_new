@@ -1,5 +1,6 @@
 R_DEF: Internal format may change without notice
 local
+array patrol_routes
 color accent
 color accent_red
 color button_normal
@@ -25,9 +26,18 @@ drawable ic_tilt_down
 drawable ic_tilt_up
 id btnCancel
 id btnSave
+id btnStartPatrol
+id btnStopPatrol
 id etBrokerIp
 id etBrokerPort
+id etLoiteringThreshold
+id etQueueMaxPeople
 id faceView
+id spinnerPatrolRoute
+id switchFallenPerson
+id switchLoitering
+id switchSmoking
+id switchUnauthorizedAccess
 id tvHint
 layout activity_main
 layout dialog_settings

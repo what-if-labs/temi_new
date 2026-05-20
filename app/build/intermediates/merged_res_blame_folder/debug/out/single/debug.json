@@ -1,70 +1,74 @@
 [
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_ic_stop.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/ic_stop.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_ic_stop.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/ic_stop.xml"
+    },
+    {
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_ic_arrow_up.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/ic_arrow_up.xml"
+    },
+    {
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_ic_tilt_up.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/ic_tilt_up.xml"
     },
     {
         "merged": "com.example.temicontroller.app-merged_res-40:/layout_dialog_settings.xml.flat",
         "source": "com.example.temicontroller.app-main-42:/layout/dialog_settings.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_ic_tilt_down.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/ic_tilt_down.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/layout_activity_main.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/layout/activity_main.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/ic_launcher_background.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_ic_arrow_left.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/ic_arrow_left.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_ic_arrow_down.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/ic_arrow_down.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_ic_tilt_down.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/ic_tilt_down.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_ic_mic.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/ic_mic.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_circle_background.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/circle_background.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_button_circular_green.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/button_circular_green.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_ic_arrow_down.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/ic_arrow_down.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_ic_temi_logo.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/ic_temi_logo.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_ic_mic.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/ic_mic.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_ic_arrow_left.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/ic_arrow_left.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_ic_launcher_background.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/ic_launcher_background.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_ic_arrow_up.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/ic_arrow_up.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_button_circular_green.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/button_circular_green.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_circle_background.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/circle_background.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_ic_arrow_right.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/ic_arrow_right.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_button_circular.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/button_circular.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_button_circular.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/button_circular.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_ic_arrow_right.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/ic_arrow_right.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/layout_dialog_settings.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/layout/dialog_settings.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/ic_launcher_foreground.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_ic_temi_logo.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/ic_temi_logo.xml"
     },
     {
-        "merged": "com.example.temicontroller.app-merged_res-40:/layout_activity_main.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/layout/activity_main.xml"
-    },
-    {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_ic_tilt_up.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/ic_tilt_up.xml"
-    },
-    {
-        "merged": "com.example.temicontroller.app-merged_res-40:/drawable_button_stop.xml.flat",
-        "source": "com.example.temicontroller.app-main-42:/drawable/button_stop.xml"
+        "merged": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-merged_res-40:/drawable_button_stop.xml.flat",
+        "source": "/home/warren/.gradle/daemon/8.4/com.example.temicontroller.app-main-42:/drawable/button_stop.xml"
     }
 ]

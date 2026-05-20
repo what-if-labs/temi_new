@@ -13,6 +13,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
+import android.widget.Switch
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -48,6 +51,13 @@ class MainActivity : AppCompatActivity() {
         const val PREFS_NAME = "TemiSettings"
         const val KEY_BROKER_IP = "broker_ip"
         const val KEY_BROKER_PORT = "broker_port"
+        const val KEY_PATROL_ROUTE = "patrol_route"
+        const val KEY_LOITERING_THRESHOLD = "loitering_threshold"
+        const val KEY_QUEUE_MAX_PEOPLE = "queue_max_people"
+        const val KEY_DETECT_LOITERING = "detect_loitering"
+        const val KEY_DETECT_SMOKING = "detect_smoking"
+        const val KEY_DETECT_FALLEN = "detect_fallen"
+        const val KEY_DETECT_UNAUTHORIZED = "detect_unauthorized"
     }
     
     private val serviceConnection = object : ServiceConnection {
