@@ -33,10 +33,10 @@ com.example.temicontroller.app-material-1.11.0-31 /home/warren/.gradle/caches/tr
 com.example.temicontroller.app-jetified-activity-1.8.0-32 /home/warren/.gradle/caches/transforms-3/f21c6da537cf3dba27e3deb22f82522a/transformed/jetified-activity-1.8.0/res
 com.example.temicontroller.app-lifecycle-livedata-core-2.6.1-33 /home/warren/.gradle/caches/transforms-3/ff00e57c11b2f724ba5e2c2a496883bd/transformed/lifecycle-livedata-core-2.6.1/res
 com.example.temicontroller.app-jetified-play-services-basement-18.0.0-34 /home/warren/.gradle/caches/transforms-3/ff64dfd876e80928f2c220ca800457df/transformed/jetified-play-services-basement-18.0.0/res
-com.example.temicontroller.app-pngs-35 /home/warren/.openclaw/workspace/minimal-project/app/build/generated/res/pngs/debug
-com.example.temicontroller.app-resValues-36 /home/warren/.openclaw/workspace/minimal-project/app/build/generated/res/resValues/debug
-com.example.temicontroller.app-packageDebugResources-37 /home/warren/.openclaw/workspace/minimal-project/app/build/intermediates/incremental/debug/packageDebugResources/merged.dir
-com.example.temicontroller.app-packageDebugResources-38 /home/warren/.openclaw/workspace/minimal-project/app/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
-com.example.temicontroller.app-merged_res-39 /home/warren/.openclaw/workspace/minimal-project/app/build/intermediates/merged_res/debug
-com.example.temicontroller.app-debug-40 /home/warren/.openclaw/workspace/minimal-project/app/src/debug/res
-com.example.temicontroller.app-main-41 /home/warren/.openclaw/workspace/minimal-project/app/src/main/res
+com.example.temicontroller.app-pngs-35 /home/warren/temi_new/app/build/generated/res/pngs/debug
+com.example.temicontroller.app-resValues-36 /home/warren/temi_new/app/build/generated/res/resValues/debug
+com.example.temicontroller.app-packageDebugResources-37 /home/warren/temi_new/app/build/intermediates/incremental/debug/packageDebugResources/merged.dir
+com.example.temicontroller.app-packageDebugResources-38 /home/warren/temi_new/app/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
+com.example.temicontroller.app-merged_res-39 /home/warren/temi_new/app/build/intermediates/merged_res/debug
+com.example.temicontroller.app-debug-40 /home/warren/temi_new/app/src/debug/res
+com.example.temicontroller.app-main-41 /home/warren/temi_new/app/src/main/res

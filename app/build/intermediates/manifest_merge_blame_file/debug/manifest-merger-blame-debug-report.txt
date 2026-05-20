@@ -9,43 +9,43 @@
 9        android:targetSdkVersion="34" />
 10
 11    <uses-permission android:name="android.permission.INTERNET" />
-11-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:4:5-67
-11-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:4:22-64
+11-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:4:5-67
+11-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:4:22-64
 12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-12-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:5:5-79
-12-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:5:22-76
+12-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:5:5-79
+12-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:5:22-76
 13    <uses-permission android:name="android.permission.WAKE_LOCK" />
-13-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:6:5-68
-13-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:6:22-65
+13-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:6:5-68
+13-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:6:22-65
 14    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-14-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:7:5-77
-14-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:7:22-74
+14-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:7:5-77
+14-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:7:22-74
 15    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
-15-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:8:5-84
-15-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:8:22-81
+15-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:8:5-84
+15-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:8:22-81
 16    <uses-permission android:name="android.permission.CAMERA" />
-16-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:9:5-65
-16-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:9:22-62
+16-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:9:5-65
+16-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:9:22-62
 17    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-17-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:10:5-71
-17-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:10:22-68
+17-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:10:5-71
+17-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:10:22-68
 18
 19    <!-- Temi Permissions -->
 20    <uses-permission android:name="com.robotemi.permission.map" />
-20-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:13:5-67
-20-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:13:22-64
+20-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:13:5-67
+20-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:13:22-64
 21    <uses-permission android:name="com.robotemi.permission.face_recognition" />
-21-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:14:5-80
-21-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:14:22-77
+21-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:14:5-80
+21-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:14:22-77
 22    <uses-permission android:name="com.robotemi.permission.settings" />
-22-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:15:5-72
-22-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:15:22-69
+22-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:15:5-72
+22-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:15:22-69
 23    <uses-permission android:name="com.robotemi.permission.sequence" />
-23-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:16:5-72
-23-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:16:22-69
+23-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:16:5-72
+23-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:16:22-69
 24    <uses-permission android:name="com.robotemi.permission.meetings" />
-24-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:17:5-72
-24-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:17:22-69
+24-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:17:5-72
+24-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:17:22-69
 25    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 25-->[com.robotemi:sdk:1.137.1] /home/warren/.gradle/caches/transforms-3/c66db24d9b645721ff9cea7dad9c4ba5/transformed/jetified-sdk-1.137.1/AndroidManifest.xml:7:5-81
 25-->[com.robotemi:sdk:1.137.1] /home/warren/.gradle/caches/transforms-3/c66db24d9b645721ff9cea7dad9c4ba5/transformed/jetified-sdk-1.137.1/AndroidManifest.xml:7:22-78
@@ -74,80 +74,80 @@
 38-->[androidx.core:core:1.12.0] /home/warren/.gradle/caches/transforms-3/af1b2afc860af4741d62dbaf7c785acc/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
 39
 40    <application
-40-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:19:5-59:19
+40-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:19:5-59:19
 41        android:allowBackup="true"
-41-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:20:9-35
+41-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:20:9-35
 42        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 42-->[androidx.core:core:1.12.0] /home/warren/.gradle/caches/transforms-3/af1b2afc860af4741d62dbaf7c785acc/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
 43        android:debuggable="true"
 44        android:extractNativeLibs="false"
 45        android:icon="@drawable/ic_launcher_foreground"
-45-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:21:9-56
+45-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:21:9-56
 46        android:label="@string/app_name"
-46-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:22:9-41
+46-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:22:9-41
 47        android:roundIcon="@drawable/ic_launcher_foreground"
-47-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:23:9-61
+47-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:23:9-61
 48        android:supportsRtl="true"
-48-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:24:9-35
+48-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:24:9-35
 49        android:theme="@style/Theme.TemiController"
-49-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:25:9-52
+49-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:25:9-52
 50        android:usesCleartextTraffic="true" >
-50-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:26:9-44
+50-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:26:9-44
 51
 52        <!-- Temi Skill Metadata -->
 53        <meta-data
-53-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:29:9-31:47
+53-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:29:9-31:47
 54            android:name="com.robotemi.sdk.metadata.SKILL"
-54-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:30:13-59
+54-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:30:13-59
 55            android:value="Temi Controller" />
-55-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:31:13-44
+55-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:31:13-44
 56        <meta-data
-56-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:33:9-35:36
+56-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:33:9-35:36
 57            android:name="com.robotemi.sdk.metadata.KIOSK"
-57-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:34:13-59
+57-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:34:13-59
 58            android:value="true" />
-58-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:35:13-33
+58-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:35:13-33
 59
 60        <activity
-60-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:37:9-45:20
+60-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:37:9-45:20
 61            android:name="com.example.temicontroller.MainActivity"
-61-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:38:13-41
+61-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:38:13-41
 62            android:exported="true"
-62-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:39:13-36
+62-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:39:13-36
 63            android:screenOrientation="landscape" >
-63-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:40:13-50
+63-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:40:13-50
 64            <intent-filter>
-64-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:41:13-44:29
+64-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:41:13-44:29
 65                <action android:name="android.intent.action.MAIN" />
-65-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:42:17-69
-65-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:42:25-66
+65-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:42:17-69
+65-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:42:25-66
 66
 67                <category android:name="android.intent.category.LAUNCHER" />
-67-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:43:17-77
-67-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:43:27-74
+67-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:43:17-77
+67-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:43:27-74
 68            </intent-filter>
 69        </activity>
 70
 71        <service
-71-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:47:9-51:56
+71-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:47:9-51:56
 72            android:name="com.example.temicontroller.MqttService"
-72-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:48:13-40
+72-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:48:13-40
 73            android:enabled="true"
-73-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:49:13-35
+73-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:49:13-35
 74            android:exported="false"
-74-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:50:13-37
+74-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:50:13-37
 75            android:foregroundServiceType="dataSync" />
-75-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:51:13-53
+75-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:51:13-53
 76        <service
-76-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:53:9-57:54
+76-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:53:9-57:54
 77            android:name="com.example.temicontroller.SurveillanceService"
-77-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:54:13-48
+77-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:54:13-48
 78            android:enabled="true"
-78-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:55:13-35
+78-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:55:13-35
 79            android:exported="false"
-79-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:56:13-37
+79-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:56:13-37
 80            android:foregroundServiceType="camera" />
-80-->/home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:57:13-51
+80-->/home/warren/temi_new/app/src/main/AndroidManifest.xml:57:13-51
 81
 82        <provider
 82-->[com.robotemi:sdk:1.137.1] /home/warren/.gradle/caches/transforms-3/c66db24d9b645721ff9cea7dad9c4ba5/transformed/jetified-sdk-1.137.1/AndroidManifest.xml:15:9-19:40
