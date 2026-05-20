@@ -92,9 +92,12 @@ class SurveillanceService : Service() {
     
     private fun setupFaceDetector() {
         val options = FaceDetectorOptions.Builder()
-            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
+            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
             .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_NONE)
-            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_NONE)
+            .setContourMode(FaceDetectorOptions.CONTOUR_MODE_NONE)
+            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
+            .setMinFaceSize(0.15f)  // 15% of image width — filters tiny false positives
+            .enableTracking()       // Enables trackingId for person association
             .build()
         faceDetector = FaceDetection.getClient(options)
     }
@@ -315,29 +318,85 @@ class SurveillanceService : Service() {
         val image = InputImage.fromBitmap(bitmap, 0)
         faceDetector.process(image)
             .addOnSuccessListener { faces ->
+                // Track total faces for analytics
                 faceDetectionCount = faces.size
-                if (faces.isNotEmpty()) {
-                    val faceData = faces.map { face ->
-                        JSONObject().apply {
-                            put("x", face.boundingBox.centerX())
-                            put("y", face.boundingBox.centerY())
-                            put("width", face.boundingBox.width())
-                            put("height", face.boundingBox.height())
-                        }
-                    }
-                    
-                    val payload = JSONObject().apply {
-                        put("timestamp", System.currentTimeMillis())
-                        put("faceCount", faces.size)
-                        put("faces", faceData)
-                    }
-                    
-                    publishMqtt("$TOPIC_ANALYTICS/faces", payload.toString())
+                
+                if (faces.isEmpty()) {
+                    // Clear person tracking when no faces
+                    lastKnownPersons.clear()
+                    return@addOnSuccessListener
                 }
+                
+                // Filter and tag faces with person IDs
+                val faceData = faces.mapNotNull { face ->
+                    // Confidence proxy: use bounding box size relative to image
+                    // ML Kit accurate mode + minFaceSize already filters most false positives
+                    val faceArea = face.boundingBox.width() * face.boundingBox.height()
+                    val imageArea = bitmap.width * bitmap.height
+                    val relativeSize = faceArea.toFloat() / imageArea
+                    
+                    // Skip faces that are too small (< 3% of image) or too large (> 60%)
+                    if (relativeSize < 0.03f || relativeSize > 0.6f) {
+                        Log.d(TAG, "Skipping face: relativeSize=$relativeSize (likely false positive)")
+                        return@mapNotNull null
+                    }
+                    
+                    // Get or assign person ID from tracking
+                    val trackingId = face.trackingId
+                    val personTag = if (trackingId != null) {
+                        getOrAssignPersonId(trackingId)
+                    } else {
+                        "unknown"
+                    }
+                    
+                    JSONObject().apply {
+                        put("x", face.boundingBox.centerX())
+                        put("y", face.boundingBox.centerY())
+                        put("width", face.boundingBox.width())
+                        put("height", face.boundingBox.height())
+                        put("personId", personTag)
+                        put("trackingId", trackingId ?: -1)
+                        put("relativeSize", String.format("%.3f", relativeSize))
+                        // Classification confidence proxies (available with CLASSIFICATION_MODE_ALL)
+                        put("smilingProbability", String.format("%.2f", face.smilingProbability))
+                        put("leftEyeOpenProbability", String.format("%.2f", face.leftEyeOpenProbability))
+                        put("rightEyeOpenProbability", String.format("%.2f", face.rightEyeOpenProbability))
+                    }
+                }
+                
+                if (faceData.isEmpty()) {
+                    Log.d(TAG, "All faces filtered out as false positives")
+                    return@addOnSuccessListener
+                }
+                
+                val payload = JSONObject().apply {
+                    put("timestamp", System.currentTimeMillis())
+                    put("faceCount", faceData.size)
+                    put("faces", org.json.JSONArray(faceData))
+                    put("totalPersons", lastKnownPersons.size)
+                }
+                
+                publishMqtt("$TOPIC_ANALYTICS/faces", payload.toString())
+                Log.d(TAG, "Published ${faceData.size} faces, ${lastKnownPersons.size} unique persons")
             }
             .addOnFailureListener { e ->
                 Log.e(TAG, "Face detection failed", e)
             }
+    }
+    
+    // Person tracking: maps ML Kit trackingId to stable person labels
+    private val lastKnownPersons = mutableMapOf<Int, String>()
+    private var personCounter = 0
+    
+    /**
+     * Get or assign a stable person ID for a tracking ID.
+     * Returns "Person1", "Person2", etc. for consistent MQTT tagging.
+     */
+    private fun getOrAssignPersonId(trackingId: Int): String {
+        return lastKnownPersons.getOrPut(trackingId) {
+            personCounter++
+            "Person$personCounter"
+        }
     }
     
     private fun sendSnapshotJpeg(jpegBytes: ByteArray) {

@@ -72,8 +72,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun publishLocationsWithCoordinates(r: Robot) {
-        // Try to get coordinates from robot position instead of map data
-        // (getMapData() requires content provider access that may not be available)
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val locationNames = r.locations
@@ -84,25 +82,79 @@ class MainActivity : AppCompatActivity() {
                     return@launch
                 }
                 
-                // Get current robot position as reference
-                val position = r.getPosition()
-                Log.d(TAG, "Current position: x=${position.x}, y=${position.y}, yaw=${position.yaw}")
-                
-                // For now, publish locations with current position as reference
-                // In a real scenario, you'd navigate to each location and record position
-                val locationsWithCoords = locationNames.map { locName ->
-                    mapOf(
-                        "id" to locName,
-                        "name" to locName,
-                        "x" to position.x,
-                        "y" to position.y,
-                        "yaw" to position.yaw,
-                        "isCurrent" to (locName == "home base") // Mark home base as current position
-                    )
+                // Try to get actual coordinates from map MARKER layer
+                val locationsWithCoords = try {
+                    val mapDataModel = r.getMapData()
+                    if (mapDataModel != null) {
+                        val markerLayer = mapDataModel.getLayerData(MapDataModel.MARKER)
+                        Log.d(TAG, "Marker layer: $markerLayer")
+                        
+                        // Build map of location name -> position from markers
+                        val locationMap = mutableMapOf<String, Map<String, Any>>()
+                        markerLayer.forEach { marker ->
+                            val name = marker.name
+                            val position = marker.position
+                            if (position != null && name != null) {
+                                locationMap[name] = mapOf(
+                                    "id" to name,
+                                    "name" to name,
+                                    "x" to position.x,
+                                    "y" to position.y,
+                                    "yaw" to position.yaw,
+                                    "source" to "map_marker"
+                                )
+                                Log.d(TAG, "Location marker: $name at (${position.x}, ${position.y})")
+                            }
+                        }
+                        
+                        // Merge: use marker coords where available, fallback for missing
+                        locationNames.map { locName ->
+                            locationMap[locName] ?: run {
+                                // Fallback: use current position if no marker found
+                                val pos = r.getPosition()
+                                Log.w(TAG, "No marker for '$locName', using current position")
+                                mapOf(
+                                    "id" to locName,
+                                    "name" to locName,
+                                    "x" to pos.x,
+                                    "y" to pos.y,
+                                    "yaw" to pos.yaw,
+                                    "source" to "fallback"
+                                )
+                            }
+                        }
+                    } else {
+                        // No map data - fallback
+                        Log.w(TAG, "No map data available, using fallback positions")
+                        val pos = r.getPosition()
+                        locationNames.map { locName ->
+                            mapOf(
+                                "id" to locName,
+                                "name" to locName,
+                                "x" to pos.x,
+                                "y" to pos.y,
+                                "yaw" to pos.yaw,
+                                "source" to "fallback_no_map"
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error reading map markers: ${e.message}, using fallback")
+                    val pos = r.getPosition()
+                    locationNames.map { locName ->
+                        mapOf(
+                            "id" to locName,
+                            "name" to locName,
+                            "x" to pos.x,
+                            "y" to pos.y,
+                            "yaw" to pos.yaw,
+                            "source" to "fallback_error"
+                        )
+                    }
                 }
                 
                 mqttService?.publishLocations(locationsWithCoords)
-                Log.d(TAG, "Published locations with position: ${locationsWithCoords.size}")
+                Log.d(TAG, "Published ${locationsWithCoords.size} locations with coordinates")
             } catch (e: Exception) {
                 Log.e(TAG, "Error publishing locations", e)
             }
