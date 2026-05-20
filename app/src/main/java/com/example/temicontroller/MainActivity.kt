@@ -323,7 +323,7 @@ class MainActivity : AppCompatActivity() {
         
         // Load saved settings
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        etBrokerIp.setText(prefs.getString(KEY_BROKER_IP, "192.168.4.154"))
+        etBrokerIp.setText(prefs.getString(KEY_BROKER_IP, "192.168.1.1"))
         etBrokerPort.setText(prefs.getInt(KEY_BROKER_PORT, 1883).toString())
         
         // Setup patrol route spinner
@@ -551,7 +551,7 @@ class MainActivity : AppCompatActivity() {
     
     private fun startMqttService() {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val brokerIp = prefs.getString(KEY_BROKER_IP, "192.168.4.154") ?: "192.168.4.154"
+        val brokerIp = prefs.getString(KEY_BROKER_IP, "192.168.1.1") ?: "192.168.1.1"
         val brokerPort = prefs.getInt(KEY_BROKER_PORT, 1883)
         
         val intent = Intent(this, MqttService::class.java).apply {
