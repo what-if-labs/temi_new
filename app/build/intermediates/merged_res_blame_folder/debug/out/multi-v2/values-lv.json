@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.temicontroller.app-mergeDebugResources-37:/values-lv/values-lv.xml",
+            "outputFile": "com.example.temicontroller.app-mergeDebugResources-38:/values-lv/values-lv.xml",
             "map": [
                 {
                     "source": "/home/warren/.gradle/caches/transforms-3/af1b2afc860af4741d62dbaf7c785acc/transformed/core-1.12.0/res/values-lv/values-lv.xml",
@@ -18,6 +18,23 @@
                         "startOffsets": "3704,3802,3904,4004,4105,4212,4320,11968",
                         "endColumns": "97,101,99,100,106,107,114,100",
                         "endOffsets": "3797,3899,3999,4100,4207,4315,4430,12064"
+                    }
+                },
+                {
+                    "source": "/home/warren/.gradle/caches/transforms-3/e4f3dc20cf07c1279ae675a0a33189a4/transformed/jetified-play-services-base-18.5.0/res/values-lv/values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "193,296,453,582,686,824,951,1064,1166,1337,1442,1607,1738,1903,2054,2114,2178",
+                        "endColumns": "102,156,128,103,137,126,112,101,170,104,164,130,164,150,59,63,84",
+                        "endOffsets": "295,452,581,685,823,950,1063,1165,1336,1441,1606,1737,1902,2053,2113,2177,2262"
+                    },
+                    "to": {
+                        "startLines": "49,50,51,52,53,54,55,56,58,59,60,61,62,63,64,65,66",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "4753,4860,5021,5154,5262,5404,5535,5652,5924,6099,6208,6377,6512,6681,6836,6900,6968",
+                        "endColumns": "106,160,132,107,141,130,116,105,174,108,168,134,168,154,63,67,88",
+                        "endOffsets": "4855,5016,5149,5257,5399,5530,5647,5753,6094,6203,6372,6507,6676,6831,6895,6963,7052"
                     }
                 },
                 {
@@ -57,24 +74,7 @@
                     }
                 },
                 {
-                    "source": "/home/warren/.gradle/caches/transforms-3/165bc827bae403082f77b868e3a37121/transformed/jetified-play-services-base-18.0.1/res/values-lv/values.xml",
-                    "from": {
-                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
-                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-                        "startOffsets": "193,296,453,582,686,824,951,1064,1166,1337,1442,1607,1738,1903,2054,2114,2178",
-                        "endColumns": "102,156,128,103,137,126,112,101,170,104,164,130,164,150,59,63,84",
-                        "endOffsets": "295,452,581,685,823,950,1063,1165,1336,1441,1606,1737,1902,2053,2113,2177,2262"
-                    },
-                    "to": {
-                        "startLines": "49,50,51,52,53,54,55,56,58,59,60,61,62,63,64,65,66",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "4753,4860,5021,5154,5262,5404,5535,5652,5924,6099,6208,6377,6512,6681,6836,6900,6968",
-                        "endColumns": "106,160,132,107,141,130,116,105,174,108,168,134,168,154,63,67,88",
-                        "endOffsets": "4855,5016,5149,5257,5399,5530,5647,5753,6094,6203,6372,6507,6676,6831,6895,6963,7052"
-                    }
-                },
-                {
-                    "source": "/home/warren/.gradle/caches/transforms-3/ff64dfd876e80928f2c220ca800457df/transformed/jetified-play-services-basement-18.0.0/res/values-lv/values.xml",
+                    "source": "/home/warren/.gradle/caches/transforms-3/3048de622521972f78c5d62711c8023b/transformed/jetified-play-services-basement-18.4.0/res/values-lv/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",

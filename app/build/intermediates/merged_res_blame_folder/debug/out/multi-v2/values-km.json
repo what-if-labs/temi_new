@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.temicontroller.app-mergeDebugResources-37:/values-km/values-km.xml",
+            "outputFile": "com.example.temicontroller.app-mergeDebugResources-38:/values-km/values-km.xml",
             "map": [
                 {
                     "source": "/home/warren/.gradle/caches/transforms-3/f1a3de70c80b7748466fda278b8d82e9/transformed/material-1.11.0/res/values-km/values-km.xml",
@@ -57,7 +57,7 @@
                     }
                 },
                 {
-                    "source": "/home/warren/.gradle/caches/transforms-3/165bc827bae403082f77b868e3a37121/transformed/jetified-play-services-base-18.0.1/res/values-km/values.xml",
+                    "source": "/home/warren/.gradle/caches/transforms-3/e4f3dc20cf07c1279ae675a0a33189a4/transformed/jetified-play-services-base-18.5.0/res/values-km/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -74,7 +74,7 @@
                     }
                 },
                 {
-                    "source": "/home/warren/.gradle/caches/transforms-3/ff64dfd876e80928f2c220ca800457df/transformed/jetified-play-services-basement-18.0.0/res/values-km/values.xml",
+                    "source": "/home/warren/.gradle/caches/transforms-3/3048de622521972f78c5d62711c8023b/transformed/jetified-play-services-basement-18.4.0/res/values-km/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",

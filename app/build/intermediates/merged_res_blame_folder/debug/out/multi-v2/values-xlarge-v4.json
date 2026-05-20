@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.temicontroller.app-mergeDebugResources-37:/values-xlarge-v4/values-xlarge-v4.xml",
+            "outputFile": "com.example.temicontroller.app-mergeDebugResources-38:/values-xlarge-v4/values-xlarge-v4.xml",
             "map": [
                 {
                     "source": "/home/warren/.gradle/caches/transforms-3/2000e0884c8dade8abd93b7fa5b1aea0/transformed/appcompat-1.6.1/res/values-xlarge-v4/values-xlarge-v4.xml",

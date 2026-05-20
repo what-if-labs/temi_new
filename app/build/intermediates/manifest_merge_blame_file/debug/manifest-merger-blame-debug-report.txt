@@ -176,154 +176,166 @@
 94-->[androidx.camera:camera-camera2:1.3.1] /home/warren/.gradle/caches/transforms-3/e2ca3531ab1fe4dcfd225faeea199e5a/transformed/jetified-camera-camera2-1.3.1/AndroidManifest.xml:32:17-86
 95        </service>
 96        <service
-96-->[com.google.android.gms:play-services-mlkit-face-detection:17.0.1] /home/warren/.gradle/caches/transforms-3/801a1a330aeff9be77b29ce38862d610/transformed/jetified-play-services-mlkit-face-detection-17.0.1/AndroidManifest.xml:9:9-15:19
+96-->[com.google.mlkit:object-detection:17.0.2] /home/warren/.gradle/caches/transforms-3/4b192c4c678d63158437abc32882660a/transformed/jetified-object-detection-17.0.2/AndroidManifest.xml:11:9-17:19
 97            android:name="com.google.mlkit.common.internal.MlKitComponentDiscoveryService"
-97-->[com.google.android.gms:play-services-mlkit-face-detection:17.0.1] /home/warren/.gradle/caches/transforms-3/801a1a330aeff9be77b29ce38862d610/transformed/jetified-play-services-mlkit-face-detection-17.0.1/AndroidManifest.xml:10:13-91
+97-->[com.google.mlkit:object-detection:17.0.2] /home/warren/.gradle/caches/transforms-3/4b192c4c678d63158437abc32882660a/transformed/jetified-object-detection-17.0.2/AndroidManifest.xml:12:13-91
 98            android:directBootAware="true"
-98-->[com.google.mlkit:common:18.1.0] /home/warren/.gradle/caches/transforms-3/3ea407e1e9b795c9128d33334b6c45d7/transformed/jetified-common-18.1.0/AndroidManifest.xml:17:13-43
+98-->[com.google.mlkit:common:18.11.0] /home/warren/.gradle/caches/transforms-3/1cda419411c22ad7bed31ef35543403a/transformed/jetified-common-18.11.0/AndroidManifest.xml:17:13-43
 99            android:exported="false" >
-99-->[com.google.android.gms:play-services-mlkit-face-detection:17.0.1] /home/warren/.gradle/caches/transforms-3/801a1a330aeff9be77b29ce38862d610/transformed/jetified-play-services-mlkit-face-detection-17.0.1/AndroidManifest.xml:11:13-37
+99-->[com.google.mlkit:object-detection:17.0.2] /home/warren/.gradle/caches/transforms-3/4b192c4c678d63158437abc32882660a/transformed/jetified-object-detection-17.0.2/AndroidManifest.xml:13:13-37
 100            <meta-data
-100-->[com.google.android.gms:play-services-mlkit-face-detection:17.0.1] /home/warren/.gradle/caches/transforms-3/801a1a330aeff9be77b29ce38862d610/transformed/jetified-play-services-mlkit-face-detection-17.0.1/AndroidManifest.xml:12:13-14:85
-101                android:name="com.google.firebase.components:com.google.mlkit.vision.face.internal.FaceRegistrar"
-101-->[com.google.android.gms:play-services-mlkit-face-detection:17.0.1] /home/warren/.gradle/caches/transforms-3/801a1a330aeff9be77b29ce38862d610/transformed/jetified-play-services-mlkit-face-detection-17.0.1/AndroidManifest.xml:13:17-114
+100-->[com.google.mlkit:object-detection:17.0.2] /home/warren/.gradle/caches/transforms-3/4b192c4c678d63158437abc32882660a/transformed/jetified-object-detection-17.0.2/AndroidManifest.xml:14:13-16:85
+101                android:name="com.google.firebase.components:com.google.mlkit.vision.objects.defaults.internal.DefaultObjectsRegistrar"
+101-->[com.google.mlkit:object-detection:17.0.2] /home/warren/.gradle/caches/transforms-3/4b192c4c678d63158437abc32882660a/transformed/jetified-object-detection-17.0.2/AndroidManifest.xml:15:17-136
 102                android:value="com.google.firebase.components.ComponentRegistrar" />
-102-->[com.google.android.gms:play-services-mlkit-face-detection:17.0.1] /home/warren/.gradle/caches/transforms-3/801a1a330aeff9be77b29ce38862d610/transformed/jetified-play-services-mlkit-face-detection-17.0.1/AndroidManifest.xml:14:17-82
+102-->[com.google.mlkit:object-detection:17.0.2] /home/warren/.gradle/caches/transforms-3/4b192c4c678d63158437abc32882660a/transformed/jetified-object-detection-17.0.2/AndroidManifest.xml:16:17-82
 103            <meta-data
-103-->[com.google.mlkit:vision-common:17.1.0] /home/warren/.gradle/caches/transforms-3/2e982a8d1751de523bd59e4cf4c1d7c7/transformed/jetified-vision-common-17.1.0/AndroidManifest.xml:12:13-14:85
-104                android:name="com.google.firebase.components:com.google.mlkit.vision.common.internal.VisionCommonRegistrar"
-104-->[com.google.mlkit:vision-common:17.1.0] /home/warren/.gradle/caches/transforms-3/2e982a8d1751de523bd59e4cf4c1d7c7/transformed/jetified-vision-common-17.1.0/AndroidManifest.xml:13:17-124
+103-->[com.google.android.gms:play-services-mlkit-face-detection:17.0.1] /home/warren/.gradle/caches/transforms-3/801a1a330aeff9be77b29ce38862d610/transformed/jetified-play-services-mlkit-face-detection-17.0.1/AndroidManifest.xml:12:13-14:85
+104                android:name="com.google.firebase.components:com.google.mlkit.vision.face.internal.FaceRegistrar"
+104-->[com.google.android.gms:play-services-mlkit-face-detection:17.0.1] /home/warren/.gradle/caches/transforms-3/801a1a330aeff9be77b29ce38862d610/transformed/jetified-play-services-mlkit-face-detection-17.0.1/AndroidManifest.xml:13:17-114
 105                android:value="com.google.firebase.components.ComponentRegistrar" />
-105-->[com.google.mlkit:vision-common:17.1.0] /home/warren/.gradle/caches/transforms-3/2e982a8d1751de523bd59e4cf4c1d7c7/transformed/jetified-vision-common-17.1.0/AndroidManifest.xml:14:17-82
+105-->[com.google.android.gms:play-services-mlkit-face-detection:17.0.1] /home/warren/.gradle/caches/transforms-3/801a1a330aeff9be77b29ce38862d610/transformed/jetified-play-services-mlkit-face-detection-17.0.1/AndroidManifest.xml:14:17-82
 106            <meta-data
-106-->[com.google.mlkit:common:18.1.0] /home/warren/.gradle/caches/transforms-3/3ea407e1e9b795c9128d33334b6c45d7/transformed/jetified-common-18.1.0/AndroidManifest.xml:20:13-22:85
-107                android:name="com.google.firebase.components:com.google.mlkit.common.internal.CommonComponentRegistrar"
-107-->[com.google.mlkit:common:18.1.0] /home/warren/.gradle/caches/transforms-3/3ea407e1e9b795c9128d33334b6c45d7/transformed/jetified-common-18.1.0/AndroidManifest.xml:21:17-120
+106-->[com.google.mlkit:vision-internal-vkp:18.2.3] /home/warren/.gradle/caches/transforms-3/8d382a8ce1290cccd7737484e7d50415/transformed/jetified-vision-internal-vkp-18.2.3/AndroidManifest.xml:14:13-16:85
+107                android:name="com.google.firebase.components:com.google.mlkit.vision.vkp.VkpRegistrar"
+107-->[com.google.mlkit:vision-internal-vkp:18.2.3] /home/warren/.gradle/caches/transforms-3/8d382a8ce1290cccd7737484e7d50415/transformed/jetified-vision-internal-vkp-18.2.3/AndroidManifest.xml:15:17-103
 108                android:value="com.google.firebase.components.ComponentRegistrar" />
-108-->[com.google.mlkit:common:18.1.0] /home/warren/.gradle/caches/transforms-3/3ea407e1e9b795c9128d33334b6c45d7/transformed/jetified-common-18.1.0/AndroidManifest.xml:22:17-82
-109        </service>
-110
-111        <provider
-111-->[com.google.mlkit:common:18.1.0] /home/warren/.gradle/caches/transforms-3/3ea407e1e9b795c9128d33334b6c45d7/transformed/jetified-common-18.1.0/AndroidManifest.xml:9:9-13:38
-112            android:name="com.google.mlkit.common.internal.MlKitInitProvider"
-112-->[com.google.mlkit:common:18.1.0] /home/warren/.gradle/caches/transforms-3/3ea407e1e9b795c9128d33334b6c45d7/transformed/jetified-common-18.1.0/AndroidManifest.xml:10:13-78
-113            android:authorities="com.example.temicontroller.mlkitinitprovider"
-113-->[com.google.mlkit:common:18.1.0] /home/warren/.gradle/caches/transforms-3/3ea407e1e9b795c9128d33334b6c45d7/transformed/jetified-common-18.1.0/AndroidManifest.xml:11:13-69
-114            android:exported="false"
-114-->[com.google.mlkit:common:18.1.0] /home/warren/.gradle/caches/transforms-3/3ea407e1e9b795c9128d33334b6c45d7/transformed/jetified-common-18.1.0/AndroidManifest.xml:12:13-37
-115            android:initOrder="99" />
-115-->[com.google.mlkit:common:18.1.0] /home/warren/.gradle/caches/transforms-3/3ea407e1e9b795c9128d33334b6c45d7/transformed/jetified-common-18.1.0/AndroidManifest.xml:13:13-35
+108-->[com.google.mlkit:vision-internal-vkp:18.2.3] /home/warren/.gradle/caches/transforms-3/8d382a8ce1290cccd7737484e7d50415/transformed/jetified-vision-internal-vkp-18.2.3/AndroidManifest.xml:16:17-82
+109            <meta-data
+109-->[com.google.mlkit:vision-common:17.3.0] /home/warren/.gradle/caches/transforms-3/135fd1ad6e2b3e497ce8b3cfdde0f049/transformed/jetified-vision-common-17.3.0/AndroidManifest.xml:12:13-14:85
+110                android:name="com.google.firebase.components:com.google.mlkit.vision.common.internal.VisionCommonRegistrar"
+110-->[com.google.mlkit:vision-common:17.3.0] /home/warren/.gradle/caches/transforms-3/135fd1ad6e2b3e497ce8b3cfdde0f049/transformed/jetified-vision-common-17.3.0/AndroidManifest.xml:13:17-124
+111                android:value="com.google.firebase.components.ComponentRegistrar" />
+111-->[com.google.mlkit:vision-common:17.3.0] /home/warren/.gradle/caches/transforms-3/135fd1ad6e2b3e497ce8b3cfdde0f049/transformed/jetified-vision-common-17.3.0/AndroidManifest.xml:14:17-82
+112            <meta-data
+112-->[com.google.mlkit:common:18.11.0] /home/warren/.gradle/caches/transforms-3/1cda419411c22ad7bed31ef35543403a/transformed/jetified-common-18.11.0/AndroidManifest.xml:20:13-22:85
+113                android:name="com.google.firebase.components:com.google.mlkit.common.internal.CommonComponentRegistrar"
+113-->[com.google.mlkit:common:18.11.0] /home/warren/.gradle/caches/transforms-3/1cda419411c22ad7bed31ef35543403a/transformed/jetified-common-18.11.0/AndroidManifest.xml:21:17-120
+114                android:value="com.google.firebase.components.ComponentRegistrar" />
+114-->[com.google.mlkit:common:18.11.0] /home/warren/.gradle/caches/transforms-3/1cda419411c22ad7bed31ef35543403a/transformed/jetified-common-18.11.0/AndroidManifest.xml:22:17-82
+115        </service>
 116
-117        <activity
-117-->[com.google.android.gms:play-services-base:18.0.1] /home/warren/.gradle/caches/transforms-3/165bc827bae403082f77b868e3a37121/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:9-22:45
-118            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-118-->[com.google.android.gms:play-services-base:18.0.1] /home/warren/.gradle/caches/transforms-3/165bc827bae403082f77b868e3a37121/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:19-85
-119            android:exported="false"
-119-->[com.google.android.gms:play-services-base:18.0.1] /home/warren/.gradle/caches/transforms-3/165bc827bae403082f77b868e3a37121/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:22:19-43
-120            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-120-->[com.google.android.gms:play-services-base:18.0.1] /home/warren/.gradle/caches/transforms-3/165bc827bae403082f77b868e3a37121/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:21:19-78
-121
-122        <meta-data
-122-->[com.google.android.gms:play-services-basement:18.0.0] /home/warren/.gradle/caches/transforms-3/ff64dfd876e80928f2c220ca800457df/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:21:9-23:69
-123            android:name="com.google.android.gms.version"
-123-->[com.google.android.gms:play-services-basement:18.0.0] /home/warren/.gradle/caches/transforms-3/ff64dfd876e80928f2c220ca800457df/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:22:13-58
-124            android:value="@integer/google_play_services_version" />
-124-->[com.google.android.gms:play-services-basement:18.0.0] /home/warren/.gradle/caches/transforms-3/ff64dfd876e80928f2c220ca800457df/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:23:13-66
-125
-126        <provider
-126-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
-127            android:name="androidx.startup.InitializationProvider"
-127-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
-128            android:authorities="com.example.temicontroller.androidx-startup"
-128-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
-129            android:exported="false" >
-129-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
-130            <meta-data
-130-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
-131                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-131-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
-132                android:value="androidx.startup" />
-132-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
-133            <meta-data
-133-->[androidx.lifecycle:lifecycle-process:2.6.1] /home/warren/.gradle/caches/transforms-3/056d500eb3539110760ce257eae036fb/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:29:13-31:52
-134                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-134-->[androidx.lifecycle:lifecycle-process:2.6.1] /home/warren/.gradle/caches/transforms-3/056d500eb3539110760ce257eae036fb/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:30:17-78
-135                android:value="androidx.startup" />
-135-->[androidx.lifecycle:lifecycle-process:2.6.1] /home/warren/.gradle/caches/transforms-3/056d500eb3539110760ce257eae036fb/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:31:17-49
+117        <provider
+117-->[com.google.mlkit:common:18.11.0] /home/warren/.gradle/caches/transforms-3/1cda419411c22ad7bed31ef35543403a/transformed/jetified-common-18.11.0/AndroidManifest.xml:9:9-13:38
+118            android:name="com.google.mlkit.common.internal.MlKitInitProvider"
+118-->[com.google.mlkit:common:18.11.0] /home/warren/.gradle/caches/transforms-3/1cda419411c22ad7bed31ef35543403a/transformed/jetified-common-18.11.0/AndroidManifest.xml:10:13-78
+119            android:authorities="com.example.temicontroller.mlkitinitprovider"
+119-->[com.google.mlkit:common:18.11.0] /home/warren/.gradle/caches/transforms-3/1cda419411c22ad7bed31ef35543403a/transformed/jetified-common-18.11.0/AndroidManifest.xml:11:13-69
+120            android:exported="false"
+120-->[com.google.mlkit:common:18.11.0] /home/warren/.gradle/caches/transforms-3/1cda419411c22ad7bed31ef35543403a/transformed/jetified-common-18.11.0/AndroidManifest.xml:12:13-37
+121            android:initOrder="99" />
+121-->[com.google.mlkit:common:18.11.0] /home/warren/.gradle/caches/transforms-3/1cda419411c22ad7bed31ef35543403a/transformed/jetified-common-18.11.0/AndroidManifest.xml:13:13-35
+122
+123        <activity
+123-->[com.google.android.gms:play-services-base:18.5.0] /home/warren/.gradle/caches/transforms-3/e4f3dc20cf07c1279ae675a0a33189a4/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:9-173
+124            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+124-->[com.google.android.gms:play-services-base:18.5.0] /home/warren/.gradle/caches/transforms-3/e4f3dc20cf07c1279ae675a0a33189a4/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:19-85
+125            android:exported="false"
+125-->[com.google.android.gms:play-services-base:18.5.0] /home/warren/.gradle/caches/transforms-3/e4f3dc20cf07c1279ae675a0a33189a4/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:146-170
+126            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+126-->[com.google.android.gms:play-services-base:18.5.0] /home/warren/.gradle/caches/transforms-3/e4f3dc20cf07c1279ae675a0a33189a4/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:86-145
+127
+128        <meta-data
+128-->[com.google.android.gms:play-services-basement:18.4.0] /home/warren/.gradle/caches/transforms-3/3048de622521972f78c5d62711c8023b/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:6:9-122
+129            android:name="com.google.android.gms.version"
+129-->[com.google.android.gms:play-services-basement:18.4.0] /home/warren/.gradle/caches/transforms-3/3048de622521972f78c5d62711c8023b/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:6:20-65
+130            android:value="@integer/google_play_services_version" />
+130-->[com.google.android.gms:play-services-basement:18.4.0] /home/warren/.gradle/caches/transforms-3/3048de622521972f78c5d62711c8023b/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:6:66-119
+131
+132        <provider
+132-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+133            android:name="androidx.startup.InitializationProvider"
+133-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
+134            android:authorities="com.example.temicontroller.androidx-startup"
+134-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
+135            android:exported="false" >
+135-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
 136            <meta-data
-136-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:29:13-31:52
-137                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-137-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:30:17-85
+136-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+137                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+137-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
 138                android:value="androidx.startup" />
-138-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:31:17-49
-139        </provider>
-140
-141        <service
-141-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:29:9-35:19
-142            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
-142-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:30:13-103
-143            android:exported="false" >
-143-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:31:13-37
-144            <meta-data
-144-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:32:13-34:39
-145                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
-145-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:33:17-94
-146                android:value="cct" />
-146-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:34:17-36
-147        </service>
-148        <service
-148-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:26:9-30:19
-149            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
-149-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:27:13-117
-150            android:exported="false"
-150-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:28:13-37
-151            android:permission="android.permission.BIND_JOB_SERVICE" >
-151-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:29:13-69
-152        </service>
-153
-154        <receiver
-154-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:32:9-34:40
-155            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
-155-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:33:13-132
-156            android:exported="false" />
-156-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:34:13-37
-157        <receiver
-157-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:34:9-52:20
-158            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-158-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:35:13-76
-159            android:directBootAware="false"
-159-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:36:13-44
-160            android:enabled="true"
-160-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:37:13-35
-161            android:exported="true"
-161-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:38:13-36
-162            android:permission="android.permission.DUMP" >
-162-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:39:13-57
-163            <intent-filter>
-163-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:40:13-42:29
-164                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-164-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:17-91
-164-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:25-88
-165            </intent-filter>
-166            <intent-filter>
-166-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:43:13-45:29
-167                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-167-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:17-85
-167-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:25-82
-168            </intent-filter>
+138-->[androidx.emoji2:emoji2:1.2.0] /home/warren/.gradle/caches/transforms-3/8f43414a50bce35b49dc91993de648e4/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
+139            <meta-data
+139-->[androidx.lifecycle:lifecycle-process:2.6.1] /home/warren/.gradle/caches/transforms-3/056d500eb3539110760ce257eae036fb/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:29:13-31:52
+140                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+140-->[androidx.lifecycle:lifecycle-process:2.6.1] /home/warren/.gradle/caches/transforms-3/056d500eb3539110760ce257eae036fb/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:30:17-78
+141                android:value="androidx.startup" />
+141-->[androidx.lifecycle:lifecycle-process:2.6.1] /home/warren/.gradle/caches/transforms-3/056d500eb3539110760ce257eae036fb/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:31:17-49
+142            <meta-data
+142-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:29:13-31:52
+143                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+143-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:30:17-85
+144                android:value="androidx.startup" />
+144-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:31:17-49
+145        </provider>
+146
+147        <service
+147-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:29:9-35:19
+148            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+148-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:30:13-103
+149            android:exported="false" >
+149-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:31:13-37
+150            <meta-data
+150-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:32:13-34:39
+151                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+151-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:33:17-94
+152                android:value="cct" />
+152-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:34:17-36
+153        </service>
+154        <service
+154-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:26:9-30:19
+155            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+155-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:27:13-117
+156            android:exported="false"
+156-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:28:13-37
+157            android:permission="android.permission.BIND_JOB_SERVICE" >
+157-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:29:13-69
+158        </service>
+159
+160        <receiver
+160-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:32:9-34:40
+161            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+161-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:33:13-132
+162            android:exported="false" />
+162-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:34:13-37
+163        <receiver
+163-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:34:9-52:20
+164            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+164-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:35:13-76
+165            android:directBootAware="false"
+165-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:36:13-44
+166            android:enabled="true"
+166-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:37:13-35
+167            android:exported="true"
+167-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:38:13-36
+168            android:permission="android.permission.DUMP" >
+168-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:39:13-57
 169            <intent-filter>
-169-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:46:13-48:29
-170                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-170-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:17-88
-170-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:25-85
+169-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:40:13-42:29
+170                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+170-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:17-91
+170-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:25-88
 171            </intent-filter>
 172            <intent-filter>
-172-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:49:13-51:29
-173                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-173-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
-173-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:25-92
+172-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:43:13-45:29
+173                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+173-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:17-85
+173-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:25-82
 174            </intent-filter>
-175        </receiver>
-176    </application>
-177
-178</manifest>
+175            <intent-filter>
+175-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:46:13-48:29
+176                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+176-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:17-88
+176-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:25-85
+177            </intent-filter>
+178            <intent-filter>
+178-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:49:13-51:29
+179                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+179-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
+179-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:25-92
+180            </intent-filter>
+181        </receiver>
+182    </application>
+183
+184</manifest>

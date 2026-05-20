@@ -1,8 +1,25 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.temicontroller.app-mergeDebugResources-37:/values-bn/values-bn.xml",
+            "outputFile": "com.example.temicontroller.app-mergeDebugResources-38:/values-bn/values-bn.xml",
             "map": [
+                {
+                    "source": "/home/warren/.gradle/caches/transforms-3/e4f3dc20cf07c1279ae675a0a33189a4/transformed/jetified-play-services-base-18.5.0/res/values-bn/values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "193,298,453,577,684,816,934,1042,1142,1281,1386,1538,1662,1791,1935,1991,2054",
+                        "endColumns": "104,154,123,106,131,117,107,99,138,104,151,123,128,143,55,62,85",
+                        "endOffsets": "297,452,576,683,815,933,1041,1141,1280,1385,1537,1661,1790,1934,1990,2053,2139"
+                    },
+                    "to": {
+                        "startLines": "48,49,50,51,52,53,54,55,57,58,59,60,61,62,63,64,65",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "4549,4658,4817,4945,5056,5192,5314,5426,5682,5825,5934,6090,6218,6351,6499,6559,6626",
+                        "endColumns": "108,158,127,110,135,121,111,103,142,108,155,127,132,147,59,66,89",
+                        "endOffsets": "4653,4812,4940,5051,5187,5309,5421,5525,5820,5929,6085,6213,6346,6494,6554,6621,6711"
+                    }
+                },
                 {
                     "source": "/home/warren/.gradle/caches/transforms-3/af1b2afc860af4741d62dbaf7c785acc/transformed/core-1.12.0/res/values-bn/values-bn.xml",
                     "from": {
@@ -57,24 +74,7 @@
                     }
                 },
                 {
-                    "source": "/home/warren/.gradle/caches/transforms-3/165bc827bae403082f77b868e3a37121/transformed/jetified-play-services-base-18.0.1/res/values-bn/values.xml",
-                    "from": {
-                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
-                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-                        "startOffsets": "193,298,453,577,684,816,934,1042,1142,1281,1386,1538,1662,1791,1935,1991,2054",
-                        "endColumns": "104,154,123,106,131,117,107,99,138,104,151,123,128,143,55,62,85",
-                        "endOffsets": "297,452,576,683,815,933,1041,1141,1280,1385,1537,1661,1790,1934,1990,2053,2139"
-                    },
-                    "to": {
-                        "startLines": "48,49,50,51,52,53,54,55,57,58,59,60,61,62,63,64,65",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "4549,4658,4817,4945,5056,5192,5314,5426,5682,5825,5934,6090,6218,6351,6499,6559,6626",
-                        "endColumns": "108,158,127,110,135,121,111,103,142,108,155,127,132,147,59,66,89",
-                        "endOffsets": "4653,4812,4940,5051,5187,5309,5421,5525,5820,5929,6085,6213,6346,6494,6554,6621,6711"
-                    }
-                },
-                {
-                    "source": "/home/warren/.gradle/caches/transforms-3/ff64dfd876e80928f2c220ca800457df/transformed/jetified-play-services-basement-18.0.0/res/values-bn/values.xml",
+                    "source": "/home/warren/.gradle/caches/transforms-3/3048de622521972f78c5d62711c8023b/transformed/jetified-play-services-basement-18.4.0/res/values-bn/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
