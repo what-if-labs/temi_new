@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:2:1-61:12
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:2:1-61:12
+INJECTED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:2:1-61:12
+INJECTED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:2:1-61:12
+INJECTED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:2:1-61:12
 MERGED from [androidx.databinding:viewbinding:8.1.0] /home/warren/.gradle/caches/transforms-3/c01ac927909e528667bc02058e74d0f5/transformed/jetified-viewbinding-8.1.0/AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.11.0] /home/warren/.gradle/caches/transforms-3/f1a3de70c80b7748466fda278b8d82e9/transformed/material-1.11.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/warren/.gradle/caches/transforms-3/70a107481744b6c8174ecc6a5a800b50/transformed/constraintlayout-2.1.4/AndroidManifest.xml:2:1-11:12
@@ -66,72 +66,76 @@ MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/warren/.gradle/caches/
 MERGED from [androidx.documentfile:documentfile:1.0.0] /home/warren/.gradle/caches/transforms-3/b5ffe22be6b6c655f1d89a5c336f5cb4/transformed/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/warren/.gradle/caches/transforms-3/00d7af7efa6950d730840f33632260e0/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] /home/warren/.gradle/caches/transforms-3/5c3486932d76e3b917ac2cecd2982378/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [org.tensorflow:tensorflow-lite-support:0.4.4] /home/warren/.gradle/caches/transforms-3/2bb7a4c25696ec2ed19e25369c3ac1bb/transformed/jetified-tensorflow-lite-support-0.4.4/AndroidManifest.xml:2:1-5:12
+MERGED from [org.tensorflow:tensorflow-lite:2.14.0] /home/warren/.gradle/caches/transforms-3/e71b134138f848400ddbaea078e71583/transformed/jetified-tensorflow-lite-2.14.0/AndroidManifest.xml:2:1-11:12
+MERGED from [org.tensorflow:tensorflow-lite-support-api:0.4.4] /home/warren/.gradle/caches/transforms-3/481897b300386e123bb9fe119b9437e5/transformed/jetified-tensorflow-lite-support-api-0.4.4/AndroidManifest.xml:2:1-5:12
+MERGED from [org.tensorflow:tensorflow-lite-api:2.14.0] /home/warren/.gradle/caches/transforms-3/006e11a880bca50abb6c8cd5ffab6f59/transformed/jetified-tensorflow-lite-api-2.14.0/AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.android.odml:image:1.0.0-beta1] /home/warren/.gradle/caches/transforms-3/82e3ace7dccc657c3baaa9f47ba9fa47/transformed/jetified-image-1.0.0-beta1/AndroidManifest.xml:2:1-9:12
 	package
-		INJECTED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml
+		INJECTED from /home/warren/temi_new/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml
+		INJECTED from /home/warren/temi_new/app/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml
+		INJECTED from /home/warren/temi_new/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:4:5-67
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:4:5-67
 MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:26:5-67
 MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:26:5-67
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:4:22-64
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:4:22-64
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:5:5-79
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:5:5-79
 MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:25:5-79
 MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] /home/warren/.gradle/caches/transforms-3/78f38296976572b98e57ef01bec77892/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:25:5-79
 MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:22:5-79
 MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] /home/warren/.gradle/caches/transforms-3/0d9088f2b005b122d0d92d9b7a74140c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:22:5-79
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:5:22-76
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:5:22-76
 uses-permission#android.permission.WAKE_LOCK
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:6:5-68
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:6:5-68
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:6:22-65
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:6:22-65
 uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:7:5-77
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:7:5-77
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:7:22-74
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:7:22-74
 uses-permission#android.permission.FOREGROUND_SERVICE_CAMERA
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:8:5-84
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:8:5-84
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:8:22-81
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:8:22-81
 uses-permission#android.permission.CAMERA
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:9:5-65
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:9:5-65
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:9:22-62
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:9:22-62
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:10:5-71
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:10:5-71
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:10:22-68
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:10:22-68
 uses-permission#com.robotemi.permission.map
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:13:5-67
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:13:5-67
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:13:22-64
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:13:22-64
 uses-permission#com.robotemi.permission.face_recognition
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:14:5-80
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:14:5-80
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:14:22-77
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:14:22-77
 uses-permission#com.robotemi.permission.settings
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:15:5-72
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:15:5-72
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:15:22-69
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:15:22-69
 uses-permission#com.robotemi.permission.sequence
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:16:5-72
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:16:5-72
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:16:22-69
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:16:22-69
 uses-permission#com.robotemi.permission.meetings
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:17:5-72
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:17:5-72
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:17:22-69
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:17:22-69
 application
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:19:5-59:19
-INJECTED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:19:5-59:19
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:19:5-59:19
+INJECTED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:19:5-59:19
 MERGED from [com.google.android.material:material:1.11.0] /home/warren/.gradle/caches/transforms-3/f1a3de70c80b7748466fda278b8d82e9/transformed/material-1.11.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] /home/warren/.gradle/caches/transforms-3/f1a3de70c80b7748466fda278b8d82e9/transformed/material-1.11.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/warren/.gradle/caches/transforms-3/70a107481744b6c8174ecc6a5a800b50/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
@@ -170,80 +174,84 @@ MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gra
 MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /home/warren/.gradle/caches/transforms-3/ec39451c9a6b9e46daa6cf7382b11b85/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:23:5-53:19
 MERGED from [androidx.startup:startup-runtime:1.1.1] /home/warren/.gradle/caches/transforms-3/a63521189d736bf32c347d4a917cbdfc/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
 MERGED from [androidx.startup:startup-runtime:1.1.1] /home/warren/.gradle/caches/transforms-3/a63521189d736bf32c347d4a917cbdfc/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [org.tensorflow:tensorflow-lite:2.14.0] /home/warren/.gradle/caches/transforms-3/e71b134138f848400ddbaea078e71583/transformed/jetified-tensorflow-lite-2.14.0/AndroidManifest.xml:9:5-20
+MERGED from [org.tensorflow:tensorflow-lite:2.14.0] /home/warren/.gradle/caches/transforms-3/e71b134138f848400ddbaea078e71583/transformed/jetified-tensorflow-lite-2.14.0/AndroidManifest.xml:9:5-20
+MERGED from [org.tensorflow:tensorflow-lite-api:2.14.0] /home/warren/.gradle/caches/transforms-3/006e11a880bca50abb6c8cd5ffab6f59/transformed/jetified-tensorflow-lite-api-2.14.0/AndroidManifest.xml:9:5-20
+MERGED from [org.tensorflow:tensorflow-lite-api:2.14.0] /home/warren/.gradle/caches/transforms-3/006e11a880bca50abb6c8cd5ffab6f59/transformed/jetified-tensorflow-lite-api-2.14.0/AndroidManifest.xml:9:5-20
 MERGED from [com.google.android.odml:image:1.0.0-beta1] /home/warren/.gradle/caches/transforms-3/82e3ace7dccc657c3baaa9f47ba9fa47/transformed/jetified-image-1.0.0-beta1/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.odml:image:1.0.0-beta1] /home/warren/.gradle/caches/transforms-3/82e3ace7dccc657c3baaa9f47ba9fa47/transformed/jetified-image-1.0.0-beta1/AndroidManifest.xml:7:5-20
 	android:extractNativeLibs
-		INJECTED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml
+		INJECTED from /home/warren/temi_new/app/src/main/AndroidManifest.xml
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.12.0] /home/warren/.gradle/caches/transforms-3/af1b2afc860af4741d62dbaf7c785acc/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:24:9-35
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:24:9-35
 	android:label
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:22:9-41
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:22:9-41
 	android:roundIcon
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:23:9-61
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:23:9-61
 	android:icon
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:21:9-56
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:21:9-56
 	android:allowBackup
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:20:9-35
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:20:9-35
 	android:theme
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:25:9-52
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:25:9-52
 	android:usesCleartextTraffic
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:26:9-44
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:26:9-44
 meta-data#com.robotemi.sdk.metadata.SKILL
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:29:9-31:47
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:29:9-31:47
 	android:value
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:31:13-44
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:31:13-44
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:30:13-59
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:30:13-59
 meta-data#com.robotemi.sdk.metadata.KIOSK
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:33:9-35:36
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:33:9-35:36
 	android:value
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:35:13-33
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:35:13-33
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:34:13-59
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:34:13-59
 activity#com.example.temicontroller.MainActivity
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:37:9-45:20
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:37:9-45:20
 	android:screenOrientation
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:40:13-50
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:40:13-50
 	android:exported
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:39:13-36
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:39:13-36
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:38:13-41
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:38:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:41:13-44:29
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:41:13-44:29
 action#android.intent.action.MAIN
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:42:17-69
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:42:17-69
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:42:25-66
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:42:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:43:17-77
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:43:17-77
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:43:27-74
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:43:27-74
 service#com.example.temicontroller.MqttService
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:47:9-51:56
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:47:9-51:56
 	android:enabled
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:49:13-35
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:49:13-35
 	android:exported
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:50:13-37
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:50:13-37
 	android:foregroundServiceType
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:51:13-53
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:51:13-53
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:48:13-40
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:48:13-40
 service#com.example.temicontroller.SurveillanceService
-ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:53:9-57:54
+ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:53:9-57:54
 	android:enabled
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:55:13-35
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:55:13-35
 	android:exported
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:56:13-37
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:56:13-37
 	android:foregroundServiceType
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:57:13-51
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:57:13-51
 	android:name
-		ADDED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:54:13-48
+		ADDED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:54:13-48
 uses-sdk
-INJECTED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml
-INJECTED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml
+INJECTED from /home/warren/temi_new/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/warren/temi_new/app/src/main/AndroidManifest.xml
+INJECTED from /home/warren/temi_new/app/src/main/AndroidManifest.xml
 MERGED from [androidx.databinding:viewbinding:8.1.0] /home/warren/.gradle/caches/transforms-3/c01ac927909e528667bc02058e74d0f5/transformed/jetified-viewbinding-8.1.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.databinding:viewbinding:8.1.0] /home/warren/.gradle/caches/transforms-3/c01ac927909e528667bc02058e74d0f5/transformed/jetified-viewbinding-8.1.0/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.material:material:1.11.0] /home/warren/.gradle/caches/transforms-3/f1a3de70c80b7748466fda278b8d82e9/transformed/material-1.11.0/AndroidManifest.xml:20:5-44
@@ -368,12 +376,20 @@ MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/w
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/warren/.gradle/caches/transforms-3/00d7af7efa6950d730840f33632260e0/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.print:print:1.0.0] /home/warren/.gradle/caches/transforms-3/5c3486932d76e3b917ac2cecd2982378/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.print:print:1.0.0] /home/warren/.gradle/caches/transforms-3/5c3486932d76e3b917ac2cecd2982378/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [org.tensorflow:tensorflow-lite-support:0.4.4] /home/warren/.gradle/caches/transforms-3/2bb7a4c25696ec2ed19e25369c3ac1bb/transformed/jetified-tensorflow-lite-support-0.4.4/AndroidManifest.xml:4:3-71
+MERGED from [org.tensorflow:tensorflow-lite-support:0.4.4] /home/warren/.gradle/caches/transforms-3/2bb7a4c25696ec2ed19e25369c3ac1bb/transformed/jetified-tensorflow-lite-support-0.4.4/AndroidManifest.xml:4:3-71
+MERGED from [org.tensorflow:tensorflow-lite:2.14.0] /home/warren/.gradle/caches/transforms-3/e71b134138f848400ddbaea078e71583/transformed/jetified-tensorflow-lite-2.14.0/AndroidManifest.xml:6:5-7:38
+MERGED from [org.tensorflow:tensorflow-lite:2.14.0] /home/warren/.gradle/caches/transforms-3/e71b134138f848400ddbaea078e71583/transformed/jetified-tensorflow-lite-2.14.0/AndroidManifest.xml:6:5-7:38
+MERGED from [org.tensorflow:tensorflow-lite-support-api:0.4.4] /home/warren/.gradle/caches/transforms-3/481897b300386e123bb9fe119b9437e5/transformed/jetified-tensorflow-lite-support-api-0.4.4/AndroidManifest.xml:4:3-71
+MERGED from [org.tensorflow:tensorflow-lite-support-api:0.4.4] /home/warren/.gradle/caches/transforms-3/481897b300386e123bb9fe119b9437e5/transformed/jetified-tensorflow-lite-support-api-0.4.4/AndroidManifest.xml:4:3-71
+MERGED from [org.tensorflow:tensorflow-lite-api:2.14.0] /home/warren/.gradle/caches/transforms-3/006e11a880bca50abb6c8cd5ffab6f59/transformed/jetified-tensorflow-lite-api-2.14.0/AndroidManifest.xml:6:5-7:38
+MERGED from [org.tensorflow:tensorflow-lite-api:2.14.0] /home/warren/.gradle/caches/transforms-3/006e11a880bca50abb6c8cd5ffab6f59/transformed/jetified-tensorflow-lite-api-2.14.0/AndroidManifest.xml:6:5-7:38
 MERGED from [com.google.android.odml:image:1.0.0-beta1] /home/warren/.gradle/caches/transforms-3/82e3ace7dccc657c3baaa9f47ba9fa47/transformed/jetified-image-1.0.0-beta1/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.odml:image:1.0.0-beta1] /home/warren/.gradle/caches/transforms-3/82e3ace7dccc657c3baaa9f47ba9fa47/transformed/jetified-image-1.0.0-beta1/AndroidManifest.xml:5:5-44
 	android:targetSdkVersion
-		INJECTED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml
+		INJECTED from /home/warren/temi_new/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml
+		INJECTED from /home/warren/temi_new/app/src/main/AndroidManifest.xml
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
 ADDED from [com.robotemi:sdk:1.137.1] /home/warren/.gradle/caches/transforms-3/c66db24d9b645721ff9cea7dad9c4ba5/transformed/jetified-sdk-1.137.1/AndroidManifest.xml:7:5-81
 	android:name
@@ -399,7 +415,7 @@ ADDED from [com.robotemi:sdk:1.137.1] /home/warren/.gradle/caches/transforms-3/c
 	android:name
 		ADDED from [com.robotemi:sdk:1.137.1] /home/warren/.gradle/caches/transforms-3/c66db24d9b645721ff9cea7dad9c4ba5/transformed/jetified-sdk-1.137.1/AndroidManifest.xml:16:13-67
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-IMPLIED from /home/warren/.openclaw/workspace/minimal-project/app/src/main/AndroidManifest.xml:2:1-61:12 reason: com.robotemi.sdk requested WRITE_EXTERNAL_STORAGE
+IMPLIED from /home/warren/temi_new/app/src/main/AndroidManifest.xml:2:1-61:12 reason: com.robotemi.sdk requested WRITE_EXTERNAL_STORAGE
 service#androidx.camera.core.impl.MetadataHolderService
 ADDED from [androidx.camera:camera-camera2:1.3.1] /home/warren/.gradle/caches/transforms-3/e2ca3531ab1fe4dcfd225faeea199e5a/transformed/jetified-camera-camera2-1.3.1/AndroidManifest.xml:24:9-33:19
 MERGED from [androidx.camera:camera-core:1.3.1] /home/warren/.gradle/caches/transforms-3/3b756a4155bedeb7428747e7cf716733/transformed/jetified-camera-core-1.3.1/AndroidManifest.xml:29:9-33:78
