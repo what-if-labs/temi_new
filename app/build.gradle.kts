@@ -65,6 +65,9 @@ dependencies {
     // ML Kit for face detection (analytics)
     implementation("com.google.mlkit:face-detection:16.1.5")
     
+    // ML Kit for object detection (person detection)
+    implementation("com.google.mlkit:object-detection:17.0.2")
+    
     // TFLite for person/pose detection
     implementation("org.tensorflow:tensorflow-lite:2.14.0")
     implementation("org.tensorflow:tensorflow-lite-support:0.4.4")

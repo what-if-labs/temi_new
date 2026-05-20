@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.temicontroller.app-mergeDebugResources-37:/values-large-v4/values-large-v4.xml",
+            "outputFile": "com.example.temicontroller.app-mergeDebugResources-38:/values-large-v4/values-large-v4.xml",
             "map": [
                 {
                     "source": "/home/warren/.gradle/caches/transforms-3/f1a3de70c80b7748466fda278b8d82e9/transformed/material-1.11.0/res/values-large-v4/values-large-v4.xml",
