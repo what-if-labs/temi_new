@@ -293,6 +293,32 @@ class SurveillanceService : Service() {
             val bitmap = BitmapFactory.decodeByteArray(jpegBytes, 0, jpegBytes.size)
             if (bitmap != null) {
                 detectFaces(bitmap)
+                
+                // Run person detection
+                val detectedPersons = personDetector.detectPersons(bitmap)
+                
+                // Map detections to zone-aware tracked persons
+                val trackedPersons = detectedPersons.map { p ->
+                    TrackedPersonInZone(
+                        trackingId = p.trackingId,
+                        x = p.boundingBox.centerX().toFloat(),
+                        y = p.boundingBox.centerY().toFloat(),
+                        isUpright = p.isUpright
+                    )
+                }
+                
+                // Run event tracker
+                val newAlerts = eventTracker.updateFrame(
+                    timestamp = currentTime,
+                    persons = trackedPersons,
+                    objects = emptyList(),  // Objects from separate detector later
+                    zones = zones
+                )
+                
+                // Publish alerts via MQTT
+                for (alert in newAlerts) {
+                    publishSecurityAlert(alert)
+                }
             }
             
             // Periodic snapshot - send JPEG directly as Base64
@@ -453,6 +479,40 @@ class SurveillanceService : Service() {
         publishMqtt(TOPIC_MOTION, payload.toString())
     }
     
+    private fun publishSecurityAlert(alert: SecurityAlert) {
+        try {
+            val json = JSONObject().apply {
+                put("type", alert.type.name)
+                put("timestamp", alert.timestamp)
+                put("zone", alert.zone)
+                put("confidence", alert.confidence)
+                if (alert.location != null) {
+                    put("location", JSONObject().apply {
+                        put("x", alert.location.x)
+                        put("y", alert.location.y)
+                        put("yaw", alert.location.yaw)
+                    })
+                }
+                // Metadata
+                alert.metadata.forEach { (k, v) ->
+                    when (v) {
+                        is Int -> put(k, v)
+                        is Long -> put(k, v)
+                        is Float -> put(k, v.toDouble())
+                        is String -> put(k, v)
+                        is Boolean -> put(k, v)
+                    }
+                }
+            }
+            val topic = "temi/alerts/${alert.type.name.lowercase()}"
+            publishMqtt(topic, json.toString())
+            publishMqtt("temi/alerts/all", json.toString())
+            Log.d(TAG, "Security alert published: ${alert.type} in ${alert.zone}")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to publish security alert", e)
+        }
+    }
+    
     private fun connectMqtt() {
         Thread {
             try {
@@ -497,6 +557,7 @@ class SurveillanceService : Service() {
         Log.d(TAG, "Service destroyed")
         stopSurveillance()
         executor.shutdown()
+        personDetector.close()
         faceDetector.close()
         try {
             mqttClient?.disconnect()
