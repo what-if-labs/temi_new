@@ -42,6 +42,11 @@ class MainActivity : AppCompatActivity() {
     private var publishRunnable: Runnable? = null
     private val PUBLISH_INTERVAL_MS = 3000L
     
+    // Position publisher (every 5 seconds to distinguish from saved locations)
+    private var positionHandler: Handler? = null
+    private var positionRunnable: Runnable? = null
+    private val POSITION_PUBLISH_INTERVAL_MS = 5000L
+    
     // Map publisher (less frequent)
     private var mapHandler: Handler? = null
     private var mapRunnable: Runnable? = null
@@ -70,6 +75,7 @@ class MainActivity : AppCompatActivity() {
                 handleCommand(command, params)
             }
             startPeriodicPublishing()
+            startPositionPublishing()
             startMapPublishing()
             
             // Publish locations after MQTT connects
@@ -349,7 +355,7 @@ class MainActivity : AppCompatActivity() {
         
         // Load saved settings
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        etBrokerIp.setText(prefs.getString(KEY_BROKER_IP, "192.168.1.1"))
+        etBrokerIp.setText(prefs.getString(KEY_BROKER_IP, "192.168.4.154"))
         etBrokerPort.setText(prefs.getInt(KEY_BROKER_PORT, 1883).toString())
         
         // Setup patrol route spinner
@@ -577,7 +583,7 @@ class MainActivity : AppCompatActivity() {
     
     private fun startMqttService() {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val brokerIp = prefs.getString(KEY_BROKER_IP, "192.168.1.1") ?: "192.168.1.1"
+        val brokerIp = prefs.getString(KEY_BROKER_IP, "192.168.4.154") ?: "192.168.4.154"
         val brokerPort = prefs.getInt(KEY_BROKER_PORT, 1883)
         
         val intent = Intent(this, MqttService::class.java).apply {
@@ -605,6 +611,10 @@ class MainActivity : AppCompatActivity() {
         publishRunnable = null
         publishHandler = null
         
+        positionRunnable?.let { positionHandler?.removeCallbacks(it) }
+        positionRunnable = null
+        positionHandler = null
+        
         mapRunnable?.let { mapHandler?.removeCallbacks(it) }
         mapRunnable = null
         mapHandler = null
@@ -622,36 +632,79 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "Started map publishing every ${MAP_PUBLISH_INTERVAL_MS}ms")
     }
     
+    private fun startPositionPublishing() {
+        positionHandler = Handler(mainLooper)
+        positionRunnable = object : Runnable {
+            override fun run() {
+                publishCurrentPosition()
+                positionHandler?.postDelayed(this, POSITION_PUBLISH_INTERVAL_MS)
+            }
+        }
+        positionHandler?.post(positionRunnable!!)
+        Log.d(TAG, "Started position publishing every ${POSITION_PUBLISH_INTERVAL_MS}ms")
+    }
+    
+    private fun publishCurrentPosition() {
+        robot?.let { r ->
+            try {
+                val position = r.getPosition()
+                mqttService?.publishPosition(position.x, position.y, position.yaw)
+                Log.d(TAG, "Periodic position published: x=${position.x}, y=${position.y}, yaw=${position.yaw}")
+            } catch (e: Exception) {
+                Log.e(TAG, "Error publishing periodic position", e)
+            }
+        }
+    }
+    
     private fun publishMapData() {
         robot?.let { r ->
             try {
                 // Get map data from TEMI SDK
-                val mapDataModel = r.getMapData()
-                if (mapDataModel != null) {
-                    val mapImage = mapDataModel.mapImage
-                    
-                    // Convert map data to bitmap
-                    val bitmap = Bitmap.createBitmap(
-                        mapImage.data.map { android.graphics.Color.argb((it * 2.55).toInt(), 0, 0, 0) }.toIntArray(),
-                        mapImage.cols,
-                        mapImage.rows,
-                        Bitmap.Config.ARGB_8888
-                    )
-                    
-                    // Convert bitmap to base64 PNG
-                    val stream = ByteArrayOutputStream()
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                    val byteArray = stream.toByteArray()
-                    val base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT)
-                    
-                    mqttService?.publishMap(base64Image, bitmap.width, bitmap.height)
-                    Log.d(TAG, "Map published: ${bitmap.width}x${bitmap.height}")
-                    
-                    // Recycle bitmap to free memory
-                    bitmap.recycle()
-                } else {
-                    Log.d(TAG, "No map data available from TEMI")
+                var mapDataModel = r.getMapData()
+                
+                // If no map loaded, enumerate available maps and load the first one
+                if (mapDataModel == null) {
+                    try {
+                        val mapList = r.getMapList()
+                        Log.d(TAG, "getMapList() returned ${mapList.size} maps")
+                        if (mapList.isNotEmpty()) {
+                            mapList.forEach { m ->
+                                Log.d(TAG, "Map entry: name='${m.name}', id='${m.id}'")
+                            }
+                            // Try to find "eunos1" by name match, otherwise use first
+                            val target = mapList.find { it.name.contains("eunos", ignoreCase = true) } ?: mapList.first()
+                            Log.d(TAG, "Loading map: '${target.name}' (id='${target.id}')")
+                            r.loadMap(target.id)
+                        } else {
+                            Log.w(TAG, "SDK getMapList() is empty - maps may not be visible to SDK")
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error enumerating maps: ${e.message}")
+                    }
+                    return
                 }
+                
+                val mapImage = mapDataModel.mapImage
+                
+                // Convert map data to bitmap
+                val bitmap = Bitmap.createBitmap(
+                    mapImage.data.map { android.graphics.Color.argb((it * 2.55).toInt(), 0, 0, 0) }.toIntArray(),
+                    mapImage.cols,
+                    mapImage.rows,
+                    Bitmap.Config.ARGB_8888
+                )
+                
+                // Convert bitmap to base64 PNG
+                val stream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                val byteArray = stream.toByteArray()
+                val base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT)
+                
+                mqttService?.publishMap(base64Image, bitmap.width, bitmap.height)
+                Log.d(TAG, "Map published: ${bitmap.width}x${bitmap.height}")
+                
+                // Recycle bitmap to free memory
+                bitmap.recycle()
             } catch (e: Exception) {
                 Log.e(TAG, "Error publishing map data: ${e.message}")
             }
