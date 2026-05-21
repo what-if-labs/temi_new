@@ -48,7 +48,7 @@ class MqttService : Service() {
     }
     
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val brokerIp = intent?.getStringExtra("broker_ip") ?: "192.168.1.1"
+        val brokerIp = intent?.getStringExtra("broker_ip") ?: "192.168.4.154"
         val brokerPort = intent?.getIntExtra("broker_port", 1883) ?: 1883
         brokerUrl = "tcp://$brokerIp:$brokerPort"
         Log.d("MQTT", "Using broker: $brokerUrl")
