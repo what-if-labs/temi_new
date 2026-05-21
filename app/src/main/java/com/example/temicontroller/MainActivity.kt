@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
@@ -26,6 +27,7 @@ import com.robotemi.sdk.Robot
 import com.robotemi.sdk.TtsRequest
 import com.robotemi.sdk.map.Layer
 import com.robotemi.sdk.map.MapDataModel
+import com.robotemi.sdk.permission.Permission
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -66,7 +68,11 @@ class MainActivity : AppCompatActivity() {
         const val KEY_DETECT_UNATTENDED_BAG = "detect_unattended_bag"
         const val KEY_DETECT_UNAUTHORIZED = "detect_unauthorized"
         const val KEY_ZONES_JSON = "zones_json"
+        const val TARGET_MAP_NAME = "eunos1"
     }
+    
+    // Map data listener - receives map when SDK loads it asynchronously
+    private var mapDataModel: MapDataModel? = null
     
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -188,6 +194,23 @@ class MainActivity : AppCompatActivity() {
             r.addOnLocationsUpdatedListener(locationsListener)
             r.addOnGoToLocationStatusChangedListener(goToStatusListener)
             Log.d(TAG, "Added position, locations, and goTo status listeners")
+            
+            // Request MAP permission (required for SDK content provider to serve maps)
+            if (r.checkSelfPermission(Permission.MAP) != PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "MAP permission not granted, requesting...")
+                r.requestPermissions(listOf(Permission.MAP), 1)
+            } else {
+                Log.d(TAG, "MAP permission already granted")
+            }
+            
+            // Try to load the target map immediately (use the 3-arg form from working app)
+            Log.d(TAG, "Attempting to load map: $TARGET_MAP_NAME")
+            try {
+                r.loadMap(TARGET_MAP_NAME, false, null)
+                Log.d(TAG, "loadMap('$TARGET_MAP_NAME', false, null) called")
+            } catch (e: Exception) {
+                Log.e(TAG, "loadMap failed: ${e.message}")
+            }
         }
         
         // Start MQTT service
@@ -659,28 +682,45 @@ class MainActivity : AppCompatActivity() {
     private fun publishMapData() {
         robot?.let { r ->
             try {
-                // Get map data from TEMI SDK
-                var mapDataModel = r.getMapData()
+                // If we already have cached map data, use it directly
+                var mapDataModel = this.mapDataModel
                 
-                // If no map loaded, enumerate available maps and load the first one
                 if (mapDataModel == null) {
+                    // Try getMapData() first
+                    mapDataModel = r.getMapData()
+                    Log.d(TAG, "getMapData() returned: ${if (mapDataModel != null) "map ${mapDataModel.mapImage.cols}x${mapDataModel.mapImage.rows}" else "null"}")
+                }
+                
+                // Still null — check current floor for any usable data
+                if (mapDataModel == null) {
+                    val currentFloor = r.getCurrentFloor()
+                    Log.d(TAG, "getCurrentFloor() returned: ${currentFloor?.name ?: "null"}")
+                }
+                
+                // Still null — try loading the map explicitly
+                if (mapDataModel == null) {
+                    Log.d(TAG, "No map data cached, calling loadMap('$TARGET_MAP_NAME')...")
                     try {
-                        val mapList = r.getMapList()
-                        Log.d(TAG, "getMapList() returned ${mapList.size} maps")
-                        if (mapList.isNotEmpty()) {
-                            mapList.forEach { m ->
-                                Log.d(TAG, "Map entry: name='${m.name}', id='${m.id}'")
-                            }
-                            // Try to find "eunos1" by name match, otherwise use first
-                            val target = mapList.find { it.name.contains("eunos", ignoreCase = true) } ?: mapList.first()
-                            Log.d(TAG, "Loading map: '${target.name}' (id='${target.id}')")
-                            r.loadMap(target.id)
-                        } else {
-                            Log.w(TAG, "SDK getMapList() is empty - maps may not be visible to SDK")
-                        }
+                        r.loadMap(TARGET_MAP_NAME, false, null)
                     } catch (e: Exception) {
-                        Log.e(TAG, "Error enumerating maps: ${e.message}")
+                        Log.e(TAG, "loadMap call failed: ${e.message}")
                     }
+                    // Wait a bit for the SDK to process, then try getMapData() again
+                    try {
+                        Thread.sleep(2000)
+                    } catch (_: InterruptedException) {}
+                    mapDataModel = r.getMapData()
+                    Log.d(TAG, "getMapData() after loadMap: ${if (mapDataModel != null) "map ${mapDataModel.mapImage.cols}x${mapDataModel.mapImage.rows}" else "null"}")
+                }
+                
+                // Cache the model for future use
+                if (mapDataModel != null) {
+                    this.mapDataModel = mapDataModel
+                    Log.d(TAG, "Map data loaded: ${mapDataModel.mapImage.cols}x${mapDataModel.mapImage.rows}")
+                }
+                
+                if (mapDataModel == null) {
+                    Log.w(TAG, "Still no map data after loadMap attempt")
                     return
                 }
                 
