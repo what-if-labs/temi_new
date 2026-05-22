@@ -107,14 +107,14 @@ class MainActivity : AppCompatActivity() {
                     return@launch
                 }
                 
-                // Get actual coordinates from current floor's locations
+                // Try multiple strategies to get location coordinates
                 val locationsWithCoords = try {
+                    // Strategy 1: Try getCurrentFloor() first
                     val currentFloor = r.getCurrentFloor()
-                    if (currentFloor != null) {
+                    if (currentFloor != null && currentFloor.locations.isNotEmpty()) {
                         val floorLocations: List<com.robotemi.sdk.map.Location> = currentFloor.locations
                         Log.d(TAG, "Floor locations count: ${floorLocations.size}")
                         
-                        // Build name -> coordinate map from floor data
                         val locationMap = floorLocations.associate { loc ->
                             loc.name to mapOf(
                                 "id" to loc.name,
@@ -129,47 +129,23 @@ class MainActivity : AppCompatActivity() {
                         
                         Log.d(TAG, "Location map keys: ${locationMap.keys}")
                         
-                        // Use floor coords where available, fallback for missing
                         locationNames.map { locName ->
                             locationMap[locName] ?: run {
-                                Log.w(TAG, "No floor coords for '$locName', using current position")
-                                val pos = r.getPosition()
-                                mapOf(
-                                    "id" to locName,
-                                    "name" to locName,
-                                    "x" to pos.x,
-                                    "y" to pos.y,
-                                    "yaw" to pos.yaw,
-                                    "source" to "fallback"
-                                )
+                                Log.w(TAG, "No floor coords for '$locName', using ContentProvider")
+                                queryLocationFromContentProvider(locName, r)
                             }
                         }
                     } else {
-                        Log.w(TAG, "No current floor available, using fallback positions")
-                        val pos = r.getPosition()
+                        // Strategy 2: Fall back to ContentProvider for each location
+                        Log.w(TAG, "No floor data, fetching locations via ContentProvider")
                         locationNames.map { locName ->
-                            mapOf(
-                                "id" to locName,
-                                "name" to locName,
-                                "x" to pos.x,
-                                "y" to pos.y,
-                                "yaw" to pos.yaw,
-                                "source" to "fallback_no_floor"
-                            )
+                            queryLocationFromContentProvider(locName, r)
                         }
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, "Error reading floor data: ${e.message}, using fallback")
-                    val pos = r.getPosition()
+                    Log.e(TAG, "Error reading floor data: ${e.message}, using ContentProvider")
                     locationNames.map { locName ->
-                        mapOf(
-                            "id" to locName,
-                            "name" to locName,
-                            "x" to pos.x,
-                            "y" to pos.y,
-                            "yaw" to pos.yaw,
-                            "source" to "fallback_error"
-                        )
+                        queryLocationFromContentProvider(locName, r)
                     }
                 }
                 
@@ -178,6 +154,63 @@ class MainActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 Log.e(TAG, "Error publishing locations", e)
             }
+        }
+    }
+    
+    /** Query location coordinates from TEMI ContentProvider */
+    private fun queryLocationFromContentProvider(locName: String, r: Robot): Map<String, Any> {
+        return try {
+            val uri = android.net.Uri.parse("content://com.robotemi.sdk.provider/map/location")
+            val projection = arrayOf("name", "x", "y", "yaw")
+            val selection = "name = ?"
+            val selectionArgs = arrayOf(locName)
+            
+            contentResolver.query(uri, projection, selection, selectionArgs, null)?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val nameIdx = cursor.getColumnIndex("name")
+                    val xIdx = cursor.getColumnIndex("x")
+                    val yIdx = cursor.getColumnIndex("y")
+                    val yawIdx = cursor.getColumnIndex("yaw")
+                    
+                    val x = if (xIdx >= 0) cursor.getFloat(xIdx) else 0f
+                    val y = if (yIdx >= 0) cursor.getFloat(yIdx) else 0f
+                    val yaw = if (yawIdx >= 0) cursor.getFloat(yawIdx) else 0f
+                    
+                    Log.d(TAG, "ContentProvider('$locName') -> x=$x, y=$y, yaw=$yaw")
+                    return mapOf(
+                        "id" to locName,
+                        "name" to locName,
+                        "x" to x,
+                        "y" to y,
+                        "yaw" to yaw,
+                        "tiltAngle" to 0f,
+                        "source" to "content_provider"
+                    )
+                }
+            }
+            
+            // ContentProvider failed — last resort: use robot position
+            Log.w(TAG, "ContentProvider returned no data for '$locName', using robot position")
+            val pos = r.getPosition()
+            mapOf(
+                "id" to locName,
+                "name" to locName,
+                "x" to pos.x,
+                "y" to pos.y,
+                "yaw" to pos.yaw,
+                "source" to "fallback_position"
+            )
+        } catch (e: Exception) {
+            Log.e(TAG, "ContentProvider query failed for '$locName': ${e.message}")
+            val pos = r.getPosition()
+            mapOf(
+                "id" to locName,
+                "name" to locName,
+                "x" to pos.x,
+                "y" to pos.y,
+                "yaw" to pos.yaw,
+                "source" to "fallback_error"
+            )
         }
     }
 
@@ -730,11 +763,13 @@ class MainActivity : AppCompatActivity() {
                 val mapImage = mapDataModel.mapImage
                 
                 // Compute world coordinate bounds from Floor locations
+                // Try getCurrentFloor() first, fall back to individual location lookups
                 val currentFloor = r.getCurrentFloor()
                 var boundsMinX: Float? = null
                 var boundsMinY: Float? = null
                 var boundsMaxX: Float? = null
                 var boundsMaxY: Float? = null
+                
                 if (currentFloor != null && currentFloor.locations.isNotEmpty()) {
                     val xs = currentFloor.locations.map { it.x }
                     val ys = currentFloor.locations.map { it.y }
@@ -743,6 +778,37 @@ class MainActivity : AppCompatActivity() {
                     boundsMaxX = xs.maxOrNull()
                     boundsMaxY = ys.maxOrNull()
                     Log.d(TAG, "Floor bounds: [$boundsMinX,$boundsMinY]-[$boundsMaxX,$boundsMaxY]")
+                } else {
+                    // Fallback: get bounds from individual location lookups via ContentProvider
+                    try {
+                        val locationNames = r.locations
+                        if (locationNames.isNotEmpty()) {
+                            val xs = mutableListOf<Float>()
+                            val ys = mutableListOf<Float>()
+                            for (name in locationNames) {
+                                val uri = android.net.Uri.parse("content://com.robotemi.sdk.provider/map/location")
+                                contentResolver.query(
+                                    uri, arrayOf("x", "y"), "name = ?", arrayOf(name), null
+                                )?.use { cursor ->
+                                    if (cursor.moveToFirst()) {
+                                        val xIdx = cursor.getColumnIndex("x")
+                                        val yIdx = cursor.getColumnIndex("y")
+                                        if (xIdx >= 0) xs.add(cursor.getFloat(xIdx))
+                                        if (yIdx >= 0) ys.add(cursor.getFloat(yIdx))
+                                    }
+                                }
+                            }
+                            if (xs.isNotEmpty()) {
+                                boundsMinX = xs.minOrNull()
+                                boundsMinY = ys.minOrNull()
+                                boundsMaxX = xs.maxOrNull()
+                                boundsMaxY = ys.maxOrNull()
+                                Log.d(TAG, "ContentProvider-based bounds: [$boundsMinX,$boundsMinY]-[$boundsMaxX,$boundsMaxY]")
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.w(TAG, "Failed to compute bounds from ContentProvider: ${e.message}")
+                    }
                 }
                 
                 // Convert map data to bitmap
