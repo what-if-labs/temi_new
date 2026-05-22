@@ -726,6 +726,22 @@ class MainActivity : AppCompatActivity() {
                 
                 val mapImage = mapDataModel.mapImage
                 
+                // Compute world coordinate bounds from Floor locations
+                val currentFloor = r.getCurrentFloor()
+                var boundsMinX: Double? = null
+                var boundsMinY: Double? = null
+                var boundsMaxX: Double? = null
+                var boundsMaxY: Double? = null
+                if (currentFloor != null && currentFloor.locations.isNotEmpty()) {
+                    val xs = currentFloor.locations.map { it.x }
+                    val ys = currentFloor.locations.map { it.y }
+                    boundsMinX = xs.minOrNull()
+                    boundsMinY = ys.minOrNull()
+                    boundsMaxX = xs.maxOrNull()
+                    boundsMaxY = ys.maxOrNull()
+                    Log.d(TAG, "Floor bounds: [$boundsMinX,$boundsMinY]-[$boundsMaxX,$boundsMaxY]")
+                }
+                
                 // Convert map data to bitmap
                 val bitmap = Bitmap.createBitmap(
                     mapImage.data.map { android.graphics.Color.argb((it * 2.55).toInt(), 0, 0, 0) }.toIntArray(),
@@ -740,7 +756,7 @@ class MainActivity : AppCompatActivity() {
                 val byteArray = stream.toByteArray()
                 val base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT)
                 
-                mqttService?.publishMap(base64Image, bitmap.width, bitmap.height)
+                mqttService?.publishMap(base64Image, bitmap.width, bitmap.height, boundsMinX, boundsMinY, boundsMaxX, boundsMaxY)
                 Log.d(TAG, "Map published: ${bitmap.width}x${bitmap.height}")
                 
                 // Recycle bitmap to free memory
