@@ -170,8 +170,9 @@ class MqttService : Service() {
             val json = JSONObject()
             json.put("locations", org.json.JSONArray(locations))
             val message = MqttMessage(json.toString().toByteArray())
+            message.isRetained = true
             mqttClient?.publish(LOCATIONS_TOPIC, message)
-            Log.d("MQTT", "Published locations: ${locations.size} locations")
+            Log.d("MQTT", "Published locations: ${locations.size} locations (retained)")
         } catch (e: Exception) {
             Log.e("MQTT", "Failed to publish locations", e)
         }
@@ -203,8 +204,9 @@ class MqttService : Service() {
             if (maxX != null) json.put("maxX", maxX)
             if (maxY != null) json.put("maxY", maxY)
             val message = MqttMessage(json.toString().toByteArray())
+            message.isRetained = true
             mqttClient?.publish(MAP_TOPIC, message)
-            Log.d("MQTT", "Published map: ${width}x${height}" +
+            Log.d("MQTT", "Published map: ${width}x${height} (retained)" +
                 if (minX != null && maxX != null) " bounds=[$minX,$minY]-[$maxX,$maxY]" else "")
         } catch (e: Exception) {
             Log.e("MQTT", "Failed to publish map", e)
