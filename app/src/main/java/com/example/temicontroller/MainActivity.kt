@@ -691,26 +691,29 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "getMapData() returned: ${if (mapDataModel != null) "map ${mapDataModel.mapImage.cols}x${mapDataModel.mapImage.rows}" else "null"}")
                 }
                 
-                // Still null — check current floor for any usable data
+                // Still null — enumerate maps and load by ID (matching working temi-mqtt-bridge pattern)
                 if (mapDataModel == null) {
-                    val currentFloor = r.getCurrentFloor()
-                    Log.d(TAG, "getCurrentFloor() returned: ${currentFloor?.name ?: "null"}")
-                }
-                
-                // Still null — try loading the map explicitly
-                if (mapDataModel == null) {
-                    Log.d(TAG, "No map data cached, calling loadMap('$TARGET_MAP_NAME')...")
                     try {
-                        r.loadMap(TARGET_MAP_NAME, false, null)
+                        val mapList = r.getMapList()
+                        Log.d(TAG, "getMapList() returned ${mapList.size} maps")
+                        if (mapList.isNotEmpty()) {
+                            mapList.forEach { m ->
+                                Log.d(TAG, "Map entry: name='${m.name}', id='${m.id}'")
+                            }
+                            // Try to find target map by name, otherwise use first
+                            val target = mapList.find { it.name.equals(TARGET_MAP_NAME, ignoreCase = true) } ?: mapList.first()
+                            Log.d(TAG, "Loading map: '${target.name}' (id='${target.id}')")
+                            r.loadMap(target.id, false, null)
+                            // Wait for SDK to process
+                            Thread.sleep(2000)
+                            mapDataModel = r.getMapData()
+                            Log.d(TAG, "getMapData() after loadMap: ${if (mapDataModel != null) "map ${mapDataModel.mapImage.cols}x${mapDataModel.mapImage.rows}" else "null"}")
+                        } else {
+                            Log.w(TAG, "SDK getMapList() is empty")
+                        }
                     } catch (e: Exception) {
-                        Log.e(TAG, "loadMap call failed: ${e.message}")
+                        Log.e(TAG, "Error enumerating/loading maps: ${e.message}")
                     }
-                    // Wait a bit for the SDK to process, then try getMapData() again
-                    try {
-                        Thread.sleep(2000)
-                    } catch (_: InterruptedException) {}
-                    mapDataModel = r.getMapData()
-                    Log.d(TAG, "getMapData() after loadMap: ${if (mapDataModel != null) "map ${mapDataModel.mapImage.cols}x${mapDataModel.mapImage.rows}" else "null"}")
                 }
                 
                 // Cache the model for future use
@@ -754,7 +757,7 @@ class MainActivity : AppCompatActivity() {
                 val stream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
                 val byteArray = stream.toByteArray()
-                val base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT)
+                val base64Image = Base64.encodeToString(byteArray, Base64.NO_WRAP)
                 
                 mqttService?.publishMap(base64Image, bitmap.width, bitmap.height, boundsMinX, boundsMinY, boundsMaxX, boundsMaxY)
                 Log.d(TAG, "Map published: ${bitmap.width}x${bitmap.height}")
