@@ -192,15 +192,20 @@ class MqttService : Service() {
         }
     }
     
-    fun publishMap(imageBase64: String, width: Int, height: Int) {
+    fun publishMap(imageBase64: String, width: Int, height: Int, minX: Double? = null, minY: Double? = null, maxX: Double? = null, maxY: Double? = null) {
         try {
             val json = JSONObject()
             json.put("image", imageBase64)
             json.put("width", width)
             json.put("height", height)
+            if (minX != null) json.put("minX", minX)
+            if (minY != null) json.put("minY", minY)
+            if (maxX != null) json.put("maxX", maxX)
+            if (maxY != null) json.put("maxY", maxY)
             val message = MqttMessage(json.toString().toByteArray())
             mqttClient?.publish(MAP_TOPIC, message)
-            Log.d("MQTT", "Published map: ${width}x${height}")
+            Log.d("MQTT", "Published map: ${width}x${height}" +
+                if (minX != null && maxX != null) " bounds=[$minX,$minY]-[$maxX,$maxY]" else "")
         } catch (e: Exception) {
             Log.e("MQTT", "Failed to publish map", e)
         }
