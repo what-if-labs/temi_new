@@ -728,10 +728,10 @@ class MainActivity : AppCompatActivity() {
                 
                 // Compute world coordinate bounds from Floor locations
                 val currentFloor = r.getCurrentFloor()
-                var boundsMinX: Double? = null
-                var boundsMinY: Double? = null
-                var boundsMaxX: Double? = null
-                var boundsMaxY: Double? = null
+                var boundsMinX: Float? = null
+                var boundsMinY: Float? = null
+                var boundsMaxX: Float? = null
+                var boundsMaxY: Float? = null
                 if (currentFloor != null && currentFloor.locations.isNotEmpty()) {
                     val xs = currentFloor.locations.map { it.x }
                     val ys = currentFloor.locations.map { it.y }

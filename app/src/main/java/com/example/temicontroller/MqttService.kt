@@ -192,7 +192,7 @@ class MqttService : Service() {
         }
     }
     
-    fun publishMap(imageBase64: String, width: Int, height: Int, minX: Double? = null, minY: Double? = null, maxX: Double? = null, maxY: Double? = null) {
+    fun publishMap(imageBase64: String, width: Int, height: Int, minX: Float? = null, minY: Float? = null, maxX: Float? = null, maxY: Float? = null) {
         try {
             val json = JSONObject()
             json.put("image", imageBase64)
