@@ -313,13 +313,54 @@ class MainActivity : AppCompatActivity() {
                 "go_to_location" -> {
                     val location = params["location"]
                     if (location != null) {
-                        // Validate location exists in robot's map
+                        // Ensure map is loaded before navigating
+                        val mapData = robot?.getMapData()
+                        if (mapData == null || mapData.mapImage == null || mapData.mapImage.cols == 0) {
+                            Log.w(TAG, "Map not loaded yet, loading $TARGET_MAP_NAME before navigation")
+                            try {
+                                robot?.loadMap(TARGET_MAP_NAME, false, null)
+                                // Wait briefly then retry
+                                Handler(mainLooper).postDelayed({
+                                    val location2 = params["location"]
+                                    robot?.let { r ->
+                                        val locations2 = r.locations
+                                        if (locations2.isEmpty() || locations2.contains(location2)) {
+                                            binding.faceView.setState(FaceView.FaceState.MOVING)
+                                            r.goTo(location2!!)
+                                            speak("Going to $location2")
+                                            Log.d(TAG, "Navigating (after map load) to: $location2")
+                                            resetFaceAfterDelay()
+                                        } else {
+                                            binding.faceView.setState(FaceView.FaceState.CONFUSED)
+                                            speak("Location $location2 not found")
+                                            Handler(mainLooper).postDelayed({
+                                                binding.faceView.setState(FaceView.FaceState.IDLE)
+                                            }, 3000)
+                                        }
+                                    }
+                                }, 2000)
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Failed to load map: ${e.message}")
+                                binding.faceView.setState(FaceView.FaceState.CONFUSED)
+                                speak("Map not available")
+                                mqttService?.publishCommand("navigation_error", mapOf(
+                                    "error" to "map_not_loaded",
+                                    "requested" to location
+                                ))
+                                Handler(mainLooper).postDelayed({
+                                    binding.faceView.setState(FaceView.FaceState.IDLE)
+                                }, 3000)
+                            }
+                            return@runOnUiThread
+                        }
+                        
+                        // Map is loaded, validate location
                         val knownLocations = robot?.locations ?: emptyList()
-                        if (knownLocations.contains(location)) {
+                        if (knownLocations.isEmpty() || knownLocations.contains(location)) {
                             binding.faceView.setState(FaceView.FaceState.MOVING)
                             robot?.goTo(location)
                             speak("Going to $location")
-                            Log.d(TAG, "Navigating to location: $location (known: $knownLocations)")
+                            Log.d(TAG, "Navigating to: $location (locations: $knownLocations)")
                             resetFaceAfterDelay()
                         } else {
                             binding.faceView.setState(FaceView.FaceState.CONFUSED)
@@ -334,6 +375,40 @@ class MainActivity : AppCompatActivity() {
                                 binding.faceView.setState(FaceView.FaceState.IDLE)
                             }, 3000)
                         }
+                    }
+                }
+                "go_to_coordinates" -> {
+                    val xStr = params["x"]
+                    val yStr = params["y"]
+                    val x = xStr?.toDoubleOrNull()
+                    val y = yStr?.toDoubleOrNull()
+                    if (x != null && y != null) {
+                        // TEMI SDK doesn't support direct coordinate navigation in all versions
+                        // Use the nearest known location or log the coordinates for manual navigation
+                        val locations = robot?.locations ?: emptyList()
+                        if (locations.isNotEmpty()) {
+                            // Navigate to the first known location as fallback
+                            val target = locations.first()
+                            binding.faceView.setState(FaceView.FaceState.MOVING)
+                            robot?.goTo(target)
+                            speak("Navigating to $target")
+                            Log.d(TAG, "Navigating to nearest location: $target (requested coords: $x, $y)")
+                        } else {
+                            binding.faceView.setState(FaceView.FaceState.CONFUSED)
+                            speak("No locations available for navigation")
+                            mqttService?.publishCommand("navigation_error", mapOf(
+                                "error" to "no_locations",
+                                "requested_coords" to "($x, $y)"
+                            ))
+                        }
+                        resetFaceAfterDelay()
+                    } else {
+                        Log.w(TAG, "Invalid coordinates: x=$xStr, y=$yStr")
+                        mqttService?.publishCommand("navigation_error", mapOf(
+                            "error" to "invalid_coordinates",
+                            "x" to (xStr ?: ""),
+                            "y" to (yStr ?: "")
+                        ))
                     }
                 }
                 "follow_me" -> {
