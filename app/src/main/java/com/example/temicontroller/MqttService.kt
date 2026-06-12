@@ -267,6 +267,24 @@ class MqttService : Service() {
         }.start()
     }
     
+    fun reconnectWithNewBroker() {
+        Thread {
+            try {
+                mqttClient?.disconnect()
+                mqttClient?.close()
+            } catch (e: Exception) {
+                Log.e("MQTT", "Error disconnecting", e)
+            }
+            // Read updated broker config from SharedPreferences
+            val prefs = getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE)
+            val brokerIp = prefs.getString(MainActivity.KEY_BROKER_IP, "192.168.88.30") ?: "192.168.88.30"
+            val brokerPort = prefs.getInt(MainActivity.KEY_BROKER_PORT, 1883)
+            brokerUrl = "tcp://$brokerIp:$brokerPort"
+            Log.d("MQTT", "Reconnecting with new broker: $brokerUrl")
+            connectToMqtt()
+        }.start()
+    }
+    
     override fun onDestroy() {
         super.onDestroy()
         try {

@@ -86,6 +86,7 @@ class SurveillanceService : Service() {
         const val TOPIC_SNAPSHOT = "temi/surveillance/snapshot"
         const val TOPIC_MOTION = "temi/surveillance/motion"
         const val TAG = "Surveillance"
+        const val ACTION_RECONNECT_MQTT = "com.example.temicontroller.RECONNECT_MQTT"
         
         // SharedPreferences keys (mirror MainActivity keys for consistency)
         const val KEY_DETECT_LOITERING = "detect_loitering"
@@ -113,6 +114,7 @@ class SurveillanceService : Service() {
         personDetector = PersonDetector(this)
         zones = loadZonesFromPrefs()  // Load custom zones from prefs (Issue #4 fix)
         Log.d(TAG, "Loaded ${zones.size} security zones from prefs")
+        registerReceiver(reconnectReceiver, android.content.IntentFilter(ACTION_RECONNECT_MQTT), RECEIVER_NOT_EXPORTED)
         connectMqtt()
     }
     
@@ -685,9 +687,35 @@ class SurveillanceService : Service() {
         manager.notify(NOTIFICATION_ID, notification)
     }
     
+    fun reconnectMqtt() {
+        Log.d(TAG, "Reconnecting MQTT with updated broker config")
+        Thread {
+            try {
+                mqttClient?.disconnect()
+            } catch (e: Exception) {
+                Log.e(TAG, "MQTT disconnect error during reconnect", e)
+            }
+            connectMqtt()
+        }.start()
+    }
+    
+    private val reconnectReceiver = object : android.content.BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == ACTION_RECONNECT_MQTT) {
+                Log.d(TAG, "Received reconnect MQTT broadcast")
+                reconnectMqtt()
+            }
+        }
+    }
+    
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "Service destroyed")
+        try {
+            unregisterReceiver(reconnectReceiver)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error unregistering receiver", e)
+        }
         stopSurveillance()
         executor.shutdown()
         personDetector.close()
