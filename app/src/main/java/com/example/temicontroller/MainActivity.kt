@@ -306,7 +306,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 "go_home" -> {
                     binding.faceView.setState(FaceView.FaceState.HAPPY)
-                    robot?.goTo("home")
+                    robot?.goTo("home base")
                     speak("Going home")
                     resetFaceAfterDelay()
                 }
@@ -370,7 +370,7 @@ class MainActivity : AppCompatActivity() {
                                 "requested" to location,
                                 "available" to knownLocations.joinToString(", ")
                             ))
-                            Log.w(TAG, "go_to_location failed: '$location' not in $knownLocations")
+                            Log.w(TAG, "go_to failed: '$location' not in $knownLocations")
                             Handler(mainLooper).postDelayed({
                                 binding.faceView.setState(FaceView.FaceState.IDLE)
                             }, 3000)
@@ -791,16 +791,16 @@ class MainActivity : AppCompatActivity() {
         robot?.let { r ->
             try {
                 // If we already have cached map data, use it directly
-                var mapDataModel = this.mapDataModel
+                var cachedMapData = this.mapDataModel
                 
-                if (mapDataModel == null) {
+                if (cachedMapData == null) {
                     // Try getMapData() first
-                    mapDataModel = r.getMapData()
-                    Log.d(TAG, "getMapData() returned: ${if (mapDataModel != null) "map ${mapDataModel.mapImage.cols}x${mapDataModel.mapImage.rows}" else "null"}")
+                    cachedMapData = r.getMapData()
+                    Log.d(TAG, "getMapData() returned: ${if (cachedMapData != null) "map ${cachedMapData.mapImage.cols}x${cachedMapData.mapImage.rows}" else "null"}")
                 }
                 
                 // Still null — enumerate maps and load by ID (matching working temi-mqtt-bridge pattern)
-                if (mapDataModel == null) {
+                if (cachedMapData == null) {
                     try {
                         val mapList = r.getMapList()
                         Log.d(TAG, "getMapList() returned ${mapList.size} maps")
@@ -814,8 +814,8 @@ class MainActivity : AppCompatActivity() {
                             r.loadMap(target.id, false, null)
                             // Wait for SDK to process
                             Thread.sleep(2000)
-                            mapDataModel = r.getMapData()
-                            Log.d(TAG, "getMapData() after loadMap: ${if (mapDataModel != null) "map ${mapDataModel.mapImage.cols}x${mapDataModel.mapImage.rows}" else "null"}")
+                            cachedMapData = r.getMapData()
+                            Log.d(TAG, "getMapData() after loadMap: ${if (cachedMapData != null) "map ${cachedMapData.mapImage.cols}x${cachedMapData.mapImage.rows}" else "null"}")
                         } else {
                             Log.w(TAG, "SDK getMapList() is empty")
                         }
@@ -825,17 +825,17 @@ class MainActivity : AppCompatActivity() {
                 }
                 
                 // Cache the model for future use
-                if (mapDataModel != null) {
-                    this.mapDataModel = mapDataModel
-                    Log.d(TAG, "Map data loaded: ${mapDataModel.mapImage.cols}x${mapDataModel.mapImage.rows}")
+                if (cachedMapData != null) {
+                    this.mapDataModel = cachedMapData
+                    Log.d(TAG, "Map data loaded: ${cachedMapData.mapImage.cols}x${cachedMapData.mapImage.rows}")
                 }
                 
-                if (mapDataModel == null) {
+                if (cachedMapData == null) {
                     Log.w(TAG, "Still no map data after loadMap attempt")
                     return
                 }
                 
-                val mapImage = mapDataModel.mapImage
+                val mapImage = cachedMapData.mapImage
                 
                 // Compute world coordinate bounds from Floor locations
                 // Try getCurrentFloor() first, fall back to individual location lookups
@@ -923,7 +923,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "Published TEMI battery: $batteryPct%, charging=$isCharging")
                 } else {
                     // Fallback to tablet battery if TEMI battery unavailable
-                    val batteryIntent = registerReceiver(null, android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_CHANGED))
+                    val batteryIntent = registerReceiver(null, android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_CHANGED), 0)
                     val level = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_LEVEL, -1) ?: -1
                     val scale = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_SCALE, -1) ?: -1
                     val batteryPct = if (level >= 0 && scale > 0) (level * 100 / scale) else -1
@@ -1014,6 +1014,8 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         stopPeriodicPublishing()
+        robot?.removeOnCurrentPositionChangedListener(positionListener)
+        robot?.removeOnLocationsUpdatedListener(locationsListener)
         robot?.removeOnGoToLocationStatusChangedListener(goToStatusListener)
         unbindService(serviceConnection)
     }
