@@ -34,6 +34,14 @@
             android:name="com.robotemi.sdk.metadata.KIOSK"
             android:value="true" />
 
+        <meta-data
+            android:name="@string/metadata_permissions"
+            android:value="com.robotemi.permission.map,
+                           com.robotemi.permission.settings,
+                           com.robotemi.permission.sequence,
+                           com.robotemi.permission.meetings,
+                           com.robotemi.permission.face_recognition" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

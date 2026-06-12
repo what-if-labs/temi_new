@@ -310,7 +310,7 @@ class MainActivity : AppCompatActivity() {
                     speak("Going home")
                     resetFaceAfterDelay()
                 }
-                "go_to_location" -> {
+                "go_to" -> {
                     val location = params["location"]
                     if (location != null) {
                         // Ensure map is loaded before navigating
