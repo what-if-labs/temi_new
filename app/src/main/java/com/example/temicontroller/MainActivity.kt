@@ -43,17 +43,17 @@ class MainActivity : AppCompatActivity() {
     private var publishHandler: Handler? = null
     private var publishRunnable: Runnable? = null
     private val PUBLISH_INTERVAL_MS = 3000L
-    
+
     // Position publisher (every 5 seconds to distinguish from saved locations)
     private var positionHandler: Handler? = null
     private var positionRunnable: Runnable? = null
     private val POSITION_PUBLISH_INTERVAL_MS = 5000L
-    
+
     // Map publisher (less frequent)
     private var mapHandler: Handler? = null
     private var mapRunnable: Runnable? = null
     private val MAP_PUBLISH_INTERVAL_MS = 30000L  // Every 30 seconds
-    
+
     companion object {
         const val TAG = "TemiFace"
         const val PREFS_NAME = "TemiSettings"
@@ -310,7 +310,7 @@ class MainActivity : AppCompatActivity() {
                     speak("Going home")
                     resetFaceAfterDelay()
                 }
-                "go_to" -> {
+                "go_to_location" -> {
                     val location = params["location"]
                     if (location != null) {
                         // Ensure map is loaded before navigating
@@ -486,7 +486,7 @@ class MainActivity : AppCompatActivity() {
         
         // Load saved settings
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        etBrokerIp.setText(prefs.getString(KEY_BROKER_IP, "192.168.4.154"))
+        etBrokerIp.setText(prefs.getString(KEY_BROKER_IP, "192.168.88.30"))
         etBrokerPort.setText(prefs.getInt(KEY_BROKER_PORT, 1883).toString())
         
         // Setup patrol route spinner
@@ -923,7 +923,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "Published TEMI battery: $batteryPct%, charging=$isCharging")
                 } else {
                     // Fallback to tablet battery if TEMI battery unavailable
-                    val batteryIntent = registerReceiver(null, android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_CHANGED), 0)
+                    val batteryIntent = registerReceiver(null, android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_CHANGED))
                     val level = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_LEVEL, -1) ?: -1
                     val scale = batteryIntent?.getIntExtra(android.os.BatteryManager.EXTRA_SCALE, -1) ?: -1
                     val batteryPct = if (level >= 0 && scale > 0) (level * 100 / scale) else -1
@@ -1015,7 +1015,7 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         stopPeriodicPublishing()
         robot?.removeOnCurrentPositionChangedListener(positionListener)
-        robot?.removeOnLocationsUpdatedListener(locationsListener)
+        robot?.removeOnLocationsUpdateListener(locationsListener)
         robot?.removeOnGoToLocationStatusChangedListener(goToStatusListener)
         unbindService(serviceConnection)
     }
