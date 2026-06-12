@@ -534,17 +534,23 @@ class MainActivity : AppCompatActivity() {
                     .putBoolean(KEY_DETECT_UNAUTHORIZED, switchUnauthorizedAccess.isChecked)
                     .apply()
                 
-                // Publish detection settings via MQTT
-                mqttService?.publishCommand("detection_settings", mapOf(
-                    "loitering_enabled" to switchLoitering.isChecked,
-                    "smoking_enabled" to switchSmoking.isChecked,
-                    "fallen_person_enabled" to switchFallenPerson.isChecked,
-                    "unauthorized_access_enabled" to switchUnauthorizedAccess.isChecked,
-                    "loitering_threshold_seconds" to loiteringThreshold,
-                    "queue_max_people" to queueMaxPeople
-                ))
+                // Reconnect MQTT services with new broker config
+                mqttService?.reconnectWithNewBroker()
+                sendBroadcast(Intent(SurveillanceService.ACTION_RECONNECT_MQTT))
                 
-                Toast.makeText(this, "Settings saved!", Toast.LENGTH_LONG).show()
+                // Publish detection settings via MQTT (after reconnect)
+                Handler(mainLooper).postDelayed({
+                    mqttService?.publishCommand("detection_settings", mapOf(
+                        "loitering_enabled" to switchLoitering.isChecked,
+                        "smoking_enabled" to switchSmoking.isChecked,
+                        "fallen_person_enabled" to switchFallenPerson.isChecked,
+                        "unauthorized_access_enabled" to switchUnauthorizedAccess.isChecked,
+                        "loitering_threshold_seconds" to loiteringThreshold,
+                        "queue_max_people" to queueMaxPeople
+                    ))
+                }, 2000)
+                
+                Toast.makeText(this, "Settings saved! Reconnecting to $ip:$port", Toast.LENGTH_LONG).show()
                 dialog.dismiss()
             } else {
                 etBrokerIp.error = "IP required"
