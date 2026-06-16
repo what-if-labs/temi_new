@@ -411,6 +411,84 @@ class MainActivity : AppCompatActivity() {
                         ))
                     }
                 }
+                "go_to_position" -> {
+                    val xStr = params["x"]
+                    val yStr = params["y"]
+                    val thetaStr = params["theta"]
+                    val x = xStr?.toDoubleOrNull()?.toFloat()
+                    val y = yStr?.toDoubleOrNull()?.toFloat()
+                    val theta = thetaStr?.toDoubleOrNull()?.toFloat() ?: 0f
+
+                    if (x != null && y != null) {
+                        try {
+                            val mapData = robot?.getMapData()
+                            if (mapData == null || mapData.mapImage == null || mapData.mapImage.cols == 0) {
+                                Log.w(TAG, "Map not loaded yet, loading $TARGET_MAP_NAME before navigation")
+                                try {
+                                    robot?.loadMap(TARGET_MAP_NAME, false, null)
+                                    Handler(mainLooper).postDelayed({
+                                        val xStr2 = params["x"]
+                                        val yStr2 = params["y"]
+                                        val thetaStr2 = params["theta"]
+                                        val x2 = xStr2?.toDoubleOrNull()?.toFloat()
+                                        val y2 = yStr2?.toDoubleOrNull()?.toFloat()
+                                        val theta2 = thetaStr2?.toDoubleOrNull()?.toFloat() ?: 0f
+
+                                        if (x2 != null && y2 != null) {
+                                            binding.faceView.setState(FaceView.FaceState.MOVING)
+                                            val position = com.robotemi.sdk.navigation.model.Position(x2, y2, theta2)
+                                            robot?.goToPosition(position)
+                                            speak("Going to position ${x2.toInt()}, ${y2.toInt()}")
+                                            Log.d(TAG, "Navigating (after map load) to position: x=$x2, y=$y2, theta=$theta2")
+                                            resetFaceAfterDelay()
+                                        }
+                                    }, 2000)
+                                } catch (e: Exception) {
+                                    Log.e(TAG, "Failed to load map: ${e.message}")
+                                    binding.faceView.setState(FaceView.FaceState.CONFUSED)
+                                    speak("Map not available")
+                                    mqttService?.publishCommand("navigation_error", mapOf(
+                                        "error" to "map_not_loaded",
+                                        "requested_x" to x.toString(),
+                                        "requested_y" to y.toString()
+                                    ))
+                                    Handler(mainLooper).postDelayed({
+                                        binding.faceView.setState(FaceView.FaceState.IDLE)
+                                    }, 3000)
+                                }
+                                return@runOnUiThread
+                            }
+
+                            binding.faceView.setState(FaceView.FaceState.MOVING)
+                            val position = com.robotemi.sdk.navigation.model.Position(x, y, theta)
+                            robot?.goToPosition(position)
+                            speak("Going to position ${x.toInt()}, ${y.toInt()}")
+                            Log.d(TAG, "Navigating to position: x=$x, y=$y, theta=$theta")
+                            resetFaceAfterDelay()
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Error navigating to position: ${e.message}")
+                            binding.faceView.setState(FaceView.FaceState.CONFUSED)
+                            speak("Navigation failed")
+                            mqttService?.publishCommand("navigation_error", mapOf(
+                                "error" to "goToPosition_failed",
+                                "x" to x.toString(),
+                                "y" to y.toString(),
+                                "theta" to theta.toString()
+                            ))
+                            Handler(mainLooper).postDelayed({
+                                binding.faceView.setState(FaceView.FaceState.IDLE)
+                            }, 3000)
+                        }
+                    } else {
+                        Log.w(TAG, "Invalid position: x=$xStr, y=$yStr, theta=$thetaStr")
+                        mqttService?.publishCommand("navigation_error", mapOf(
+                            "error" to "invalid_position",
+                            "x" to (xStr ?: ""),
+                            "y" to (yStr ?: ""),
+                            "theta" to (thetaStr ?: "")
+                        ))
+                    }
+                }
                 "follow_me" -> {
                     binding.faceView.setState(FaceView.FaceState.HAPPY)
                     robot?.beWithMe()
