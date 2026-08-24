@@ -50,7 +50,7 @@ class MqttService : Service() {
     }
     
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val brokerIp = intent?.getStringExtra("broker_ip") ?: "192.168.4.154"
+        val brokerIp = intent?.getStringExtra("broker_ip") ?: "192.168.2.150"
         val brokerPort = intent?.getIntExtra("broker_port", 1883) ?: 1883
         brokerUrl = "tcp://$brokerIp:$brokerPort"
         Log.d("MQTT", "Using broker: $brokerUrl")
@@ -88,6 +88,12 @@ class MqttService : Service() {
     }
     
     private fun connectToMqtt() {
+        // Prevent multiple simultaneous connection attempts
+        if (mqttClient?.isConnected == true && mqttClient?.serverURI == brokerUrl) {
+            Log.d("MQTT", "Already connected to $brokerUrl. Skipping redundant connection.")
+            return
+        }
+
         Thread {
             try {
                 // Use robot serial number for a persistent, unique Client ID
@@ -95,7 +101,17 @@ class MqttService : Service() {
                 val serialNumber = robot.serialNumber ?: "unknown-temi"
                 val persistentClientId = "temi-controller-$serialNumber"
                 
-                mqttClient = MqttClient(brokerUrl, persistentClientId, MemoryPersistence())
+                Log.d("MQTT", "Attempting connection to $brokerUrl with Client ID: $persistentClientId")
+                
+                // If broker URL changed, we must recreate the client
+                if (mqttClient != null && mqttClient?.serverURI != brokerUrl) {
+                    try { mqttClient?.disconnect(); mqttClient?.close() } catch (e: Exception) {}
+                    mqttClient = null
+                }
+
+                if (mqttClient == null) {
+                    mqttClient = MqttClient(brokerUrl, persistentClientId, MemoryPersistence())
+                }
                 
                 val options = MqttConnectOptions().apply {
                     isAutomaticReconnect = true
@@ -299,6 +315,23 @@ class MqttService : Service() {
             Log.e("MQTT", "Failed to publish command", e)
         }
     }
+
+    fun publishNavigationStatus(result: String, details: String) {
+        val client = mqttClient
+        if (client == null || !client.isConnected) return
+        try {
+            val json = JSONObject()
+            json.put("status", "navigation_status")
+            json.put("result", result)
+            json.put("details", details)
+
+            val message = MqttMessage(json.toString().toByteArray())
+            client.publish(STATUS_TOPIC, message)
+            Log.d("MQTT", "Published navigation status: $result")
+        } catch (e: Exception) {
+            Log.e("MQTT", "Failed to publish navigation status", e)
+        }
+    }
     
     private fun updateNotification() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -325,6 +358,8 @@ class MqttService : Service() {
                 mqttClient?.close()
             } catch (e: Exception) {
                 Log.e("MQTT", "Error disconnecting", e)
+            } finally {
+                mqttClient = null
             }
             connectToMqtt()
         }.start()
@@ -337,6 +372,8 @@ class MqttService : Service() {
                 mqttClient?.close()
             } catch (e: Exception) {
                 Log.e("MQTT", "Error disconnecting", e)
+            } finally {
+                mqttClient = null
             }
             // Read updated broker config from SharedPreferences
             val prefs = getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE)
@@ -353,6 +390,7 @@ class MqttService : Service() {
         try {
             mqttClient?.disconnect()
             mqttClient?.close()
+            mqttClient = null
         } catch (e: Exception) {
             Log.e("MQTT", "Error on destroy", e)
         }

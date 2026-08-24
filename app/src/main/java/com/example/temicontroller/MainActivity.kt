@@ -930,6 +930,7 @@ class MainActivity : AppCompatActivity() {
                             "status" to "complete",
                             "location" to location
                         ))
+                        mqttService?.publishNavigationStatus("success", "arrived at $location")
                         Handler(mainLooper).postDelayed({
                             binding.faceView.setState(FaceView.FaceState.IDLE)
                         }, 2000)
@@ -944,6 +945,7 @@ class MainActivity : AppCompatActivity() {
                             "location" to location,
                             "description" to description
                         ))
+                        mqttService?.publishNavigationStatus("error", "could not reach $location: $description")
                         Handler(mainLooper).postDelayed({
                             binding.faceView.setState(FaceView.FaceState.IDLE)
                         }, 3000)
@@ -961,6 +963,7 @@ class MainActivity : AppCompatActivity() {
                             "location" to location,
                             "description" to description
                         ))
+                        mqttService?.publishNavigationStatus("blocked", "path blocked to $location")
                     }
                 }
             }
